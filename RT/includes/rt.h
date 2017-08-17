@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhalit <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ocojeda- <ocojeda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 12:28:36 by mhalit            #+#    #+#             */
-/*   Updated: 2017/08/15 19:21:12 by rlecart          ###   ########.fr       */
+/*   Updated: 2017/08/17 15:19:10 by ocojeda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,9 @@
 # define MAXLIGHT 21
 
 # define DEFAULT_SUPERSAMPLING 0
+# define W LARGEUR * SS
+# define H HAUTEUR * SS
+
 # define FOV 30
 # define KEY_ESC 53
 # define DIST_MAX 20000
