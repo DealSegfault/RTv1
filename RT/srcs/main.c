@@ -6,7 +6,7 @@
 /*   By: ocojeda- <ocojeda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/03 00:09:53 by mhalit            #+#    #+#             */
-/*   Updated: 2017/08/17 17:18:51 by ocojeda-         ###   ########.fr       */
+/*   Updated: 2017/08/17 17:36:04 by ocojeda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	display_args(void)
 	ft_putstr("-s : Set the specified source file\n");
 	ft_putstr("-w : Width of the window, default 500px\n");
 	ft_putstr("-h : Height of the window, default 500px\n");
+	ft_putstr("-a : Set the antialiasing technique to the image\n");
 	ft_putstr("--help : Show help\n");
 	exit(42);
 }
@@ -50,10 +51,6 @@ int			main(int argc, char **argv)
 			return (0);
 		env->mlx.window = mlx_new_window(env->mlx.init, env->file.larg, env->file.haut, "RT Again");
 		frame(env);
-		// if (env->scene.supersampling)
-		// 	super_sampler(env);
-		// else
-		// 	anti_supersampler(env);
 		mlx_key_hook(env->mlx.window, key_hook, env);
 		mlx_loop(INIT);
 	}

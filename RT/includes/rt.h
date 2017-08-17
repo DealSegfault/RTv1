@@ -6,7 +6,7 @@
 /*   By: ocojeda- <ocojeda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 12:28:36 by mhalit            #+#    #+#             */
-/*   Updated: 2017/08/17 17:18:22 by ocojeda-         ###   ########.fr       */
+/*   Updated: 2017/08/17 17:39:14 by ocojeda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@
 # define WIN env->mlx.window
 # define IMG env->mlx.image
 # define SS (env->scene.supersampling)
-# define HAUTEUR env->file.haut * SS
+# define HAUTEUR env->file.haut
 # define LARGEUR env->file.larg
 # define SFILE env->file.path
 # define POS env->scene.cam.ray.pos
@@ -86,10 +86,6 @@
 # define ABS(x) (x < 0 ? -x : x)
 # define MAXOBJ 50
 # define MAXLIGHT 21
-
-/* 
-*	DEF_super is 1 for on and 0 for off.
-*/
 
 # define W LARGEUR * SS
 # define H HAUTEUR * SS
@@ -230,7 +226,7 @@ int					parse_obj(char *path, t_rt *env);
 void				store_type_or_data(char *line, t_rt *env);
 void				frame(t_rt *env);
 void				mlx_pixel(int x, int y, t_rt *env, int color);
-void				anti_aliasing_on(t_rt *env);
+void				anti_aliasing_on(t_rt *env, unsigned int *img_temp);
 void				anti_aliasing_off(t_rt *env);
 //OLD
 

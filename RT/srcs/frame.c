@@ -6,7 +6,7 @@
 /*   By: ocojeda- <ocojeda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/07 05:21:15 by mhalit            #+#    #+#             */
-/*   Updated: 2017/08/17 16:36:54 by ocojeda-         ###   ########.fr       */
+/*   Updated: 2017/08/17 17:39:25 by ocojeda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ void	frame(t_rt *env)
 	if (SS == 1)
 		anti_aliasing_off(env);
 	else
-		anti_aliasing_on(env);
+		anti_aliasing_on(env, NULL);
 	mlx_put_image_to_window(INIT, WIN, IMG, 0, 0);
 }
