@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rtv1.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfaure <tfaure@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ocojeda- <ocojeda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/24 14:37:39 by tfaure            #+#    #+#             */
-/*   Updated: 2017/08/14 22:10:42 by rlecart          ###   ########.fr       */
+/*   Updated: 2017/08/17 17:18:27 by ocojeda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,7 @@
 /*
 ** if we want to switch on or off supersampler we need to change
 ** SS value. 1 for off, 2 for on.
-*/
 
-# define DEFAULT_SUPERSAMPLING 0
-# define SS (e->scene.supersampling + 1)
-# define W 1500 * SS
-# define H 800 * SS
 # define FOV 30
 # define KEY_ESC 53
 # define DIST_MAX 20000
@@ -41,7 +36,7 @@
 ** Compute the average color between two 24-bits RGB colors
 ** https://www.compuphase.com/graphic/scale3.htm
 */
-# define AVERAGE(a, b)   ( ((((a) ^ (b)) & 0xfffefefeL) >> 1) + ((a) & (b)) )
+//# define AVERAGE(a, b)   ( ((((a) ^ (b)) & 0xfffefefeL) >> 1) + ((a) & (b)) )
 
 //# define AVERAGE(a, b)   ( ((((a) ^ (b)) & 0xfffefefeL) >> 1) + ((a) + (b)) ) //effect bizarre
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhalit <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ocojeda- <ocojeda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/03 00:28:28 by mhalit            #+#    #+#             */
-/*   Updated: 2017/08/15 11:52:42 by mhalit           ###   ########.fr       */
+/*   Updated: 2017/08/17 16:58:47 by ocojeda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ int			parse_args(char **argv, int argc, t_rt *env)
 			i + 1 < argc ? env->file.haut = ft_atoi(argv[i + 1]) : 0;
 		else if (!ft_strcmp("-s", argv[i]))
 			i + 1 < argc ? SFILE = ft_strdup(argv[i + 1]) : 0;
+		else if (!ft_strcmp("-a", argv[i]))
+			i + 1 < argc ? SS = 2 : 0;
 		i++;
 	}
 	if (is_file(SFILE))
