@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raytrace.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfaure <tfaure@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ocojeda- <ocojeda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/24 16:26:32 by tfaure            #+#    #+#             */
-/*   Updated: 2017/08/15 20:23:18 by rlecart          ###   ########.fr       */
+/*   Updated: 2017/08/17 16:29:57 by ocojeda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_vec3			get_vec(int x, int y, t_vec3 dir)
 	ret.z = 250 + dir.z;
 	return (ret);
 }
-
+/*
 int				raytrace(int x, int y, t_rt *env)
 {
 	t_ray		ray;
@@ -115,4 +115,18 @@ int				raytrace(int x, int y, t_rt *env)
 	color = get_pxl_color(env, ray);
 	mlx_pixel(x, y, env, ret_colors(color));
 	return (1);
+}
+*/
+t_color				raytrace(int x, int y, t_rt *env)
+{
+	t_ray		ray;
+	t_vec3		pov;
+	t_color		color;
+
+	color = c_color(0,0,0);
+	pov = vec_new3((float)(x + env->scene.cam.ray.pos.x) / SS, 
+		(float)(y + env->scene.cam.ray.pos.y) / SS, 1);
+	ray = c_ray(pov, vec_new3(0, 0, 1));
+	color = get_pxl_color(env, ray);
+	return (color);
 }

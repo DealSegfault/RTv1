@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhalit <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ocojeda- <ocojeda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/03 00:09:53 by mhalit            #+#    #+#             */
-/*   Updated: 2017/08/15 11:50:01 by mhalit           ###   ########.fr       */
+/*   Updated: 2017/08/17 17:18:51 by ocojeda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void		init_rt(t_rt *env)
 	env->scene.nbr_tot = 0;
 	env->scene.obj = (t_obj *)malloc(sizeof(t_obj) * MAXOBJ);
 	env->scene.lights = (t_light *)malloc(sizeof(t_light) * MAXLIGHT);
-	env->scene.supersampling = 0;
+	env->scene.supersampling = 1;
 }
 
 int			main(int argc, char **argv)

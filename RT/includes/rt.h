@@ -6,7 +6,7 @@
 /*   By: ocojeda- <ocojeda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 12:28:36 by mhalit            #+#    #+#             */
-/*   Updated: 2017/08/17 15:19:10 by ocojeda-         ###   ########.fr       */
+/*   Updated: 2017/08/17 17:18:22 by ocojeda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@
 # define INIT env->mlx.init
 # define WIN env->mlx.window
 # define IMG env->mlx.image
-# define SS (env->scene.supersampling + 1)
+# define SS (env->scene.supersampling)
 # define HAUTEUR env->file.haut * SS
 # define LARGEUR env->file.larg
 # define SFILE env->file.path
@@ -87,7 +87,10 @@
 # define MAXOBJ 50
 # define MAXLIGHT 21
 
-# define DEFAULT_SUPERSAMPLING 0
+/* 
+*	DEF_super is 1 for on and 0 for off.
+*/
+
 # define W LARGEUR * SS
 # define H HAUTEUR * SS
 
@@ -227,12 +230,13 @@ int					parse_obj(char *path, t_rt *env);
 void				store_type_or_data(char *line, t_rt *env);
 void				frame(t_rt *env);
 void				mlx_pixel(int x, int y, t_rt *env, int color);
-
+void				anti_aliasing_on(t_rt *env);
+void				anti_aliasing_off(t_rt *env);
 //OLD
 
 unsigned int		ret_colors(t_color color);
 t_ray				c_ray(t_vec3 i, t_vec3 j);
-int					raytrace(int x, int y, t_rt *e);
+t_color				raytrace(int x, int y, t_rt *env);
 void				super_sampler(t_rt *env);
 void				anti_supersampler(t_rt *env);
 float				intersect_sphere(t_ray ray, t_obj sphere);

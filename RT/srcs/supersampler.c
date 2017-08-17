@@ -6,7 +6,7 @@
 /*   By: ocojeda- <ocojeda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 09:45:23 by ocojeda-          #+#    #+#             */
-/*   Updated: 2017/08/17 15:19:44 by ocojeda-         ###   ########.fr       */
+/*   Updated: 2017/08/17 16:37:23 by ocojeda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	anti_aliasing_off(t_rt *env)
 		x = 0;
 		while (x < LARGEUR)
 		{
-			//mlx_pixel(x, y, env, ret_colors(raytrace(x, y, env)));
+			mlx_pixel(x, y, env, ret_colors(raytrace(x, y, env)));
 			x++;
 		}
 		y++;
@@ -45,7 +45,7 @@ unsigned int *anti_aliasing_img_creator(t_rt *env, unsigned int *img_temp)
 		x = 0;
 		while (x < W)
 		{
-			//img_temp[x + y * W] = ret_colors(raytrace(x, y, env));
+			img_temp[x + y * W] = ret_colors(raytrace(x, y, env));
 			x++;
 		}
 		y++;
@@ -61,6 +61,7 @@ void	anti_aliasing_on(t_rt *env)
 	int x1;
 	int y1;
 
+	printf("antialiasing is on\n");
 	img_temp = anti_aliasing_img_creator(env, NULL);
 	y = 0;
 	y1 = 0;
