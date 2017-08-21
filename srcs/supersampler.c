@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   supersampler.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bbeldame <bbeldame@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tfaure <tfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 09:45:23 by ocojeda-          #+#    #+#             */
-/*   Updated: 2017/08/17 21:21:51 by rlecart          ###   ########.fr       */
+/*   Updated: 2017/08/21 13:07:30 by tfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	anti_aliasing_off(t_rt *e)
 		while (x < LARGEUR)
 		{
 			mlx_pixel(x, y, e, ret_colors(raytrace(x, y, e)));
-			x += 2;
+			x += 1;
 		}
-		y += 2;
+		y += 1;
 	}
 	mlx_put_image_to_window(INIT, WIN, IMG, 0, 0);
 }

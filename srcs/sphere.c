@@ -6,7 +6,7 @@
 /*   By: tfaure <tfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/24 15:04:18 by tfaure            #+#    #+#             */
-/*   Updated: 2017/08/17 21:21:51 by rlecart          ###   ########.fr       */
+/*   Updated: 2017/08/21 13:26:34 by tfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ float	get_res_of_quadratic(float a, float b, float c)
 	return ((t0 > t1) ? t1 : t0);
 }
 
-float	intensity_sphere(t_rt *e, t_vec3 poi, t_obj sphere, t_light light)
+float	intensity_sphere(t_vec3 poi, t_obj sphere, t_light light)
 {
 	float		dist_to_light;
 	t_vec3		vec_to_eyes;
@@ -39,10 +39,8 @@ float	intensity_sphere(t_rt *e, t_vec3 poi, t_obj sphere, t_light light)
 	vec_to_light = vec_sub3(light.ray.pos, poi);
 	dist_to_light = get_length(vec_to_light);
 	intensity = (vec_dot3(vec_to_eyes, vec_norme3(vec_to_light)) *
-		ft_map(dist_to_light, 2000 * light.intensity, 500, 200));
-	if (obj_in_shadow(e, poi, light))
-		intensity -= AMBIENT_LIGHT;
-	return ((intensity > AMBIENT_LIGHT) ? intensity : AMBIENT_LIGHT);
+		ft_map(dist_to_light, 1200 * light.intensity, 470, 350));
+	return (intensity);
 }
 
 /*

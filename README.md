@@ -5,7 +5,7 @@
 usage: rtv1 [-s source] [-w width] [-h height]
 
 -s : Set the specified source file
-//
+
 -w : Width of the window, default 1024px
 
 -h : Height of the window, default 720px

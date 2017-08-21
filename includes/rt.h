@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhalit <mhalit@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tfaure <tfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 12:28:36 by mhalit            #+#    #+#             */
-/*   Updated: 2017/08/19 17:41:14 by mparigi          ###   ########.fr       */
+/*   Updated: 2017/08/21 13:26:49 by tfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,11 @@
 # define KEY_ESC 53
 # define DIST_MAX 20000
 # define DIST_MIN -80000
-# define AMBIENT_LIGHT 50
+# define AMBIENT_LIGHT 30
 # define AVERAGE(a, b)   ( ((((a) ^ (b)) & 0xfffefefeL) >> 1) + ((a) & (b)) )
 # define FT_MIN(x, y) ((x < y) ? x : y)
 # define FT_MAX(x, y) ((x > y) ? x : y)
+
 typedef struct		s_ray
 {
 	t_vec3			pos;
@@ -257,7 +258,7 @@ t_color				copy_color(t_color color);
 float				intersect_cone(t_ray ray, t_obj cone);
 float				intensity_cone(t_rt *e, t_vec3 poi,
 						t_obj cone, t_light light);
-float				intensity_sphere(t_rt *e, t_vec3 poi,
+float				intensity_sphere(t_vec3 poi,
 						t_obj sphere, t_light light);
 float				intensity_plane(t_rt *e, t_vec3 poi,
 						t_obj plane, t_light light);

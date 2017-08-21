@@ -6,7 +6,7 @@
 /*   By: tfaure <tfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/06 20:08:17 by ocojeda-          #+#    #+#             */
-/*   Updated: 2017/08/17 21:21:50 by rlecart          ###   ########.fr       */
+/*   Updated: 2017/08/21 13:04:49 by tfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ float			intensity_plane(t_rt *e, t_vec3 poi, t_obj plane, t_light light)
 	(void)plane;
 	dist_to_light = vec_sub3(light.ray.pos, poi);
 	intensity = 0.5 * ft_map(get_length(dist_to_light),
-			2000 * light.intensity, 500, 200);
-	if (obj_in_shadow(e, poi, light))
-		intensity -= AMBIENT_LIGHT;
-	return ((intensity > AMBIENT_LIGHT) ? intensity : AMBIENT_LIGHT);
+		1200 * light.intensity, 470, 350);
+	return (intensity);
 }
 
 float			intersect_plane(t_ray ray, t_obj plane)
