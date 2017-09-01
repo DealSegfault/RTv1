@@ -261,7 +261,7 @@ typedef struct		s_mthread
 	t_color			*colors;
 }					t_mthread;
 
-typedef struct		s_gtk_win
+typedef struct		s_gtk_input
 {
 	gint		pos_x;
 	gint		pos_y;
@@ -269,7 +269,7 @@ typedef struct		s_gtk_win
 	gint		max_char;
 	gchar		*placeholder;
 	gchar   *deflaut_value;
-}									t_gtk_win;
+}									t_gtk_input;
 
 typedef struct		s_gtk_win
 {

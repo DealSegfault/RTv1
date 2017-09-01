@@ -12,8 +12,6 @@
 
 #include "rt.h"
 
-
-
 gboolean ft_gtk_setting_closed (GtkWidget *widget, GdkEvent  *event, gpointer *window)
 {
 	if (widget && event)
@@ -29,7 +27,7 @@ void print_text(GtkEntry *entry, void *optional_data)
     printf("Text in Entry: %s\n", gtk_entry_get_text(GTK_ENTRY(entry)));
 }
 
-GtkWidget	*ft_gtk_new_input(t_rt *e, ft_gtk_input *data)
+GtkWidget	*ft_gtk_new_input(t_rt *e, t_gtk_input *data)
 {
 	GtkWidget 			*input;
 
@@ -46,7 +44,7 @@ GtkWidget	*ft_gtk_new_input(t_rt *e, ft_gtk_input *data)
 
 void ft_gtk_settings(t_rt *e)
 {
-	ft_gtk_input i_width;
+	t_gtk_input i_width;
 
 	i_width.pos_x = 20;
 	i_width.pos_y = 20;
@@ -83,8 +81,6 @@ void ft_gtk_add_btn_settings(t_rt *e)
 	btn = ft_gtk_new_btn(e, pos, size, "Settings");
 	g_signal_connect (btn, "clicked", G_CALLBACK(btn_settings_clicked), e);
 }
-
-
 
 void btn_open_scene_clicked(GtkWidget *btn, t_rt *e)
 {
