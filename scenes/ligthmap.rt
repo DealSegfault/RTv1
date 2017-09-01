@@ -1,0 +1,15 @@
+camera:
+    pos: 0 0 0
+    dir: 0 0 -1
+    focale: 32
+light:
+    pos: 10 10 10
+    intensity: 1
+sphere:
+    pos: 0 0 -20
+    radius: 1
+    color: 255 0 0
+sphere:
+    pos: 5.0 -1 -15
+    radius: 1
+    color: 0 255 0

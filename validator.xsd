@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--element simple : <prenom>plop</nom> On ecrit : <xsd:element name="prenom" type="xsd:string" default="Robert" /> -->
+<!---->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:attribute name="color" type="xsd:unsignedInt"/>
+
+    <xsd:element name="pos">
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="xsd:string">
+                    <xsd:attribute type="xsd:float" name="x"  use="required"/>
+                    <xsd:attribute type="xsd:float" name="y"  use="required"/>
+                    <xsd:attribute type="xsd:float" name="z"  use="required"/>
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="camera">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="pos"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="spot">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="pos"/>
+            </xsd:sequence>
+            <xsd:attribute type="xsd:float" name="power" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="spots">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="spot" minOccurs="1" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="cone">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="pos"/>
+            </xsd:sequence>
+            <xsd:attribute type="xsd:float" name="a"  use="required"/>
+            <xsd:attribute type="xsd:float" name="b"  use="required"/>
+            <xsd:attribute type="xsd:float" name="c"  use="required"/>
+            <xsd:attribute type="xsd:unsignedInt" name="color"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="plan">
+        <xsd:complexType>
+            <xsd:attribute type="xsd:float" name="a" use="required"/>
+            <xsd:attribute type="xsd:float" name="b" use="required"/>
+            <xsd:attribute type="xsd:float" name="c" use="required"/>
+            <xsd:attribute type="xsd:float" name="d" use="required"/>
+            <xsd:attribute ref="color"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="sphere">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="pos"/>
+            </xsd:sequence>
+            <xsd:attribute type="xsd:float" name="rayon" use="required"/>
+            <xsd:attribute ref="color"/>
+
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="cylindre">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="pos"/>
+            </xsd:sequence>
+            <xsd:attribute type="xsd:float" name="a"  use="required"/>
+            <xsd:attribute type="xsd:float" name="b"  use="required"/>
+            <xsd:attribute type="xsd:float" name="c"  use="required"/>
+            <xsd:attribute type="xsd:unsignedInt" name="color"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="objects">
+        <xsd:complexType>
+            <xsd:choice maxOccurs="unbounded" minOccurs="0">
+                <xsd:element ref="cone" minOccurs="0"/>
+                <xsd:element ref="sphere" minOccurs="0"/>
+                <xsd:element ref="cylindre" minOccurs="0"/>
+                <xsd:element ref="plan" minOccurs="0"/>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="scene">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="camera"/>
+                <xsd:element ref="spots"/>
+                <xsd:element ref="objects"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>
+<!--TODO: A terminer, lien OC : https://openclassrooms.com/courses/structurez-vos-donnees-avec-xml/schema-xml-les-types-complexes-->

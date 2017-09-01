@@ -44,11 +44,13 @@ int		set_obj(t_rt *e, char **a)
 	else if (i == 4 && !ft_strcmp("normal:", a[0]))
 		SOBJ.normal = vec_new3(ft_atof(a[1]), ft_atof(a[2]), ft_atof(a[3]));
 	else if (i == 4 && !ft_strcmp("rot:", a[0]))
-		SOBJ.dir = vec_new3(ft_atof(a[1]), ft_atof(a[2]), ft_atof(a[3]));
+		SOBJ.dir = vec_norme3(vec_new3(ft_atof(a[1]), ft_atof(a[2]), ft_atof(a[3])));
 	else if (i == 2 && !ft_strcmp("radius:", a[0]))
 		SOBJ.r = ft_atof(a[1]);
 	else if (i == 4 && !ft_strcmp("color:", a[0]))
 		SOBJ.color = c_color(ft_atof(a[1]), ft_atof(a[2]), ft_atof(a[3]));
+	else if (i == 2 && !ft_strcmp("angle:", a[0]))
+		SOBJ.angle = ft_atof(a[1]) / 180 * M_PI;
 	else
 		return (0);
 	return (1);

@@ -15,6 +15,7 @@ usage: rtv1 [-s source] [-w width] [-h height]
 -a : Set the antialiasing technique to the image
 
 
+
 Filters:
 
 1 = Disabled
@@ -22,3 +23,9 @@ Filters:
 2 = Sepia
 
 3 = Black and White
+
+4 = Revert
+
+Export PPM:
+
+Press ~ 

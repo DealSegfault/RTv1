@@ -9,7 +9,6 @@ light:
   pos: 100 700 -400
   intensity: 0.7
 sphere:
-<<<<<<< HEAD
   pos: 0 10 -30
   radius: 10
   color: 66 212 244
@@ -21,8 +20,8 @@ sphere:
   pos: 0 -10 -30
   radius: 8.5
   color: 255 144 0
-=======
-  pos: -2.8 1.5 6
-  radius: 1
-  color: 255 144 0
->>>>>>> 3cb02818cc72ba2d29e4432d66389f9ce53db565
+cone:
+  pos: 0 -0 -30
+  angle: 25
+  rot: 0 1 0
+  color: 255 0 0

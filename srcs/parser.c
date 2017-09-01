@@ -28,7 +28,6 @@ int			create_type(char *type, t_rt *e)
 void		store_type_or_data(char *line, t_rt *e)
 {
 	char	**tab;
-
 	tab = ft_split_whitespace(line);
 	if (tab && tab[0] && create_type(tab[0], e))
 		e->scene.last = ft_strdup(tab[0]);
@@ -54,6 +53,7 @@ int			parse_obj(t_rt *e, int fd)
 
 	while (get_next_line(fd, &line))
 	{
+
 		if (line && line[0] != '*')
 			store_type_or_data(line, e);
 	}
@@ -63,12 +63,30 @@ int			parse_obj(t_rt *e, int fd)
 	return (1);
 }
 
+int			parse_filename(t_rt *e, char *filename)
+{
+	int		fd;
+	int 	tmp;
+	SFILE = ft_strdup(filename);
+	// printf("%s\n", e->file.path);
+	if ((fd = is_file(SFILE)) > -1)
+	{
+		// printf("%d\n", fd);
+		if ((tmp = parse_obj(e, fd)))
+		{
+			// printf("%d\n", tmp);
+			return (1);
+		}
+	}
+	return (0);
+}
+
 int			parse_args(char **argv, int argc, t_rt *e)
 {
 	int		i;
 	int		fd;
 
-	i = 0;
+	i = 1;
 	while (i < argc)
 	{
 		if (!ft_strcmp("--help", argv[i]))
@@ -84,7 +102,9 @@ int			parse_args(char **argv, int argc, t_rt *e)
 			i + 1 < argc ? SFILE = ft_strdup(argv[i + 1]) : 0;
 		else if (!ft_strcmp("-a", argv[i]))
 		 	e->scene.supersampling = 2;
-		i++;
+		else
+			return (0);
+		i += 2;
 	}
 	if ((fd = is_file(SFILE)) > -1)
 		if (parse_obj(e, fd))

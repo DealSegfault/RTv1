@@ -52,7 +52,7 @@ int			create_obj(int type, t_rt *e)
 	e->COBJ.color = c_color(255, 255, 255);
 	e->COBJ.pos = vec_new3(0, 0, 0);
 	e->COBJ.dir = vec_new3(0, 0, 0);
-	e->COBJ.size = 0;
+	e->COBJ.angle = 0;
 	e->COBJ.maxp = vec_new3(0, 0, 0);
 	e->COBJ.minp = vec_new3(0, 0, 0);
 	e->COBJ.r = 0;

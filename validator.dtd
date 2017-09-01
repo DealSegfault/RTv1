@@ -1,0 +1,34 @@
+<!ELEMENT scene (camera, spots, objects)>
+<!ELEMENT pos EMPTY>
+<!ATTLIST pos
+        x CDATA #REQUIRED
+        y CDATA #REQUIRED
+        z CDATA #REQUIRED>
+<!ELEMENT camera (pos)>
+<!ELEMENT spots (spot+)>
+<!ELEMENT spot (pos)>
+<!ATTLIST spot power CDATA #REQUIRED>
+<!ELEMENT objects ((plan*, cone* ,cylindre* ,sphere*)+)>
+<!ELEMENT plan EMPTY>
+<!ATTLIST plan
+        a CDATA #REQUIRED
+        b CDATA #REQUIRED
+        c CDATA #REQUIRED
+        d CDATA #REQUIRED
+        color CDATA #IMPLIED>
+<!ELEMENT cone (pos)>
+<!ATTLIST cone
+        a CDATA #REQUIRED
+        b CDATA #REQUIRED
+        c CDATA #REQUIRED
+        color CDATA #IMPLIED>
+<!ELEMENT cylindre (pos)>
+<!ATTLIST cylindre
+        a CDATA #REQUIRED
+        b CDATA #REQUIRED
+        c CDATA #REQUIRED
+        color CDATA #IMPLIED>
+<!ELEMENT sphere (pos)>
+<!ATTLIST sphere
+        rayon CDATA #REQUIRED
+        color CDATA #IMPLIED>
