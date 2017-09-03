@@ -59,6 +59,7 @@ int			create_obj(int type, t_rt *e)
 	e->COBJ.t = -1;
 	e->COBJ.mat = create_matiere();
 	e->scene.nbr_obj++;
+
 	return (1);
 }
 

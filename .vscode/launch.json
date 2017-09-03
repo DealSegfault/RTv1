@@ -6,12 +6,12 @@
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/Users/mhalit/Projects/RTv1/rt",
-            "args": ["-s", "scene/easy.rt", "-a"],
-            "stopAtEntry": false,
+            "program": "${workspaceRoot}/rt",
+            "args": ["-s", "scenes/mickey.rt"],
+            "stopAtEntry": true,
             "cwd": "${workspaceRoot}",
             "environment": [],
-            "externalConsole": true,
+            "externalConsole": false,
             "MIMode": "lldb"
         }
     ]

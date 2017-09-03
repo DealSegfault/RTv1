@@ -23,7 +23,7 @@
 # include "libft.h"
 # include "mlx.h"
 # include "libvec.h"
-# include "../libs/gtk+-3.22.18/gtk/gtk.h"
+# include <gtk/gtk.h>
 
 # include <stdlib.h>
 # include <math.h>
@@ -58,16 +58,10 @@
 # define PLANE 2
 # define SPHERE 3
 # define CYLINDER 4
+# define MICKEY 5
+# define DICK 6
 # define LIGHT 1
 # define OBJ 2
-# define BLACK		0
-# define RED		1
-# define GREEN		2
-# define YELLOW		3
-# define BLUE		4
-# define MAGENTA	5
-# define CYAN		6
-# define WHITE		7
 
 # define ESC		53
 # define BACKSPACE	51
@@ -378,7 +372,7 @@ float					get_res_of_quadratic(float a, float b, float c);
 // xmlDocPtr			getdoc(char *docname);
 
 // GTK
-void ft_gtk_start(t_rt *e, int argc, char **argv);
+void ft_gtk_start(t_rt *e);
 
 GtkWidget *ft_gtk_new_btn(t_rt *e, int pos[], int size[], char *name);
 GtkWidget *ft_gtk_new_window(gint w, gint h, gchar *name);
@@ -393,5 +387,10 @@ void print_text(GtkEntry *entry, void *optional_data);
 // void ft_gtk_add_input_width(t_rt *e);
 void ft_gtk_add_input_height(t_rt *e);
 void ft_gtk_add_btn(t_rt *e);
+void		init_rt(t_rt *e);
+
+//Hook
+
+void create_complex(t_rt *e);
 
 #endif

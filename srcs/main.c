@@ -62,8 +62,9 @@ int			main(int argc, char **argv)
 	{
 		if (!parse_args(argv, argc, e))
 			return (0);
+		ft_start_rt(e);
 	}
 	else
-		ft_gtk_start(e, argc, argv);
+		ft_gtk_start(e);
 	return (0);
 }

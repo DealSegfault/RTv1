@@ -75,11 +75,11 @@ void			exportimg(int keycode, t_rt *e)
 	int			pos;
 
 	if (keycode == 50)
-	{	
+	{
 		if (!(export.fdp = open("first.ppm", O_WRONLY | O_CREAT, 00755)))
 			return ;
 		ft_putstr_fd("P6\n", export.fdp);
-		ft_putnbr_fd(LARGEUR, export.fdp); 
+		ft_putnbr_fd(LARGEUR, export.fdp);
 		ft_putstr_fd(" ", export.fdp);
 		ft_putnbr_fd(HAUTEUR, export.fdp);
 		ft_putstr_fd("\n255\n", export.fdp);
@@ -94,7 +94,7 @@ void			exportimg(int keycode, t_rt *e)
 				write(export.fdp, &DATA[pos + 1], 1);
 				write(export.fdp, &DATA[pos], 1);
 			}
-		}	
+		}
 		close(export.fdp);
 	}
 }
@@ -108,10 +108,21 @@ void			numeric_(int keycode, t_rt *e)
 	}
 }
 
+void new_rt()
+{
+	t_rt	*e;
+
+	e = (t_rt *)malloc(sizeof(t_rt));
+	init_rt(e);
+	ft_gtk_start(e);
+}
+
 int				key_hook(int keycode, t_rt *e)
 {
 	if (keycode == ESC)
 		exit(42);
+	if (keycode == 45)
+		new_rt();
 	udlr_(keycode, e);
 	wasd_(keycode, e);
 	numeric_(keycode, e);

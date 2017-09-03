@@ -27,6 +27,24 @@ void print_text(GtkEntry *entry, void *optional_data)
     printf("Text in Entry: %s\n", gtk_entry_get_text(GTK_ENTRY(entry)));
 }
 
+void ft_add_w(GtkEntry *entry, t_rt *e)
+{
+		int val;
+
+		val = ft_atoi(gtk_entry_get_text(GTK_ENTRY(entry)));
+		if (val > 2)
+				LARGEUR = val;
+}
+
+void ft_add_h(GtkEntry *entry, t_rt *e)
+{
+		int val;
+
+		val = ft_atoi(gtk_entry_get_text(GTK_ENTRY(entry)));
+		if (val > 2)
+				HAUTEUR = val;
+}
+
 GtkWidget	*ft_gtk_new_input(t_rt *e, t_gtk_input *data)
 {
 	GtkWidget 			*input;
@@ -37,29 +55,62 @@ GtkWidget	*ft_gtk_new_input(t_rt *e, t_gtk_input *data)
   gtk_entry_set_placeholder_text(GTK_ENTRY(input), data->placeholder);
 	gtk_entry_set_text (GTK_ENTRY(input), data->deflaut_value);
 	gtk_layout_put(GTK_LAYOUT(e->gtk.set.layout), input, data->pos_x, data->pos_y);
-	g_signal_connect(input, "activate", G_CALLBACK(print_text), NULL);
-  // g_signal_connect(gtk->window, "destroy", gtk_main_quit, NULL);
 	return (input);
+}
+
+void ft_add_txt(t_rt *e, gchar *str, gint x, gint y)
+{
+	GtkWidget *view;
+	GtkTextBuffer *buffer;
+
+	view = gtk_text_view_new ();
+	//
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
+
+	gtk_text_buffer_set_text (buffer, str, -1);
+	gtk_layout_put(GTK_LAYOUT(e->gtk.set.layout),view , x, y);
+	gtk_widget_show_all (e->gtk.set.window);
+}
+
+
+void ft_add_win_size(t_rt *e)
+{
+	t_gtk_input i_width;
+	GtkWidget 	*width;
+
+	t_gtk_input i_height;
+	GtkWidget 	*height;
+
+	i_width.pos_x = 20;
+	i_width.pos_y = 50;
+	i_width.max_char = 5;
+	i_width.max_size = 5;
+	i_width.placeholder = "width";
+	i_width.deflaut_value = "1024";
+	i_height.pos_x = 90;
+	i_height.pos_y = 50;
+	i_height.max_char = 5;
+	i_height.max_size = 5;
+	i_height.placeholder = "height";
+	i_height.deflaut_value = "768";
+	width = ft_gtk_new_input(e, &i_width);
+	height = ft_gtk_new_input(e, &i_height);
+	g_signal_connect(width, "activate", G_CALLBACK(ft_add_w), e);
+	g_signal_connect(height, "activate", G_CALLBACK(ft_add_h), e);
+
 }
 
 void ft_gtk_settings(t_rt *e)
 {
-	t_gtk_input i_width;
-
-	i_width.pos_x = 20;
-	i_width.pos_y = 20;
-	i_width.max_char = 5;
-	i_width.max_size = 5;
-	i_width.placeholder = "width";
-	i_width.deflaut_value = "1250";
-	ft_gtk_new_input(e, &i_width);
+	ft_add_txt(e, "Resolution", 20, 20);
+	ft_add_win_size(e);
 }
 
 void btn_settings_clicked(GtkWidget *btn, t_rt *e)
 {
 	if (btn){}
 	gtk_widget_set_sensitive (GTK_WIDGET(e->gtk.menu.window), 0);
-	e->gtk.set.window = ft_gtk_new_window(600, 600, "Settings");
+	e->gtk.set.window = ft_gtk_new_window(200, 200, "Settings");
 	ft_gtk_link_css(e->gtk.set.window, "srcs/css/style.css");
 	e->gtk.set.layout = gtk_layout_new(NULL, NULL);
 	gtk_container_add(GTK_CONTAINER(e->gtk.set.window), e->gtk.set.layout);

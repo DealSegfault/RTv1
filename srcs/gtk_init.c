@@ -30,29 +30,9 @@ void ft_gtk_link_css(GtkWidget *window, gchar *css)
                                  GTK_STYLE_PROVIDER_PRIORITY_USER);
 }
 
-void ft_gtk_add_radio_filters(t_rt *e)
+void ft_gtk_start(t_rt *e)
 {
-	if (e){}
-  //  GtkWidget *radio1, *radio2, *box;
-  //
-  //  box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
-  //  gtk_box_set_homogeneous (GTK_BOX (box), TRUE);
-  //
-  //
-  // radio1 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (radio1), "filtre 1");
-  // // radio2 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (radio1), "filtre 2");
-  //
-  // gtk_box_pack_start (GTK_BOX(box), radio1, TRUE, TRUE, 2);
-  // // gtk_box_pack_start (GTK_BOX(box), radio2, TRUE, TRUE, 2);
-  //
-  // gtk_layout_put(GTK_LAYOUT(gtk->layout), box, 100, 250);
-
-}
-
-void ft_gtk_start(t_rt *e, int argc, char **argv)
-{
-    gtk_init(&argc, &argv);
-
+    gtk_init(NULL, NULL);
     e->gtk.menu.window = ft_gtk_new_window(GTK_W, GTK_H, "RT");
 		e->gtk.menu.layout = gtk_layout_new(NULL, NULL);
 		gtk_container_add(GTK_CONTAINER(e->gtk.menu.window), e->gtk.menu.layout);

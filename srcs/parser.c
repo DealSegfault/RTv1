@@ -18,6 +18,10 @@ int			create_type(char *type, t_rt *e)
 		return (create_obj(SPHERE, e));
 	if (!ft_strcmp("plane:", type))
 		return (create_obj(PLANE, e));
+	if (!ft_strcmp("mickey:", type))
+		return (create_obj(MICKEY, e));
+	if (!ft_strcmp("dick:", type))
+		return (create_obj(DICK, e));
 	if (!ft_strcmp("light:", type))
 		return (create_light(e));
 	if (!ft_strcmp("camera:", type))
@@ -68,16 +72,12 @@ int			parse_filename(t_rt *e, char *filename)
 	int		fd;
 	int 	tmp;
 	SFILE = ft_strdup(filename);
-	// printf("%s\n", e->file.path);
 	if ((fd = is_file(SFILE)) > -1)
-	{
-		// printf("%d\n", fd);
 		if ((tmp = parse_obj(e, fd)))
 		{
-			// printf("%d\n", tmp);
+			create_complex(e);
 			return (1);
 		}
-	}
 	return (0);
 }
 
@@ -107,7 +107,9 @@ int			parse_args(char **argv, int argc, t_rt *e)
 		i += 2;
 	}
 	if ((fd = is_file(SFILE)) > -1)
-		if (parse_obj(e, fd))
+		if (parse_obj(e, fd)) {
+			create_complex(e);
 			return (1);
+		}
 	return (0);
 }

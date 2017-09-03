@@ -35,7 +35,8 @@ SRC				=	color.c 				\
 						gtk_btn.c 			\
 						gtk_init.c 			\
 						gtk_input.c 		\
-						gtk_new.c
+						gtk_new.c \
+						create_complex.c
 						# xml_parser.c
 						# xml_errors.c
 						# xml_checks.c

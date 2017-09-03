@@ -105,7 +105,7 @@ t_color				raytrace(int x, int y, t_rt *e)
 	t_color		color;
 
 	color = c_color(0,0,0);
-	pov = vec_new3((float)(x + CPOS.x) * RES, 
+	pov = vec_new3((float)(x + CPOS.x) * RES,
 		(float)(y + CPOS.y) * RES, 0);
 	ray = c_ray(pov, CDIR);
 
@@ -115,7 +115,7 @@ t_color				raytrace(int x, int y, t_rt *e)
 	// Romain ray methods, plane have issues
 	// pos = vec_new3(CPOS.x, CPOS.y, CPOS.z);
 	// pos = vec_new3((float)(x + CPOS.x) * RES, (float)(y + CPOS.y) * RES, CPOS.z);
-	
+
 	// float widthscreen = (2 * x - LARGEUR) / LARGEUR * tan(M_PI / 4);
 	// float heightscreen = ;
 	// float screendist = 1
