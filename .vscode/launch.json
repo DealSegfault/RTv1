@@ -8,10 +8,10 @@
             "request": "launch",
             "program": "${workspaceRoot}/rt",
             "args": ["-s", "scenes/easy.rt"],
-            "stopAtEntry": false,
+            "stopAtEntry": true,
             "cwd": "${workspaceRoot}",
             "environment": [],
-            "externalConsole": true,
+            "externalConsole": false,
             "MIMode": "lldb"
         }
     ]

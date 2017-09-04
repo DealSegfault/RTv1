@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "rt.h"
-
 void			choose_filters(int keycode, t_rt *e)
 {
 	if (keycode >= 18 && keycode <= 21)
@@ -46,9 +45,11 @@ void	udlr_(int keycode, t_rt *e)
 	if (keycode == LEFT || keycode == RIGHT || keycode == UP || keycode == DOWN)
 	{
 		if (keycode <= RIGHT)
-			CPOS.x += ((keycode == LEFT) ? -20 : 20);
+			CPOS.x += ((keycode == LEFT) ? -60 : 60);
 		else
-			CPOS.y += ((keycode == UP) ? -20 : 20);
+			CPOS.y += ((keycode == UP) ? -60 : 60);
+		printf("Dir {%f %f %f}\n", CDIR.x, CDIR.y, CDIR.z);
+		printf("POS {%f %f %f}\n\n", CPOS.x, CPOS.y, CPOS.z);
 		frame(e);
 	}
 }
@@ -61,6 +62,48 @@ void	wasd_(int keycode, t_rt *e)
 			CDIR.y += ((keycode == KEY_S) ? -0.03 : 0.03);
 		else
 			CDIR.x += ((keycode == KEY_D) ? -0.03 : 0.03);
+		printf("Dir {%f %f %f}\n", CDIR.x, CDIR.y, CDIR.z);
+		printf("POS {%f %f %f}\n\n", CPOS.x, CPOS.y, CPOS.z);
+		frame(e);
+	}
+}
+
+
+void			exportimg(int keycode, t_rt *e)
+{
+	t_file 		export;
+	int			pos;
+
+	if (keycode == 50)
+	{	
+		if (!(export.fdp = open("first.ppm", O_WRONLY | O_CREAT, 00755)))
+			return ;
+		ft_putstr_fd("P6\n", export.fdp);
+		ft_putnbr_fd(LARGEUR, export.fdp); 
+		ft_putstr_fd(" ", export.fdp);
+		ft_putnbr_fd(HAUTEUR, export.fdp);
+		ft_putstr_fd("\n255\n", export.fdp);
+		export.haut = -1;
+		while (++export.haut < HAUTEUR)
+		{
+			export.larg = -1;
+			while (++export.larg < LARGEUR)
+			{
+				pos = (export.larg * e->mlx.bpp / 8 + export.haut * e->mlx.size_l);
+				write(export.fdp, &DATA[pos + 2], 1);
+				write(export.fdp, &DATA[pos + 1], 1);
+				write(export.fdp, &DATA[pos], 1);
+			}
+		}	
+		close(export.fdp);
+	}
+}
+
+void			numeric_(int keycode, t_rt *e)
+{
+	if (keycode == 91 || keycode == 84)
+	{
+		CPOS.z += (keycode == 91) ? 100 : -100;
 		frame(e);
 	}
 }
@@ -71,7 +114,9 @@ int				key_hook(int keycode, t_rt *e)
 		exit(42);
 	udlr_(keycode, e);
 	wasd_(keycode, e);
+	numeric_(keycode, e);
 	resolution(keycode, e);
+	exportimg(keycode, e);
 	//Add CPOS.z + CDIR.z
 	ft_putnbr(keycode);
 	choose_filters(keycode, e);

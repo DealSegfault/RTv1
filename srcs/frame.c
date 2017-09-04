@@ -29,9 +29,9 @@ void    pixel_to_image(int x, int y, t_rt *e, int color)
         {
             if ((x >= 0 && y >= 0 ) || (x < RES_W && y < RES_H ))
             {
-                if (RES > 10 && (x + 1 == max_x || y + 1 == max_y))
-                    mlx_pixel(x, y, e, 0x333333);
-                else
+                // if (RES > 10 && (x + 1 == max_x || y + 1 == max_y))
+                //     mlx_pixel(x, y, e, 0x333333);
+                // else
                     mlx_pixel(x, y, e, color);
             }
             y++;
@@ -74,10 +74,6 @@ void	frame(t_rt *e)
 	int			x;
 	int			y;
 
-	IMG = mlx_new_image(INIT, LARGEUR, HAUTEUR);
-	e->mlx.data = mlx_get_data_addr(IMG, &e->mlx.bpp, &e->mlx.size_l,
-		&e->mlx.endian);
-	
 	th_e = launch_thread(e);
 	i = 0;
 	while (i < NB_THREADS)

@@ -80,6 +80,8 @@
 # define KEY_A		0
 # define KEY_S		1
 # define KEY_D		2
+# define KEY_N8		91
+# define KEY_N2		84
 
 # define INIT e->mlx.init
 # define WIN e->mlx.window
@@ -102,17 +104,19 @@
 # define MAXOBJ 50
 # define MAXLIGHT 21
 
-# define WSS LARGEUR * SS
-# define HSS HAUTEUR * SS
+# define WSS (LARGEUR * SS)
+# define HSS (HAUTEUR * SS)
 # define RES_H (HAUTEUR / RES)
 # define RES_W (LARGEUR / RES)
 
 # define DEFAULT_SUPERSAMPLING 0
-# define FOV 30
+# define FOVL 110
+# define FOVH 90
 # define KEY_ESC 53
 # define DIST_MAX 20000
 # define DIST_MIN -80000
-# define AMBIENT_LIGHT 30
+# define EPSILON 1e-9
+# define AMBIENT_LIGHT 50
 # define AVERAGE(a, b)   ( ((((a) ^ (b)) & 0xfffefefeL) >> 1) + ((a) & (b)) )
 # define FT_MIN(x, y) ((x < y) ? x : y)
 # define FT_MAX(x, y) ((x > y) ? x : y)
@@ -192,6 +196,7 @@ typedef struct		s_file
 	char			*path;
 	int				haut;
 	int				larg;
+	int 			fdp;
 	int 			reso;
 }					t_file;
 
@@ -268,6 +273,9 @@ void				udlr_(int keycode, t_rt *e);
 int					key_hook(int keycode, t_rt *e);
 void 				wasd_(int keycode, t_rt *e);
 void				resolution(int keycode, t_rt *e);
+void				exportimg(int keycode, t_rt *e);
+void				numeric_(int keycode, t_rt *e);
+
 
 //Multithreading
 
@@ -286,7 +294,7 @@ void  				pixel_to_image(int x, int y, t_rt *e, int color);
 
 unsigned int		ret_colors(t_color color);
 t_ray				c_ray(t_vec3 i, t_vec3 j);
-t_vec3				get_vec(int x, int y, t_vec3 dir);
+t_vec3				get_vec(int x, int y, t_vec3 dir, t_rt *e);
 t_color				raytrace(int x, int y, t_rt *e);
 void				super_sampler(t_rt *e);
 void				anti_supersampler(t_rt *e);

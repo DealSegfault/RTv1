@@ -23,8 +23,9 @@ float	get_res_of_quadratic(float a, float b, float c)
 		return (DIST_MAX);
 	if (determinant == 0)
 		return (-b / (2 * a));
-	t0 = (-b + sqrt(determinant)) / (2 * a);
-	t1 = (-b - sqrt(determinant)) / (2 * a);
+	determinant = sqrt(determinant);
+	t0 = (-b + determinant) / (2 * a);
+	t1 = (-b - determinant) / (2 * a);
 	return ((t0 > t1) ? t1 : t0);
 }
 
@@ -55,6 +56,7 @@ float	intersect_sphere(t_ray ray, t_obj sphere)
 	float		c;
 	t_vec3		x;
 
+	ray.dir = vec_norme3(ray.dir);
 	x = vec_sub3(ray.pos, sphere.pos);
 	a = vec_dot3(ray.dir, ray.dir);
 	b = 2 * vec_dot3(ray.dir, x);

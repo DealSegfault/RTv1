@@ -74,8 +74,8 @@ void				fl_border_limits(t_rt *e)
 {
 	static int		weight[3][3] = { { -1,  0,  1 }, { -2,  0,  2 }, { -1,  0,  1 } };
 	int				ptr[2] = { 0, 0 };
-	double			pxval;
-	double			limits[0];
+	float			pxval;
+	float			limits[0];
 	int				ptw[2];
 	unsigned char	*img;
 
@@ -104,9 +104,9 @@ void				fl_border(t_rt *e)
 {
 	static int		weight[3][3] = { { -1,  0,  1 }, { -2,  0,  2 }, { -1,  0,  1 } };
 	int				ptr[2] = { 0, 0 };
-	double			pxval;
-	double			min;
-	double			max;
+	float			pxval;
+	float			min;
+	float			max;
 	int				ptw[2];
 	unsigned char	*img;
 

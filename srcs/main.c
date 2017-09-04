@@ -42,7 +42,6 @@ int			main(int argc, char **argv)
 {
 	t_rt	*e;
 
-	e = NULL;
 	e = (t_rt *)malloc(sizeof(t_rt));
 	if (argc > 2)
 	{
@@ -52,8 +51,12 @@ int			main(int argc, char **argv)
 		if (!HAUTEUR || !LARGEUR)
 			return (0);
 		e->mlx.window = mlx_new_window(e->mlx.init, e->file.larg, e->file.haut, "RT Again");
+		IMG = mlx_new_image(INIT, LARGEUR, HAUTEUR);
+		e->mlx.data = mlx_get_data_addr(IMG, &e->mlx.bpp, &e->mlx.size_l,
+		&e->mlx.endian);
 		frame(e);
 		mlx_key_hook(e->mlx.window, key_hook, e);
+		//mlx_mouse_hook(WIN, mouse_hook, e);
 		mlx_loop(INIT);
 	}
 	else
