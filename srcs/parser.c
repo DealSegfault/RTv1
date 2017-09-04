@@ -44,7 +44,10 @@ static int	is_file(char *path)
 	size = ft_strlen(path) - ft_strlen(EXTENSION);
 	if (!ft_strcmp(EXTENSION, path + size))
 		if ((fd = open(path, O_RDONLY)) != -1)
-			return (fd);
+		{
+			close(fd);
+			return (1);
+		}
 	return (-1);
 }
 
