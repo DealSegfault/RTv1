@@ -1,14 +1,14 @@
 #include "rt.h"
 
-void ft_lstpush(t_list **alst, t_list *new)
+void			ft_lstpush(t_list **alst, t_list *new)
 {
-    t_list *temp;
+	t_list *temp;
 
 	new->next = NULL;
 	if (!*alst)
 	{
 		*alst = new;
-		return;
+		return ;
 	}
 	temp = *alst;
 	while (temp->next)
@@ -16,10 +16,10 @@ void ft_lstpush(t_list **alst, t_list *new)
 	temp->next = new;
 }
 
-unsigned int ft_lstlen(t_list *lst)
+unsigned int	ft_lstlen(t_list *lst)
 {
 	unsigned int len;
-	
+
 	len = 0;
 	len++;
 	if (!lst)
@@ -27,65 +27,67 @@ unsigned int ft_lstlen(t_list *lst)
 	while (lst)
 	{
 		len++;
-		lst = lst->next;	
+		lst = lst->next;
 	}
-	return(len);
+	return (len);
 }
 
-void    getNodesByName(xmlNodePtr cur, char *node_name, t_list **lst)
+void			get_nodes_by_name(xmlNodePtr cur, char *node_name, t_list **lst)
 {
-	t_list *new;
+	t_list	*new;
+
 	while (cur)
 	{
 		if ((!xmlStrcmp(cur->name, (const xmlChar *)node_name)))
 		{
-			printf("added node : %s\n",cur->name);
+			printf("added node : %s\n", cur->name);
 			new = ft_lstnew((void *)cur, sizeof(*cur));
 			ft_lstpush(lst, new);
 		}
-		getNodesByName(cur->children, node_name, lst);
+		get_nodes_by_name(cur->children, node_name, lst);
 		cur = cur->next;
 	}
 }
 
-xmlDocPtr getdoc(char *docname)
+xmlDocPtr		getdoc(char *docname)
 {
-    xmlDocPtr doc;
+	xmlDocPtr doc;
 
-    doc = xmlReadFile(docname, NULL, 0);
-    if (doc == NULL ) {
-        ft_putendl_fd("Wrong xml file\n", STD_ERR);
+	doc = xmlReadFile(docname, NULL, 0);
+	if (doc == NULL)
+	{
+		ft_putendl_fd("Wrong xml file\n", STD_ERR);
 		return (NULL);
-    }
-    return (doc);
+	}
+	return (doc);
 }
 
-t_list *getObjectNodes(xmlDocPtr doc)
+t_list			*get_object_nodes(xmlDocPtr doc)
 {
 	t_list *lst;
 
 	if (!doc)
 		return (NULL);
 	lst = NULL;
-	getNodesByName(xmlDocGetRootElement(doc), "sphere", &lst);
-	getNodesByName(xmlDocGetRootElement(doc), "plan", &lst);
-	getNodesByName(xmlDocGetRootElement(doc), "cylindre", &lst);
-	getNodesByName(xmlDocGetRootElement(doc), "cone", &lst);
+	get_nodes_by_name(xmlDocGetRootElement(doc), "sphere", &lst);
+	get_nodes_by_name(xmlDocGetRootElement(doc), "plan", &lst);
+	get_nodes_by_name(xmlDocGetRootElement(doc), "cylindre", &lst);
+	get_nodes_by_name(xmlDocGetRootElement(doc), "cone", &lst);
 	//TODO: Add complex objects
 	return (lst);
 }
 
-xmlNodePtr getLights(xmlDocPtr doc)
+xmlNodePtr		get_lights(xmlDocPtr doc)
 {
-	t_list *lst;
-	xmlNodePtr lights;
+	t_list		*lst;
+	xmlNodePtr	lights;
 
-	getNodesByName(xmlDocGetRootElement(doc), "lights", &lst);
+	get_nodes_by_name(xmlDocGetRootElement(doc), "lights", &lst);
 	lights = (xmlNodePtr)lst->content;
 	return (lights->children);
 }
 
-int			create_obj(xmlNodePtr node)
+int				create_obj(xmlNodePtr node)
 {
 	t_obj new;
 
@@ -103,24 +105,62 @@ int			create_obj(xmlNodePtr node)
 	return (new);
 }
 
-int		hasAttr(xmlNode *a_node, xmlChar *attr)
+int				has_attr(xmlNodePtr a_node, xmlChar *attr)
 {
 	if (!xmlGetProp(a_node, attr))
-		return 0;
-	return 1;
+		return (0);
+	return (1);
 }
 
-
-int		parse_obj_node(t_obj *obj, xmlNodePtr node)
+xmlNodePtr		has_child(xmlNodePtr a_node, char *attr)
 {
-	*obj.radius = (val(xmlGetProp(node, BAD_CAST"radius"))) ?
+	xmlChar		*cast;
+	xmlNodePtr	cur;
+
+	cur = a_node->children;
+	cast = (xmlChar *)attr;
+	while (cur)
+	{
+		if (!xmlStrcmp(cur->name, cast))
+			return (cur);
+		cur = cur->next;
+	}
+	return (NULL);
 }
 
-t_obj	get_obj(xmlNodePtr node)
+/*
+TODO: Plan d'attaque: 
+	- on fait le parsing des attributs eventuels => tout ce qu'il y a dans obj qui n'est pas une struct contenant plusieurs elements.
+	- on creer la fonction de parsing des elements complexes (genre pos, dir, matiere, des balises qui elles memes vont avoir plusieurs attibuts) sous la forme "parsing_nomDeBalise(xmlNodePtr noeud_a_parser)".
+	possibilité de factorisation avec un pointeur sur fonction passé en param
+
+*/
+int				parse_obj_node(t_obj *obj, xmlNodePtr node)
+{
+	xmlChar		*val;
+	xmlNodePtr	child;
+
+	if ((val = xmlGetProp(node, BAD_CAST"radius")))
+		*obj.r = ft_atof((char*)val);
+	if ((val = xmlGetProp(node, BAD_CAST"angle")))
+		*obj.r = ft_atoi((char*)val) / 180 * M_PI;
+	if (child = (has_child(node, "pos")))
+		*obj.pos = get_vec_from_node(child);
+	if (child = (has_child(node, "dir")))
+		*obj.dir = get_vec_from_node(child);
+	if (child = (has_child(node, "vector")))
+		*obj.vector = get_vec_from_node(child);
+	if (child = (has_child(node, "maxp")))
+		*obj.maxp = get_vec_from_node(child);
+	if (child = (has_child(node, "minp")))
+		*obj.minp = get_vec_from_node(child);
+}
+
+t_obj			get_obj(xmlNodePtr node)
 {
 	t_obj new;
 
-	if(!xmlStrcmp(node->name, BAD_CAST"sphere"))
+	if (!xmlStrcmp(node->name, BAD_CAST"sphere"))
 		new = create_obj(SPHERE, e);
 	if (!xmlStrcmp(node->name, BAD_CAST"plane"))
 		new = create_obj(PLANE, e);
@@ -132,7 +172,7 @@ t_obj	get_obj(xmlNodePtr node)
 	return (new);
 }
 
-void create_objs(t_rt *e, t_list *lst)
+void			create_objs(t_rt *e, t_list *lst)
 {
 	int i;
 
@@ -147,12 +187,9 @@ void create_objs(t_rt *e, t_list *lst)
 		lst = lst->next;
 		i++;
 	}
-	//on recupere le content qu'on converti en xmlNodePtr
-	//on crée le type d'objet associé
-	//on parse le noeud
 }
 
-void ft_lstfree(t_list **lst)
+void			ft_lstfree(t_list **lst)
 {
 	if (*lst)
 	{
@@ -162,52 +199,44 @@ void ft_lstfree(t_list **lst)
 	}
 }
 
-t_vec3 getVecFromNode(xmlNodePtr node)
+t_vec3			get_vec_from_node(xmlNodePtr node)
 {
 	t_vec3 new;
 
 	new.x = atof((char *)(xmlGetProp(node, BAD_CAST"x")));
 	new.y = atof((char *)(xmlGetProp(node, BAD_CAST"y")));
 	new.z = atof((char *)(xmlGetProp(node, BAD_CAST"z")));
-
 	return (new);
 }
 
-int	set_camera_xml(t_rt *e, xmlNodePtr cam_node)
+int				set_camera_xml(t_rt *e, xmlNodePtr cam_node)
 {
 	xmlNodePtr child;
 
 	camera_create(e);
 	child = cam_node->children;
-	e->scene.cam.ray.pos = getVecFromNode(child);
+	e->scene.cam.ray.pos = get_vec_from_node(child);
 	child = child->next;
-	e->scene.cam.ray.dir = getVecFromNode(child);
+	e->scene.cam.ray.dir = get_vec_from_node(child);
 	e->scene.cam.fov = ft_atoi((char *)xmlGetProp(cam_node, BAD_CAST"fov"));
 	return (1);
 }
 
-int parse_doc(t_rt *e, char *path)
+int				parse_doc(t_rt *e, char *path)
 {
-	xmlDocPtr doc;
-	t_list *lst;
+	xmlDocPtr	doc;
+	t_list		*lst;
 
 	xmlKeepBlanksDefault(0);
-	//on recupere le doc
 	if (!(doc = getdoc(path)))
-		return(-1);
-		//on envoi l'erreur
-	//on lance les checks
+		return (-1);
 	if (!doChecks(doc))
-		return(0);
-	lst = getObjectNodes(doc);
+		return (0);
+	lst = get_object_nodes(doc);
 	create_objs(e, lst);
 	ft_lstfree(&lst);
-	getNodesByName(xmlDocGetRootElement(doc), "camera", &lst);
+	get_nodes_by_name(xmlDocGetRootElement(doc), "camera", &lst);
 	set_camera_xml(e, (xmlNodePtr)(lst->content));
 	ft_lstfree(&lst);
 	return (1);
-			//on envoie l'erreur
-			//on recup les objets
-				//on crée les objets
-					//on les add a l'env
 }
