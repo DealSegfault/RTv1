@@ -1,13 +1,21 @@
-<!ELEMENT scene (camera, spots, objects)>
+<!ELEMENT scene (camera, lights, objects)>
 <!ELEMENT pos EMPTY>
 <!ATTLIST pos
         x CDATA #REQUIRED
         y CDATA #REQUIRED
         z CDATA #REQUIRED>
-<!ELEMENT camera (pos)>
-<!ELEMENT spots (spot+)>
-<!ELEMENT spot (pos)>
-<!ATTLIST spot power CDATA #REQUIRED>
+
+<!ELEMENT dir EMPTY>
+<!ATTLIST dir
+        x CDATA #REQUIRED
+        y CDATA #REQUIRED
+        z CDATA #REQUIRED>
+<!ELEMENT camera (pos, dir)>
+<!ATTLIST camera
+        fov CDATA #REQUIRED>
+<!ELEMENT lights (light+)>
+<!ELEMENT light (pos)>
+<!ATTLIST light power CDATA #REQUIRED>
 <!ELEMENT objects ((plan*, cone* ,cylindre* ,sphere*)+)>
 <!ELEMENT plan EMPTY>
 <!ATTLIST plan

@@ -92,7 +92,8 @@ int			parse_args(char **argv, int argc, t_rt *e)
 		i += 2;
 	}
 	if ((fd = is_file(SFILE)) > -1)
-		if (parse_obj(e, fd))
+
+		if (parse_doc(e, SFILE))
 			return (1);
 	return (0);
 }

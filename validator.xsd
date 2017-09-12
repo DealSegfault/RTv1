@@ -18,15 +18,29 @@
         </xsd:complexType>
     </xsd:element>
 
+    <xsd:element name="dir">
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="xsd:string">
+                    <xsd:attribute type="xsd:float" name="x"  use="required"/>
+                    <xsd:attribute type="xsd:float" name="y"  use="required"/>
+                    <xsd:attribute type="xsd:float" name="z"  use="required"/>
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+
     <xsd:element name="camera">
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element ref="pos"/>
+                <xsd:element ref="dir"/>
             </xsd:sequence>
+            <xsd:attribute type="xsd:int" name="fov" use="required"/>>
         </xsd:complexType>
     </xsd:element>
 
-    <xsd:element name="spot">
+    <xsd:element name="light">
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element ref="pos"/>
@@ -35,10 +49,10 @@
         </xsd:complexType>
     </xsd:element>
 
-    <xsd:element name="spots">
+    <xsd:element name="lights">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element ref="spot" minOccurs="1" maxOccurs="unbounded"/>
+                <xsd:element ref="light" minOccurs="1" maxOccurs="unbounded"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
@@ -90,7 +104,7 @@
 
     <xsd:element name="objects">
         <xsd:complexType>
-            <xsd:choice maxOccurs="unbounded" minOccurs="0">
+            <xsd:choice maxOccurs="unbounded" minOccurs="1">
                 <xsd:element ref="cone" minOccurs="0"/>
                 <xsd:element ref="sphere" minOccurs="0"/>
                 <xsd:element ref="cylindre" minOccurs="0"/>
@@ -103,7 +117,7 @@
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element ref="camera"/>
-                <xsd:element ref="spots"/>
+                <xsd:element ref="lights"/>
                 <xsd:element ref="objects"/>
             </xsd:sequence>
         </xsd:complexType>

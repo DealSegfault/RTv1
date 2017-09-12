@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<scene>
+    <camera fov="60">
+        <pos x="2" y="2" z="2" />
+        <dir x="-0.6" y="-8955" z="-98635" />
+    </camera>
+
+    <lights>
+        <light power="0.9">
+            <pos x="0" y="-300" z="-50"/>
+        </light>
+        <light power="0.9">
+            <pos x="-200" y="300" z="-50"/>
+        </light>
+    </lights>
+
+    <objects>
+        <cone a="1" b="0" c="0.4" color="13511728">
+            <pos x="2" y="2" z="2"/>
+        </cone>
+
+        <plan a="0" b="0" c="1" d="60" color="4805931"/>
+        <plan a="0" b="0" c="1" d="-60" color="4805931"/>
+        <plan a="1" b="0" c="0" d="-20" color="3093151"/>
+
+        <cone a="1" b="0" c="0.4" color="13511728">
+            <pos x="2" y="2" z="2"/>
+        </cone>
+
+        <cylindre a="-1" b="0" c="5" color="3127874">
+            <pos x="5" y="30" z="-30"/>
+        </cylindre>
+
+        <sphere rayon="15" color="8159104">
+            <pos x="50" y="50" z="60"/>
+        </sphere>
+
+        <sphere rayon="15" color="8159104">
+            <pos x="50" y="50" z="-60"/>
+        </sphere>
+
+        <sphere rayon="15" color="8159104">
+            <pos x="50" y="-50" z="60"/>
+        </sphere>
+
+        <sphere rayon="15" color="8159104">
+            <pos x="-50" y="50" z="60"/>
+        </sphere>
+
+        <sphere rayon="15" color="8159104">
+            <pos x="-50" y="50" z="-60"/>
+        </sphere>
+
+        <sphere rayon="15" color="8159104">
+            <pos x="-50" y="-50" z="60"/>
+        </sphere>
+
+        <sphere rayon="15" color="8159104">
+            <pos x="-50" y="-50" z="-60"/>
+        </sphere>
+
+        <cylindre a="0" b="0" c="10" color="8159104">
+            <pos x="50" y="50" z="0"/>
+        </cylindre>
+
+        <cylindre a="0" b="0" c="10" color="8159104">
+            <pos x="-50" y="50" z="0"/>
+        </cylindre>
+
+        <cylindre a="0" b="0" c="10" color="8159104">
+            <pos x="50" y="-50" z="0"/>
+        </cylindre>
+
+        <cylindre a="0" b="0" c="10" color="8159104">
+            <pos x="-50" y="-50" z="0"/>
+        </cylindre>
+    </objects>
+</scene>

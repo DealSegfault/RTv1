@@ -40,7 +40,7 @@
 # define HEIGHT 500
 # define WIDTH 500
 # define EPSILON 1e-9
-# define EXTENSION ".rt"
+# define EXTENSION ".xml"
 # define ERR -1
 # define END 0
 # define OK 1
@@ -148,6 +148,7 @@ typedef struct		s_light
 typedef struct		s_camera
 {
 	t_ray			ray;
+	int				fov;
 	float			focale;
 	float			reso;
 }					t_camera;
@@ -276,6 +277,8 @@ void				resolution(int keycode, t_rt *e);
 void				exportimg(int keycode, t_rt *e);
 void				numeric_(int keycode, t_rt *e);
 
+//xml_Parser
+int					parse_doc(t_rt *e, char *path);
 
 //Multithreading
 
@@ -285,6 +288,7 @@ t_scene				copy_scene(t_scene scene);
 t_rt				*copy_rt(t_rt *e);
 void				*drawline(void *arg);
 t_rt            	**launch_thread(t_rt *env);
+
 //OLD
 
 
