@@ -1,19 +1,8 @@
 {
     "files.associations": {
-<<<<<<< HEAD
-        "rt.h": "c",
-        "__tuple": "c",
-        "type_traits": "c",
-        "utility": "c",
-        "typeinfo": "c"
-=======
-<<<<<<< HEAD
-=======
         "*.cl": "c",
->>>>>>> c0ab3b3ddcb991c5263d11f19be35a95b7eb0018
         "__tuple": "c",
         "type_traits": "c",
         "utility": "c"
->>>>>>> f949c14b825248f10aa1e4cb37aa317706cdeb9f
     }
 }

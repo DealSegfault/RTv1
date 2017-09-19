@@ -36,7 +36,7 @@
                 <xsd:element ref="pos"/>
                 <xsd:element ref="dir"/>
             </xsd:sequence>
-            <xsd:attribute type="xsd:int" name="fov" use="required"/>>
+            <xsd:attribute type="xsd:float" name="fov" use="required"/>>
         </xsd:complexType>
     </xsd:element>
 
@@ -74,7 +74,6 @@
             <xsd:attribute type="xsd:float" name="a" use="required"/>
             <xsd:attribute type="xsd:float" name="b" use="required"/>
             <xsd:attribute type="xsd:float" name="c" use="required"/>
-            <xsd:attribute type="xsd:float" name="d" use="required"/>
             <xsd:attribute ref="color"/>
         </xsd:complexType>
     </xsd:element>
