@@ -123,7 +123,7 @@ void				fl_border(t_rt *e)
 			while (++ptw[1] <= 1)
 			{
 				while (++ptw[0] <= 1)
-					pxval += weight[ptw[1] + 1][ptw[0] + 1] * (*(int *)(img + (ptr[1] * LARGEUR) + ptr[0] ));
+					pxval += weight[ptw[1] + 1][ptw[0] + 1] * (*(int *)(img + (ptr[1] * LARGEUR) + ptr[0]));
 			}
 			min = FT_MIN(pxval, min);
 			max = FT_MAX(pxval, max);

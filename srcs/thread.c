@@ -12,6 +12,7 @@
 
 #include "rt.h"
 
+
 t_color		ft_average(t_color c1, t_color c2, t_color c3, t_color c4)
 {
 	t_color final;
@@ -86,6 +87,8 @@ t_rt            **launch_thread(t_rt *e)
     if (!(th_e = (t_rt **)malloc(NB_THREADS * sizeof(t_rt *))))
         return (NULL);
 	i = 0;
+	// printf("(%d -- %d) = ", LARGEUR * ALIASING, HAUTEUR * ALIASING);
+	// printf("(%d -- %d)\n", LARGEUR * ALIASING / RES, HAUTEUR * ALIASING / RES);
 	while (i < NB_THREADS)
 	{
 		th_e[i] = copy_rt(e);
@@ -93,15 +96,21 @@ t_rt            **launch_thread(t_rt *e)
 		th_e[i]->thread.w = LARGEUR * ALIASING;
 		th_e[i]->thread.y = ((th_e[i]->thread.h / RES) / NB_THREADS) * i;
 		th_e[i]->thread.max_y = th_e[i]->thread.y + ((th_e[i]->thread.h / RES) / NB_THREADS);
-		// printf("%f\n", th_e[i]->thread.y);
-		// printf("%f \n\n", th_e[i]->thread.max_y);
+		
+		// printf("(%.1f - %.1f)\n", th_e[i]->thread.y, th_e[i]->thread.max_y);
 		if (ALIASING == 1)
 			pthread_create(&th[i], NULL, drawline, (void *)th_e[i]);
-		else
+		else if (ALIASING == 2)
 			pthread_create(&th[i], NULL, drawlinex2, (void *)th_e[i]);
+		else
+		{
+			ft_putstr("anti-aliasing != (0 || 1)");
+			exit(42);
+		}
+
 		++i;
 	}
-	printf("\n");
+	// printf("\n");
 	i = 0;
 	while (i < NB_THREADS)
 	{
@@ -110,53 +119,3 @@ t_rt            **launch_thread(t_rt *e)
 	}
     return (th_e);
 }
-
-// void	        *drawline(void *arg)
-// {
-// 	t_rt		*e;
-// 	int			x;
-// 	int			i;
-
-// 	e = (t_rt *)arg;
-// 	e->thread.colors =
-// 	    malloc((HAUTEUR * LARGEUR + 1) * sizeof(t_color));
-// 	i = 0;
-// 	while (e->thread.y < RES_H)
-// 	{
-// 		x = 0;
-// 		while (x < RES_W)
-// 		{
-// 			e->thread.colors[i] = raytrace(x, e->thread.y, e);
-// 			++x;
-// 			++i;
-// 		}
-// 		e->thread.y += NB_THREADS;
-// 	}
-// 	return (NULL);
-// }
-
-// t_rt            **launch_thread(t_rt *e)
-// {
-//     int			i;
-// 	pthread_t	th[NB_THREADS];
-//     t_rt		**th_e;
-
-//     if (!(th_e = (t_rt **)malloc(NB_THREADS * sizeof(t_rt *))))
-//         return (NULL);
-// 	i = 0;
-    
-// 	while (i < NB_THREADS)
-// 	{
-// 		th_e[i] = copy_rt(e);
-// 		th_e[i]->thread.y = i;
-// 		pthread_create(&th[i], NULL, drawline, (void *)th_e[i]);
-// 		++i;
-// 	}
-// 	i = 0;
-// 	while (i < NB_THREADS)
-// 	{
-// 		pthread_join(th[i], NULL);
-// 		++i;
-// 	}
-//     return (th_e);
-// }

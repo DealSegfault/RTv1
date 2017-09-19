@@ -23,40 +23,69 @@ void	display_args(void)
 	exit(42);
 }
 
+
+static void		key_init(t_rt *e)
+{
+	e->keys.key_up = 0;
+	e->keys.key_down = 0;
+	e->keys.key_right = 0;
+	e->keys.key_left = 0;
+	e->keys.key_pagup = 0;
+	e->keys.key_pagdwn = 0;
+	e->keys.key_w = 0;
+	e->keys.key_a = 0;
+	e->keys.key_s = 0;
+	e->keys.key_d = 0;
+	e->keys.key_rotx_right = 0;
+	e->keys.key_rotx_left = 0;
+	e->keys.key_roty_right = 0;
+	e->keys.key_roty_left = 0;
+	e->keys.key_plus = 0;
+	e->keys.key_minus = 0;
+	// e->scene.diff = 0.6;
+	// e->scene.spec = 0.2;
+	e->scene.selected = -1;
+}
+
 void		init_rt(t_rt *e)
 {
-	INIT = mlx_init();
-	e->file.larg = 1000;
-	e->file.haut = 750;
-	e->file.reso = 5;
+	e->mlx.init = mlx_init();
+	LARGEUR = 1024;
+	HAUTEUR = 768;
+	RES = 5;
+	ALIASING = 1;
 	e->scene.nbr_obj = 0;
 	e->scene.nbr_light = 0;
 	e->scene.nbr_tot = 0;
-	e->scene.ambient = 0;
+	e->scene.ambient = 0.2;
 	e->scene.obj = (t_obj *)malloc(sizeof(t_obj) * MAXOBJ);
 	e->scene.lights = (t_light *)malloc(sizeof(t_light) * MAXLIGHT);
 	e->scene.supersampling = 1;
 	e->scene.filters = 0;
-	e->started = 0;
-	ALIASING = 1;
+	e->scene.selected = -1;
+	e->scene.cam.aspect = (float)LARGEUR / (float)HAUTEUR;
+	key_init(e);
 }
 
 void ft_start_rt(t_rt *e)
 {
-	e->started = 1;
 	if (!HAUTEUR || !LARGEUR)
 		exit(0);
-	WIN = mlx_new_window(INIT, LARGEUR, HAUTEUR, "RT Again");
+	e->mlx.window = mlx_new_window(e->mlx.init, e->file.larg, e->file.haut, "RT Again");
 	IMG = mlx_new_image(INIT, LARGEUR, HAUTEUR);
 	e->mlx.data = mlx_get_data_addr(IMG, &e->mlx.bpp, &e->mlx.size_l,
 	&e->mlx.endian);
-	// printf("%d\n", e->mlx.size_l);
 	frame(e);
 	mlx_key_hook(WIN, key_hook, e);
+	// mlx_hook(WIN, 2, 0, keypress, e);
+	// mlx_hook(WIN, 3, 0, keyrelease, e);
+	// mlx_hook(WIN, 17, 0, ft_close, NULL);
+	// mlx_mouse_hook(WIN, select_obj, e);
 	//mlx_mouse_hook(WIN, mouse_hook, e);
+	
 	mlx_loop(INIT);
 }
-
+          
 int			main(int argc, char **argv)
 {
 	t_rt	*e;
@@ -70,6 +99,8 @@ int			main(int argc, char **argv)
 		ft_start_rt(e);
 	}
 	else
-		ft_gtk_start_launcher(e);
+		display_args();
+	 	//ft_gtk_start(e, argc, argv);
+
 	return (0);
 }

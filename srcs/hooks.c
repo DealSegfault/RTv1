@@ -41,11 +41,12 @@ void	resolution(int keycode, t_rt *e)
 {
 	if (keycode == PLUS || keycode == MINUS)
 	{
+		// e->scene.cam.fov += (keycode == PLUS) ? 2 : -2;
 		RES += (keycode == PLUS) ? 2 : -2;
 		if (RES < 1)
 			RES = 1;
-		if (RES > 20)
-			RES = 20;
+		if (RES > 200)
+			RES = 200;
 		frame(e);
 	}
 }
@@ -55,11 +56,11 @@ void	udlr_(int keycode, t_rt *e)
 	if (keycode == LEFT || keycode == RIGHT || keycode == UP || keycode == DOWN)
 	{
 		if (keycode <= RIGHT)
-			CPOS.x += ((keycode == LEFT) ? -60 / RES : 60 / RES);
+			CPOS.x += ((keycode == LEFT) ? -60 / RES: 60 / RES);
 		else
 			CPOS.y += ((keycode == UP) ? -60 / RES : 60 / RES);
-		printf("Dir {%f %f %f}\n", CDIR.x, CDIR.y, CDIR.z);
-		printf("POS {%f %f %f}\n\n", CPOS.x, CPOS.y, CPOS.z);
+		//printf("Dir {%f %f %f}\n", CDIR.x, CDIR.y, CDIR.z);
+		//printf("POS {%f %f %f}\n\n", CPOS.x, CPOS.y, CPOS.z);
 		frame(e);
 	}
 }
@@ -69,11 +70,11 @@ void	wasd_(int keycode, t_rt *e)
 	if (keycode == KEY_W || keycode == KEY_A || keycode == KEY_S || keycode == KEY_D)
 	{
 		if (keycode == KEY_W || keycode == KEY_S)
-			CDIR.y += ((keycode == KEY_S) ? -0.03 : 0.03);
+			e->scene.cam.rotx += ((keycode == KEY_S) ? 5 : -5);
 		else
-			CDIR.x += ((keycode == KEY_D) ? -0.03 : 0.03);
-		printf("Dir {%f %f %f}\n", CDIR.x, CDIR.y, CDIR.z);
-		printf("POS {%f %f %f}\n\n", CPOS.x, CPOS.y, CPOS.z);
+			e->scene.cam.roty += ((keycode == KEY_D) ? 5 : -5);
+	//	printf("Dir {%f %f %f}\n", CDIR.x, CDIR.y, CDIR.z);
+		//printf("POS {%f %f %f}\n\n", CPOS.x, CPOS.y, CPOS.z);
 		frame(e);
 	}
 }
@@ -117,29 +118,14 @@ void			numeric_(int keycode, t_rt *e)
 	}
 }
 
-void new_rt()
-{
-	t_rt	*e;
-
-	e = (t_rt *)malloc(sizeof(t_rt));
-	init_rt(e);
-	ft_gtk_start_launcher(e);
-}
-
-void show_settings(t_rt *e)
-{
-	mlx_destroy_window(INIT, WIN);
-	ft_gtk_start_settings(e);
-}
-
 int				key_hook(int keycode, t_rt *e)
 {
 	if (keycode == ESC)
 		exit(42);
-	if (keycode == 45)
-		new_rt();
-	if (keycode == 31)
-		show_settings(e);
+	// if (keycode == 45)
+	// 	new_rt();
+	// if (keycode == 31)
+	// 	show_settings(e);
 	udlr_(keycode, e);
 	wasd_(keycode, e);
 	numeric_(keycode, e);
@@ -147,7 +133,7 @@ int				key_hook(int keycode, t_rt *e)
 	exportimg(keycode, e);
 	ambient(keycode, e);
 	//Add CPOS.z + CDIR.z
-	// ft_putnbr(keycode);
+	ft_putnbr(keycode);
 	choose_filters(keycode, e);
 	return (0);
 }

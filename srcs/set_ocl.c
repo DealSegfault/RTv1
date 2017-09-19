@@ -14,16 +14,16 @@
 
 int		set_last(t_rt *e, char **params)
 {
-	if (!ft_strcmp("sphere:", e->scene.last) ||
-		!ft_strcmp("plane:", e->scene.last) ||
-		!ft_strcmp("cone:", e->scene.last) ||
-		!ft_strcmp("mickey:", e->scene.last) ||
- 		!ft_strcmp("dick:", e->scene.last) ||
-		!ft_strcmp("cylinder:", e->scene.last))
+	if (SPHERE == e->scene.last ||
+		PLANE == e->scene.last ||
+		CONE == e->scene.last ||
+		MICKEY == e->scene.last ||
+ 		DICK == e->scene.last ||
+		CYLINDER == e->scene.last)
 		return (set_obj(e, params));
-	if (!ft_strcmp("light:", e->scene.last))
+	if (LIGHT == e->scene.last)
 		return (set_light(e, params));
-	if (!ft_strcmp("camera:", e->scene.last))
+	if (CAMERA == e->scene.last)
 		return (set_camera(e, params));
 	return (0);
 }
@@ -91,8 +91,8 @@ int		set_camera(t_rt *e, char **a)
 	else if (i == 4 && !ft_strcmp("dir:", a[0]))
 		e->scene.cam.ray.dir =
 			vec_new3(ft_atof(a[1]), ft_atof(a[2]), ft_atof(a[3]));
-	else if (i == 2 && !ft_strcmp("focale:", a[0]))
-		e->scene.cam.focale = ft_atof(a[1]);
+	else if (i == 2 && !ft_strcmp("fov:", a[0]))
+		e->scene.cam.fov = ft_atof(a[1]);
 	else
 		return (0);
 	return (1);

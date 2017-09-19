@@ -82,42 +82,42 @@ void	anti_aliasing_on(t_rt *e, unsigned int *img_temp)
 	}
 }
 
-// void	anti_supersampler(t_rt *e)
-// {
-// 	int		x;
-// 	int		x1;
+void	anti_supersampler(t_rt *e)
+{
+	int		x;
+	int		x1;
 
-// 	x = 0;
-// 	x1 = WSS * HSS;
-// 	while (x < x1)
-// 	{
-// 		((unsigned int *)e->mlx.data)[x] = e->img_temp[x];
-// 		x += 1;
-// 	}
-// }
+	x = 0;
+	x1 = WSS * HSS;
+	while (x < x1)
+	{
+		((unsigned int *)e->mlx.data)[x] = e->img_temp[x];
+		x += 1;
+	}
+}
 
-// void	super_sampler(t_rt *e)
-// {
-// 	int		x;
-// 	int		y;
-// 	int		x1;
-// 	int		y1;
+void	super_sampler(t_rt *e)
+{
+	int		x;
+	int		y;
+	int		x1;
+	int		y1;
 
-// 	y = 0;
-// 	y1 = 0;
-// 	while (y < HSS / 2)
-// 	{
-// 		x = 0;
-// 		x1 = 0;
-// 		while (x < WSS / 2)
-// 		{
-// 			((unsigned int *)e->mlx.data)[x + y * WSS / 2] = AVERAGE(
-// 				AVERAGE(e->img_temp[x1 + y1 * WSS],
-// 					e->img_temp[(x1 + 1) + (y1 * WSS)]),
-// 				AVERAGE(e->img_temp[x1 + (y1 + 1) * WSS],
-// 					e->img_temp[(x1 + 1) + (y1 + 1) * WSS]));
-// 			x1 += 1;
-// 		}
-// 		y1 += 1;
-// 	}
-// }
+	y = 0;
+	y1 = 0;
+	while (y < HSS / 2)
+	{
+		x = 0;
+		x1 = 0;
+		while (x < WSS / 2)
+		{
+			((unsigned int *)e->mlx.data)[x + y * WSS / 2] = AVERAGE(
+				AVERAGE(e->img_temp[x1 + y1 * WSS],
+					e->img_temp[(x1 + 1) + (y1 * WSS)]),
+				AVERAGE(e->img_temp[x1 + (y1 + 1) * WSS],
+					e->img_temp[(x1 + 1) + (y1 + 1) * WSS]));
+			x1 += 1;
+		}
+		y1 += 1;
+	}
+}

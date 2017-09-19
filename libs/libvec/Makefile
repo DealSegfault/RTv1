@@ -17,7 +17,9 @@ SRCDIR		=	srcs/
 SRC			=	ft_double.c \
 				ft_double_ssp.c \
 				ft_vec3.c \
-				ft_vec_ssp.c
+				ft_vec_ssp.c \
+				mtrx4_move.c \
+				mtrx4_tools.c
 OBJ			=	$(addprefix $(OBJDIR),$(SRC:.c=.o))
 CC			=	gcc
 CFLAGS		=	-Wall -Werror -Wextra -I includes/

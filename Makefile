@@ -14,6 +14,7 @@ PROJECT		=	RT
 NAME		=	rt
 OBJDIR		=	objs/
 SRCDIR		=	srcs/
+
 SRC			=	color.c \
 				create_ocl.c \
 				frame.c \
@@ -26,21 +27,24 @@ SRC			=	color.c \
 				supersampler.c \
 				filters.c \
 				copyrt.c \
-				create_complex.c \
 				thread.c \
-				intersect/cone.c \
-				intersect/cone2.c \
-				intersect/cylinder.c \
-				intersect/sphere.c \
-				intersect/plane.c \
-				xml/xml_parser.c \
-				xml/xml_errors.c \
-				xml/xml_checks.c \
-				gtk/gtk_init.c 	\
-				gtk/gtk_new.c 	\
-				gtk/gtk_launcher.c \
-				gtk/gtk_settings.c \
-				gtk/gtk_callback.c \
+				/xml/xml_parser.c \
+				/xml/xml_errors.c \
+				/xml/xml_checks.c \
+				create_complex.c \
+				matrix.c \
+				debug.c \
+				hook2.c \
+				move.c \
+				/intersect/plane.c \
+				/intersect/cylinder.c \
+				/intersect/sphere.c \
+				/intersect/cone.c \
+				/intersect/cone2.c 
+				# gtk/gtk_btn.c	\
+				# gtk/gtk_init.c \
+				# gtk/gtk_input.c \
+				# gtk/gtk_new.c
 
 MINILIBX	=	libs/minilibx/libmlx.a
 LIBFT		=	libs/libft/libft.a
@@ -48,10 +52,10 @@ LIBVEC		=	libs/libvec/libvec.a
 LIBXML		=	-lxml2
 OBJ			=	$(addprefix $(OBJDIR),$(SRC:.c=.o))
 CC			=	gcc
-CFLAGS		=	-Wall -Werror -Wextra -I includes/ -I libs/libft/includes/ -I libs/libvec/includes/ -I libs/libxml/ `pkg-config --cflags gtk+-3.0` -g
+CFLAGS		=	-Wall -Werror -Wextra -I includes/ -I libs/libft/includes/ -I libs/libvec/includes/ -I libs/libxml/ -I libs/gtk+3/ #`pkg-config --cflags gtk+-3.0`
 OPTI		=	-O3
 DEBUG		=	-g
-MLXF		=	-framework OpenGL -framework AppKit `pkg-config --libs gtk+-3.0`
+MLXF		=	-framework OpenGL -framework AppKit #`pkg-config --libs gtk+-3.0`
 
 WHITE		=	\033[7;49;39m
 BLUE		=	\033[7;49;34m
@@ -64,7 +68,7 @@ NO_COLOR	=	\033[m
 
 all: mlx lib vec $(NAME)
 
-$(NAME): $(MINILIBX) $(LIBFT) $(GRAPHICS) $(OBJDIR) $(OBJ)
+$(NAME): $(MINILIBX) $(LIBFT) $(OBJDIR) $(OBJ)
 	@printf "\r$(GREEN)[$(PROJECT)] Obj compilation done.                                                        \n"
 	@printf "$(YELLOW)[$(PROJECT)] Compiling $(NAME)..."
 	@$(CC) $(CFLAGS) $(DEBUG) $(MLXF) -o $(NAME) $(OBJ) $(MINILIBX) $(LIBFT) $(LIBVEC) $(LIBXML)
@@ -86,9 +90,9 @@ vec:
 
 $(OBJDIR):
 	@mkdir $(OBJDIR)
-	@mkdir $(OBJDIR)/gtk
-	@mkdir $(OBJDIR)/intersect
-	@mkdir $(OBJDIR)/xml
+	@mkdir $(OBJDIR)gtk
+	@mkdir $(OBJDIR)intersect
+	@mkdir $(OBJDIR)xml
 
 clean:
 	@make -s -C libs/libft clean

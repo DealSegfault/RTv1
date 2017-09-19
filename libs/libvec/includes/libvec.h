@@ -14,6 +14,15 @@
 # define LIBVEC_H
 # include <math.h>
 
+
+# define DEG2RAD M_PI / 180
+
+
+typedef	struct	s_mtrx4
+{
+	float		mtrx[16];
+}				t_mtrx4;
+
 typedef struct	s_vec3
 {
 	float		x;
@@ -49,4 +58,14 @@ t_vec3d			vec_sub3d(t_vec3d u, t_vec3d v);
 t_vec3d			vec_tsub3d(t_vec3d u, t_vec3d v);
 t_vec3d			vec_inv3d(t_vec3d u);
 t_vec3d			vec_norme3d(t_vec3d u);
+
+t_mtrx4			new_matrx4(void);
+t_mtrx4			id_matrx4(void);
+void			round_matrx4(t_mtrx4 *matrix);
+t_mtrx4			transl_matrx4(float x, float y, float z);
+t_mtrx4			rotx_matrx4(float theta);
+t_mtrx4			roty_matrx4(float theta);
+t_mtrx4			rotz_matrx4(float theta);
+t_mtrx4			prod_matrx4(t_mtrx4 a, t_mtrx4 b);
+t_vec3			prod_vec3_matrx4(t_vec3 vec, t_mtrx4 a);
 #endif

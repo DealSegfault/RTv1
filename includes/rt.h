@@ -31,7 +31,7 @@
 # include "xmlstring.h"
 # include "xmlreader.h"
 
-# include <gtk/gtk.h>
+// # include <gtk/gtk.h>
 
 # define RT_XSD "validator.xsd"
 # define RT_DTD "validator.dtd"
@@ -54,8 +54,60 @@
 # define MICKEY 5
 # define DICK 6
 
-# define LIGHT 1
-# define OBJ 2
+# define LIGHT 21
+# define CAMERA 22
+
+
+# define KEY_A 0
+# define KEY_S 1
+# define KEY_D 2
+# define KEY_F 3
+# define KEY_H 4
+# define KEY_G 5
+# define KEY_Z 6
+# define KEY_X 7
+# define KEY_C 8
+# define KEY_V 9
+# define KEY_B 11
+# define KEY_Q 12
+# define KEY_W 13
+# define KEY_E 14
+# define KEY_R 15
+# define KEY_Y 16
+# define KEY_T 17
+# define KEY_ONE 18
+# define KEY_TWO 19
+# define KEY_THREE 20
+# define KEY_FOUR 21
+# define KEY_SIX 22
+# define KEY_FIVE 23
+# define KEY_NINE 25
+# define KEY_SEVEN 26
+# define KEY_EIGHT 28
+# define KEY_ZERO 29
+# define KEY_BRACE_R 30
+# define KEY_O 31
+# define KEY_U 32
+# define KEY_BRACE_L 33
+# define KEY_I 34
+# define KEY_P 35
+# define KEY_L 37
+# define KEY_J 38
+# define KEY_K 40
+# define KEY_SEMI 41
+# define KEY_N 45
+# define KEY_M 46
+# define KEY_TAB 48
+# define KEY_PLUS 69
+# define KEY_MINUS 78
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
+# define KEY_DOWN 125
+# define KEY_UP 126
+# define KEY_ESC 53
+
+# define SCROLLUP 4
+# define SCROLLDOWN 5
 
 # define ESC		53
 # define BACKSPACE	51
@@ -84,7 +136,6 @@
 # define WIN e->mlx.window
 # define IMG e->mlx.image
 # define DATA e->mlx.data
-# define LINE e->mlx.size_l
 # define RES e->file.reso
 # define ALIASING e->file.aliasing
 # define SS (e->scene.supersampling)
@@ -118,10 +169,17 @@
 # define AVERAGE(a, b)   ( ((((a) ^ (b)) & 0xfffefefeL) >> 1) + ((a) & (b)) )
 # define FT_MIN(x, y) ((x < y) ? x : y)
 # define FT_MAX(x, y) ((x > y) ? x : y)
+# define PX_WHI 0x00FFFFFF
 
 # define NB_THREADS 8
 # define GTK_W 300
 # define GTK_H 200	
+
+typedef struct		s_vec2
+{
+	float			x;
+	float			y;
+}					t_vec2;
 
 typedef struct		s_ray
 {
@@ -148,8 +206,18 @@ typedef struct		s_light
 typedef struct		s_camera
 {
 	t_ray			ray;
+	t_vec3		px;
+	t_mtrx4		ctw;
+	float		fov;
+	t_vec3		transl;
+	float		rotx;
+	float		roty;
+	float		rotz;
+	float		ratio_x;
+	float		ratio_y;
 	float			focale;
 	float			reso;
+	float			aspect;
 }					t_camera;
 
 typedef struct		s_mlx
@@ -187,6 +255,26 @@ typedef struct		s_matiere
 	char			opacite;
 	t_texture		texture;
 }					t_matiere;
+
+typedef struct	s_keys
+{
+	char		key_up;
+	char		key_down;
+	char		key_left;
+	char		key_right;
+	char		key_pagup;
+	char		key_pagdwn;
+	char		key_w;
+	char		key_a;
+	char		key_s;
+	char		key_d;
+	char		key_plus;
+	char		key_minus;
+	char		key_rotx_left;
+	char		key_rotx_right;
+	char		key_roty_left;
+	char		key_roty_right;
+}				t_keys;
 
 typedef struct		s_calc
 {
@@ -233,7 +321,7 @@ typedef struct		s_scene
 {
 	t_light			*lights;
 	t_obj			*obj;
-	char			*last;
+	int				last;
 	float			ambient;
 	int				nbr_light;
 	int				nbr_obj;
@@ -241,6 +329,7 @@ typedef struct		s_scene
 	int 			id;
 	int				supersampling;
 	int 			filters;
+	float			selected;
 	t_camera		cam;
 }					t_scene;
 
@@ -260,44 +349,37 @@ typedef struct		s_mthread
 	t_color			*colors;
 }					t_mthread;
 
-typedef struct		s_gtk_input
-{
-	gint			max_size;
-	gint			max_char;
-	gchar			*placeholder;
-	gchar   		*deflaut_value;
-}					t_gtk_input;
+// typedef struct		s_gtk_input
+// {
+// 	gint			max_size;
+// 	gint			max_char;
+// 	gchar			*placeholder;
+// 	gchar   		*deflaut_value;
+// }					t_gtk_input;
 
-typedef struct		s_gtk_win
-{
-	GtkWidget 		*window;
-	GtkWidget		*layout;
-}					t_gtk_win;
+// typedef struct		s_gtk_win
+// {
+// 	GtkWidget 		*window;
+// 	GtkWidget		*layout;
+// }					t_gtk_win;
 
-typedef struct		s_gtk_settings
-{
-	int 			width;
-	int 			height;
-	int 			res;
-	GtkWidget 		*anti_aliasing;
-}					t_gtk_settings;
-
-typedef struct		s_gtk
-{
-	t_gtk_win		menu;
-	t_gtk_win		settings;
-	t_gtk_settings	values;
-}					t_gtk;
+// typedef struct		s_gtk_settings
+// {
+// 	int 			width;
+// 	int 			height;
+// 	int 			res;
+// 	GtkWidget 		*anti_aliasing;
+// }					t_gtk_settings;
 
 typedef struct		s_rt
 {
 	t_mlx			mlx;
-	t_gtk			gtk;
+	t_keys			keys;
+	//t_gtk			gtk;
 	t_scene			scene;
 	t_file			file;
 	t_mthread		thread;
 	unsigned int	*img_temp;
-	int				started;
 }					t_rt;
 
 void				display_args(void);
@@ -321,6 +403,7 @@ void       			fl_black_and_white(t_rt *e);
 void				fl_border_limits(t_rt *e);
 void				fl_border(t_rt *e);
 void				fl_revers(t_rt *e);
+void				disp_cam(t_rt *e);
 
 //hook
 
@@ -331,6 +414,19 @@ void 				wasd_(int keycode, t_rt *e);
 void				resolution(int keycode, t_rt *e);
 void				exportimg(int keycode, t_rt *e);
 void				numeric_(int keycode, t_rt *e);
+
+//Hook
+int				no_event(void *param);
+int				keypress(int keycode, void *param);
+int				keyrelease(int keycode, void *param);
+int				ft_close(void *param);
+
+//Move
+void			move_cam(t_rt *e, int speed);
+void			move_obj(t_rt *e, int speed);
+int				select_obj(int button, int x, int y, t_rt *e);
+
+
 
 
 //Multithreading
@@ -350,9 +446,8 @@ void  				pixel_to_image(int x, int y, t_rt *e, int color);
 
 unsigned int		ret_colors(t_color color);
 t_ray				c_ray(t_vec3 i, t_vec3 j);
-t_vec3				get_vec(int x, int y, t_vec3 dir, t_rt *e);
+t_ray				ray_init(t_rt *e, float x, float y);
 t_color				raytrace(int x, int y, t_rt *e);
-t_color				raytrace2(int x, int y, t_rt *e);
 void				super_sampler(t_rt *e);
 void				anti_supersampler(t_rt *e);
 void				anti_aliasing_on(t_rt *e, unsigned int *img_temp);
@@ -361,7 +456,7 @@ float				intersect_sphere(t_ray ray, t_obj sphere);
 t_color				color_mult(t_color color, float taux);
 float				get_length(t_vec3 v);
 float				intersect_plane(t_ray ray, t_obj sphere);
-float				intersect_cylinder(t_ray ray, t_obj cylinder);
+float				intersect_cylinder(t_ray ray, t_obj obj);
 t_color				copy_color(t_color color);
 float				intersect_cone(t_ray ray, t_obj cone);
 float				intersect_cone2(t_ray ray, t_obj obj);
@@ -384,20 +479,29 @@ void				xml_read_error();
 xmlDocPtr			getdoc(char *docname);
 
 
+//Matrix
+
+void				matrix_init(t_rt *e);
+
 //GTK
-int					parse_filename(t_rt *e, char *filename);
-void 				ft_start_rt(t_rt *e);
-void				init_rt(t_rt *e);
+// int					parse_filename(t_rt *e, char *filename);
+// void 				ft_start_rt(t_rt *e);
+// void				init_rt(t_rt *e);
 
-void 				ft_gtk_start_launcher(t_rt *e);
-void 				ft_gtk_start_settings(t_rt *e);
-void 				ft_settings(t_rt *e);
-void 				ft_gtk_launcher(t_rt *e);
+// void 				ft_gtk_start_launcher(t_rt *e);
+// void 				ft_gtk_start_settings(t_rt *e);
+// void 				ft_settings(t_rt *e);
+// void 				ft_gtk_launcher(t_rt *e);
 
-GtkWidget 			*new_window(gint w, gint h, gchar *name);
-GtkWidget			*new_input(t_gtk_input *data);
-GtkWidget			*new_txt(gchar *str);
-GtkWidget			*new_btn(int x, int y, char *name);
-void 				ft_gtk_link_css(GtkWidget *window, gchar *css);
+// GtkWidget 			*new_window(gint w, gint h, gchar *name);
+// GtkWidget			*new_input(t_gtk_input *data);
+// GtkWidget			*new_txt(gchar *str);
+// GtkWidget			*new_btn(int x, int y, char *name);
+// void 				ft_gtk_link_css(GtkWidget *window, gchar *css);
+
+
+//Texture 
+
+float Get2DPerlinNoiseValue(float x, float y, float res);
 
 #endif

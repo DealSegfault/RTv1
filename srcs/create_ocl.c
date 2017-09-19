@@ -34,11 +34,19 @@ t_matiere	create_matiere(void)
 
 int			camera_create(t_rt *e)
 {
-	e->scene.cam.ray.pos = vec_new3(0, 0, -2000);
+	e->scene.cam.ray.pos = vec_new3(0, 0, -500);
 	e->scene.cam.ray.dir = vec_new3(0, 0, 1);
+	e->scene.cam.fov = 1;
+	e->scene.cam.transl = vec_new3(0, 0, 0);
+	e->scene.cam.rotx = 0;
+	e->scene.cam.roty = 0;
+	e->scene.cam.rotz = 0;
+	e->scene.cam.ctw = id_matrx4();
+	e->scene.cam.ratio_x = (LARGEUR > HAUTEUR) ? (float)LARGEUR / (float)HAUTEUR : 1;
+	e->scene.cam.ratio_y = (HAUTEUR > LARGEUR) ? (float)HAUTEUR / (float)LARGEUR : 1;
 	e->scene.cam.focale = 1;
 	e->scene.cam.reso = 300;
-	return (1);
+	return (CAMERA);
 }
 
 int			create_obj(int type, t_rt *e)
@@ -57,8 +65,9 @@ int			create_obj(int type, t_rt *e)
 	e->COBJ.r = 0;
 	e->COBJ.t = -1;
 	e->COBJ.mat = create_matiere();
+	e->COBJ.normal = vec_new3(0, 0, 0);
 	e->scene.nbr_obj++;
-	return (1);
+	return (type);
 }
 
 int			create_light(t_rt *e)
@@ -72,5 +81,5 @@ int			create_light(t_rt *e)
 	e->CLIGHT.color = c_color(255, 255, 255);
 	e->CLIGHT.intensity = 0;
 	e->scene.nbr_light++;
-	return (1);
+	return (LIGHT);
 }

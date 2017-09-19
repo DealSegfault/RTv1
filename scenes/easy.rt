@@ -1,7 +1,7 @@
 camera:
-  pos: 0 0 -1500
+  pos: 0 0 -4000
   dir: 0 0 1
-  focale: 1
+  fov: 8
 light:
   pos: 800 0 -400
   intensity: 1
@@ -12,11 +12,11 @@ light:
 plane:
   pos: -1 800 0
   normal: 0 0.999 0.001
-  color: 0 255 0
+  color: 255 255 0
 plane:
   pos: 1500 0 0
   normal: 0.99 0 0.01
-  color: 0 255 0
+  color: 255 0 0
 plane:
   pos: -1 -1 0
   normal: 1.001 0 -0.001
@@ -24,11 +24,11 @@ plane:
 plane:
   pos: 0 -1 0
   normal: 0 1.001 -0.001
-  color: 0 255 0
+  color: 0 0 255
 plane:
   pos: 0 0 2000
   normal: 0 0 1
-  color: 0 255 0
+  color: 0 122 0
 sphere:
   pos: 750 400 300
   radius: 200
@@ -41,3 +41,8 @@ sphere:
   pos: 750 200 100
   radius: 50
   color: 0 250 0
+cylinder:
+  pos: 100 200 0
+  normal: 10 1 500
+  radius: 10
+  color: 100 100 100
