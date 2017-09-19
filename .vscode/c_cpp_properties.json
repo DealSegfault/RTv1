@@ -5,6 +5,7 @@
             "includePath": [
                 "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1",
                 "/usr/local/include",
+<<<<<<< HEAD
                 "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include",
                 "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
                 "/usr/include",
@@ -13,6 +14,12 @@
                 "${workspaceRoot}/libft/includes",
                 "${workspaceRoot}/libvec/includes",
                 "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include/libxml2"
+=======
+                "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.1.0/include",
+                "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
+                "/usr/include",
+                "${workspaceRoot}"
+>>>>>>> f949c14b825248f10aa1e4cb37aa317706cdeb9f
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",
@@ -20,6 +27,7 @@
                 "path": [
                     "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1",
                     "/usr/local/include",
+<<<<<<< HEAD
                     "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include",
                     "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
                     "/usr/include",
@@ -34,13 +42,27 @@
                 "/System/Library/Frameworks",
                 "/Library/Frameworks"
             ]
+=======
+                    "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.1.0/include",
+                    "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
+                    "/usr/include",
+                    "${workspaceRoot}"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+>>>>>>> f949c14b825248f10aa1e4cb37aa317706cdeb9f
         },
         {
             "name": "Linux",
             "includePath": [
                 "/usr/include",
                 "/usr/local/include",
+<<<<<<< HEAD
                 "${workspaceRoot}/includes/"
+=======
+                "${workspaceRoot}"
+>>>>>>> f949c14b825248f10aa1e4cb37aa317706cdeb9f
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",
@@ -48,7 +70,11 @@
                 "path": [
                     "/usr/include",
                     "/usr/local/include",
+<<<<<<< HEAD
                     "${workspaceRoot}/includes/"
+=======
+                    "${workspaceRoot}"
+>>>>>>> f949c14b825248f10aa1e4cb37aa317706cdeb9f
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
@@ -75,5 +101,9 @@
             }
         }
     ],
+<<<<<<< HEAD
     "version": 3
+=======
+    "version": 2
+>>>>>>> f949c14b825248f10aa1e4cb37aa317706cdeb9f
 }

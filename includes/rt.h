@@ -14,21 +14,24 @@
 # define RT_H
 
 # include "libft.h"
-# include "../minilibx_macos/mlx.h"
+# include "../libs/minilibx/mlx.h"
 # include "libvec.h"
 # include <math.h>
 # include <stdio.h>
 # include <pthread.h>
 # include <fcntl.h>
 # include <unistd.h>
-# include <libxml/parser.h>
-# include <libxml/tree.h>
-# include <libxml/xmlIO.h>
-# include <libxml/xinclude.h>
-# include <libxml/valid.h>
-# include <libxml/xmlschemas.h>
-# include <libxml/xmlstring.h>
-# include <libxml/xmlreader.h>
+
+# include "parser.h"
+# include "tree.h"
+# include "xmlIO.h"
+# include "xinclude.h"
+# include "valid.h"
+# include "xmlschemas.h"
+# include "xmlstring.h"
+# include "xmlreader.h"
+
+// # include <gtk/gtk.h>
 
 # define RT_XSD "validator.xsd"
 # define RT_DTD "validator.dtd"
@@ -48,16 +51,11 @@
 # define PLANE 2
 # define SPHERE 3
 # define CYLINDER 4
-# define LIGHT 1
-# define OBJ 2
-# define BLACK		0
-# define RED		1
-# define GREEN		2
-# define YELLOW		3
-# define BLUE		4
-# define MAGENTA	5
-# define CYAN		6
-# define WHITE		7
+# define MICKEY 5
+# define DICK 6
+
+# define LIGHT 21
+# define CAMERA 22
 
 # define ESC		53
 # define BACKSPACE	51
@@ -82,7 +80,6 @@
 # define KEY_D		2
 # define KEY_N8		91
 # define KEY_N2		84
-
 # define INIT e->mlx.init
 # define WIN e->mlx.window
 # define IMG e->mlx.image
@@ -100,7 +97,7 @@
 # define CLIGHT scene.lights[i]
 # define SOBJ e->scene.obj[e->scene.nbr_obj - 1]
 # define SLIGHT e->scene.lights[e->scene.nbr_light - 1]
-# define ABS(x) (x < 0 ? -x : x)
+# define AMBIENT_LIGHT e->scene.ambient
 # define MAXOBJ 50
 # define MAXLIGHT 21
 
@@ -116,12 +113,20 @@
 # define DIST_MAX 20000
 # define DIST_MIN -80000
 # define EPSILON 1e-9
-# define AMBIENT_LIGHT 50
 # define AVERAGE(a, b)   ( ((((a) ^ (b)) & 0xfffefefeL) >> 1) + ((a) & (b)) )
 # define FT_MIN(x, y) ((x < y) ? x : y)
 # define FT_MAX(x, y) ((x > y) ? x : y)
+# define PX_WHI 0x00FFFFFF
 
-# define NB_THREADS 8	
+# define NB_THREADS 8
+# define GTK_W 300
+# define GTK_H 200	
+
+typedef struct		s_vec2
+{
+	float			x;
+	float			y;
+}					t_vec2;
 
 typedef struct		s_ray
 {
@@ -148,9 +153,18 @@ typedef struct		s_light
 typedef struct		s_camera
 {
 	t_ray			ray;
-	int				fov;
+	t_vec3			px;
+	t_mtrx4			ctw;
+	float			fov;
+	t_vec3			transl;
+	float			rotx;
+	float			roty;
+	float			rotz;
+	float			ratio_x;
+	float			ratio_y;
 	float			focale;
 	float			reso;
+	float			aspect;
 }					t_camera;
 
 typedef struct		s_mlx
@@ -164,10 +178,21 @@ typedef struct		s_mlx
 	int				endian;
 }					t_mlx;
 
+typedef struct	s_texture
+{
+	void		*img;
+	char		*data;
+	int			bpp;
+	int			size_l;
+	int			endian;
+	int			width;
+	int			height;
+}				t_texture;
+
 typedef struct		s_matiere
 {
-	float			amb;
 	t_color			diffuse;
+	float			amb;
 	float			reflex;
 	float			specular;
 	float			shininess;
@@ -176,6 +201,7 @@ typedef struct		s_matiere
 	float			absorbtion;
 	char			*coeff;
 	char			opacite;
+	t_texture		texture;
 }					t_matiere;
 
 typedef struct		s_calc
@@ -222,7 +248,8 @@ typedef struct		s_scene
 {
 	t_light			*lights;
 	t_obj			*obj;
-	char			*last;
+	int				last;
+	float			ambient;
 	int				nbr_light;
 	int				nbr_obj;
 	char			nbr_tot;
@@ -232,19 +259,49 @@ typedef struct		s_scene
 	t_camera		cam;
 }					t_scene;
 
+typedef struct		s_screen
+{
+	float			pos;
+	float			pitch;
+	float			yaw;
+}					t_screen;
+
 typedef struct		s_mthread
 {
 	int 			y;
 	t_color			*colors;
 }					t_mthread;
 
+// typedef struct		s_gtk_input
+// {
+// 	gint			pos_x;
+// 	gint			pos_y;
+// 	gint			max_size;
+// 	gint			max_char;
+// 	gchar			*placeholder;
+// 	gchar  			*deflaut_value;
+// }					t_gtk_input;
+
+// typedef struct		s_gtk_win
+// {
+// 	GtkWidget 			*window;
+// 	GtkWidget			*layout;
+// }					t_gtk_win;
+
+// typedef struct		s_gtk
+// {
+// 	t_gtk_win			menu;
+// 	t_gtk_win			set;
+// }					t_gtk;
+
 typedef struct		s_rt
 {
 	t_mlx			mlx;
+	//t_gtk			gtk;
 	t_scene			scene;
 	t_file			file;
 	t_mthread		thread;
-	unsigned int 	*img_temp;
+	unsigned int	*img_temp;
 }					t_rt;
 
 void				display_args(void);
@@ -256,6 +313,7 @@ int					set_last(t_rt *e, char **params);
 int					camera_create(t_rt *e);
 int					create_obj(int type, t_rt *e);
 int					create_light(t_rt *e);
+void 				create_complex(t_rt *e);
 t_color				c_color(float r, float g, float b);
 int					parse_args(char **argv, int argc, t_rt *e);
 int					parse_obj(t_rt *e, int fd);
@@ -267,6 +325,8 @@ void       			fl_black_and_white(t_rt *e);
 void				fl_border_limits(t_rt *e);
 void				fl_border(t_rt *e);
 void				fl_revers(t_rt *e);
+void				disp_cam(t_rt *e);
+
 //hook
 
 void				mv_plus_minus(t_rt *e, float *a, float value, int bol);
@@ -298,7 +358,7 @@ void  				pixel_to_image(int x, int y, t_rt *e, int color);
 
 unsigned int		ret_colors(t_color color);
 t_ray				c_ray(t_vec3 i, t_vec3 j);
-t_vec3				get_vec(int x, int y, t_vec3 dir, t_rt *e);
+t_ray				ray_init(t_rt *e, float x, float y);
 t_color				raytrace(int x, int y, t_rt *e);
 void				super_sampler(t_rt *e);
 void				anti_supersampler(t_rt *e);
@@ -308,7 +368,7 @@ float				intersect_sphere(t_ray ray, t_obj sphere);
 t_color				color_mult(t_color color, float taux);
 float				get_length(t_vec3 v);
 float				intersect_plane(t_ray ray, t_obj sphere);
-float				intersect_cylinder(t_ray ray, t_obj cylinder);
+float				intersect_cylinder(t_ray ray, t_obj obj);
 t_color				copy_color(t_color color);
 float				intersect_cone(t_ray ray, t_obj cone);
 float				intersect_cone2(t_ray ray, t_obj obj);
@@ -329,5 +389,32 @@ int					xsd_read_error();
 int					doChecks(xmlDocPtr doc);
 void				xml_read_error();
 xmlDocPtr			getdoc(char *docname);
+
+
+//Matrix
+
+void				matrix_init(t_rt *e);
+// GTK
+int					parse_filename(t_rt *e, char *filename);
+void 				ft_start_rt(t_rt	*e);
+void 				ft_gtk_start(t_rt *e, int argc, char **argv);
+
+// GtkWidget 			*ft_gtk_new_btn(t_rt *e, int pos[], int size[], char *name);
+// GtkWidget 			*ft_gtk_new_window(gint w, gint h, gchar *name);
+
+// void 				ft_gtk_link_css(GtkWidget *window, gchar *css);
+// void 				ft_gtk_init_window(t_rt *e);
+// void 				ft_gtk_add_menu(t_rt *e);
+// void 				ft_gtk_add_logo(t_rt *e);
+// void 				ft_gtk_add_radio_filters(t_rt *e);
+// void 				ft_gtk_new_css(GtkWidget	*window, gchar *css);
+// void 				print_text(GtkEntry *entry, void *optional_data);
+// void ft_gtk_add_input_width(t_rt *e);
+// void 				ft_gtk_add_input_height(t_rt *e);
+// void 				ft_gtk_add_btn(t_rt *e);
+
+//Texture 
+
+float Get2DPerlinNoiseValue(float x, float y, float res);
 
 #endif

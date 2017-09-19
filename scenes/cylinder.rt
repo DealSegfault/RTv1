@@ -1,38 +1,3 @@
-camera:
-  pos: 0 0 -55
-  dir: 0 0 1
-  focale: 1
 light:
-  origin: 1200 0 0
+  pos: 1200 0 0
   intensity: 1
-# BOX #
-cone:
-  origin: 100 100 -100
-  normal: 10 300 100
-  radius: 0
-  color: 0 255 0
-cone:
-  origin: 10 300 -100
-  normal: 100 100 100
-  radius: 0
-  color: 110 25 90
-cylinder:
-  origin: 0 0 500
-  normal: 10 1 500
-  radius: 10
-  color: 255 255 0
-cylinder:
-  origin: 200 500 500
-  normal: 400 449 500
-  radius: 10
-  color: 0 0 150
-cylinder:
-  origin: 500 0 500
-  normal: 505 1 500
-  radius: 10
-  color: 255 10 10
-cylinder:
-  origin: 800 0 1000
-  normal: 400 600 0
-  radius: 10
-  color: 255 10 10

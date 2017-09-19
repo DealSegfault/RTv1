@@ -17,10 +17,11 @@ int				obj_in_shadow(t_rt *e, t_vec3 poi, t_light light)
 	t_ray	ray;
 	float	dist;
 	float	dist_to_light;
+	t_vec3	n;
 
-	dist_to_light = get_length(vec_sub3(light.ray.pos, poi));
-	ray = c_ray(vec_add3(poi, vec_norme3(vec_sub3(light.ray.pos, poi))),
-	vec_norme3(vec_sub3(light.ray.pos, poi)));
+	n = vec_norme3(vec_sub3(light.ray.pos, poi));
+	dist_to_light = get_length(n);
+	ray = c_ray(vec_add3(poi, n), n);
 	dist = get_min_dist(e, ray, 1);
 	if (dist > 0 && dist < dist_to_light)
 		return (1);
@@ -42,8 +43,8 @@ t_color			get_color(t_rt *e, t_obj obj, t_vec3 poi)
 			tmp = intensity_sphere(poi, obj, e->CLIGHT);
 		if (obj.type == PLANE)
 			tmp = intensity_plane(e, poi, obj, e->CLIGHT);
-		// if (obj.type == CYLINDER)
-		// 	tmp = intensity_cylinder(e, poi, obj, e->CLIGHT);
+		if (obj.type == CYLINDER)
+		 	tmp = intensity_cylinder(e, poi, obj, e->CLIGHT);
 		if (obj.type == CONE)
 			tmp = intensity_cone(e, poi, obj, e->CLIGHT);
 		if (obj_in_shadow(e, poi, e->CLIGHT))
@@ -85,7 +86,7 @@ static t_color	get_pxl_color(t_rt *e, t_ray ray)
 	float		min_dist;
 	t_vec3		point_of_impact;
 	t_color		color;
-
+ 
 	color = (t_color){0, 0, 0, 0};
 	e->scene.id = -1;
 	if ((min_dist = get_min_dist(e, ray, 0)) == -1)
@@ -96,8 +97,28 @@ static t_color	get_pxl_color(t_rt *e, t_ray ray)
 	return (color);
 }
 
+// static t_ray	get_ray(t_rt *e, float s, float t)
+// {	
+// 	float xf;
+// 	float yf;
+
+// 	xf = (2 * s - 1) * e->scene.cam.aspect * 0.39;
+// 	yf = (1 - 2 * t) * 0.39;
+// 	return ((t_ray){CPOS, vec_norme3(
+// 		(t_vec3){-cos((float)CDIR.x) * sin((float)CDIR.y)
+// 		+ xf * cos((float)CDIR.y)
+// 		+ yf * sin((float)CDIR.x) * sin((float)CDIR.y),
+// 		sin((float)CDIR.x)
+// 		+ yf * cos((float)CDIR.x),
+// 		cos((float)CDIR.x) * cos((float)CDIR.y)
+// 		+ xf * sin((float)CDIR.y)
+// 		- yf * sin((float)CDIR.x) * cos((float)CDIR.y), 0}
+// 		)});
+// }
+
 t_color				raytrace(int x, int y, t_rt *e)
 {
+
 	t_ray		ray;
 	t_vec3		pov;
 	// t_vec3		pos;
@@ -106,24 +127,15 @@ t_color				raytrace(int x, int y, t_rt *e)
 
 	color = c_color(0,0,0);
 	pov = vec_new3((float)(x + CPOS.x) * RES, 
-		(float)(y + CPOS.y) * RES, 0);
-	ray = c_ray(pov, CDIR);
-
+		(float)(y + CPOS.y) * RES, CPOS.z);
+	ray = c_ray(pov, CDIR); 
 	//ray = vec_dir(x, y, e);
 	color = get_pxl_color(e, ray);
 
-	// Romain ray methods, plane have issues
-	// pos = vec_new3(CPOS.x, CPOS.y, CPOS.z);
-	// pos = vec_new3((float)(x + CPOS.x) * RES, (float)(y + CPOS.y) * RES, CPOS.z);
-	
-	// float widthscreen = (2 * x - LARGEUR) / LARGEUR * tan(M_PI / 4);
-	// float heightscreen = ;
-	// float screendist = 1
+	// t_color color;
+	// t_ray	ray;
 
-	// dir.x = vec_sub(pos, )
-	//dir = get_vec(x, y, CDIR, e);
-	// ray = c_ray(pos, CDIR);
+	// ray = ray_init(e, x, y);
 	// color = get_pxl_color(e, ray);
-
 	return (color);
 }

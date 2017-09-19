@@ -62,14 +62,15 @@ t_scene				copy_scene(t_scene scene)
 		copy.obj[i] = copy_objs(scene.obj[i]);
 		++i;
 	}
-	// copy.last = ft_strdup(scene.last);
+	
+	copy.last = scene.last;
 	copy.nbr_light = scene.nbr_light;
 	copy.nbr_obj = scene.nbr_obj;
 	copy.nbr_tot = scene.nbr_tot;
+	copy.ambient = scene.ambient;
 	copy.id = scene.id;
 	copy.supersampling = scene.supersampling;
 	copy.cam = scene.cam;
-
 	return (copy);
 }
 
