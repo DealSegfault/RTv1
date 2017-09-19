@@ -1,34 +1,44 @@
-<!ELEMENT scene (camera, spots, objects)>
+<!ELEMENT scene (camera, lights, objects)>
 <!ELEMENT pos EMPTY>
 <!ATTLIST pos
         x CDATA #REQUIRED
         y CDATA #REQUIRED
         z CDATA #REQUIRED>
-<!ELEMENT camera (pos)>
-<!ELEMENT spots (spot+)>
-<!ELEMENT spot (pos)>
-<!ATTLIST spot power CDATA #REQUIRED>
+<!ELEMENT matiere EMPTY>
+<!ELEMENT fov EMPTY>
+<!ELEMENT color EMPTY>
+<!ATTLIST color
+        r CDATA #REQUIRED
+        g CDATA #REQUIRED
+        b CDATA #REQUIRED
+        >
+<!ELEMENT dir EMPTY>
+<!ATTLIST dir
+        x CDATA #REQUIRED
+        y CDATA #REQUIRED
+        z CDATA #REQUIRED>
+<!ELEMENT camera (pos, dir, fov)>
+<!--<!ATTLIST camera
+        fov CDATA #REQUIRED>-->
+<!ELEMENT lights (light+)>
+<!ELEMENT light (pos, color?)>
+<!ATTLIST light intensity CDATA #REQUIRED>
 <!ELEMENT objects ((plan*, cone* ,cylindre* ,sphere*)+)>
-<!ELEMENT plan EMPTY>
+<!ELEMENT plan ((color | matiere))>
 <!ATTLIST plan
         a CDATA #REQUIRED
         b CDATA #REQUIRED
         c CDATA #REQUIRED
-        d CDATA #REQUIRED
-        color CDATA #IMPLIED>
-<!ELEMENT cone (pos)>
+<!ELEMENT cone (pos, (color | matiere))>
 <!ATTLIST cone
         a CDATA #REQUIRED
         b CDATA #REQUIRED
-        c CDATA #REQUIRED
-        color CDATA #IMPLIED>
-<!ELEMENT cylindre (pos)>
+        c CDATA #REQUIRED>
+<!ELEMENT cylindre (pos, (color | matiere))>
 <!ATTLIST cylindre
         a CDATA #REQUIRED
         b CDATA #REQUIRED
-        c CDATA #REQUIRED
-        color CDATA #IMPLIED>
-<!ELEMENT sphere (pos)>
+        c CDATA #REQUIRED>
+<!ELEMENT sphere (pos, (color | matiere))>
 <!ATTLIST sphere
-        rayon CDATA #REQUIRED
-        color CDATA #IMPLIED>
+        radius CDATA #REQUIRED>

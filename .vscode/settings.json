@@ -1,9 +1,6 @@
 {
     "files.associations": {
-<<<<<<< HEAD
-=======
         "*.cl": "c",
->>>>>>> c0ab3b3ddcb991c5263d11f19be35a95b7eb0018
         "__tuple": "c",
         "type_traits": "c",
         "utility": "c"

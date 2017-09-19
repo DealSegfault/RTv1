@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<scene>
+    <camera fov="60">
+        <pos x="2" y="2" z="2" />
+        <dir x="-0.6" y="-8955" z="-98635" />
+    </camera>
+
+    <lights>
+        <light intensity="0.9">
+            <pos x="0" y="-300" z="-50"/>
+        </light>
+        <light intensity="0.9">
+            <pos x="-200" y="300" z="-50"/>
+        </light>
+    </lights>
+
+    <objects>
+        <cone a="1" b="0" c="0.4">
+            <pos x="2" y="2" z="2"/>
+            <color r="255" g="0" b="255"/>
+        </cone>
+
+        <plan a="0" b="0" c="1" d="60">
+            <color r="150" g="162" b="200"/>
+        </plan>
+        <plan a="0" b="0" c="1" d="-60">
+            <color r="150" g="162" b="200"/>
+        </plan>
+        <plan a="1" b="0" c="0" d="-20">
+            <color r="150" g="162" b="200"/>
+        </plan>
+
+        <cone a="1" b="0" c="0.4">
+            <pos x="2" y="2" z="2"/>
+            <color r="255" g="0" b="255"/>
+        </cone>
+
+        <cylindre a="-1" b="0" c="5">
+            <pos x="5" y="30" z="-30"/>
+            <color r="255" g="0" b="0"/>
+        </cylindre>
+
+        <sphere rayon="15">
+            <pos x="50" y="50" z="60"/>
+            <color r="255" g="255" b="0"/>
+        </sphere>
+
+        <sphere rayon="15">
+            <pos x="50" y="50" z="-60"/>
+            <color r="255" g="255" b="0"/>
+        </sphere>
+
+        <sphere rayon="15">
+            <pos x="50" y="-50" z="60"/>
+            <color r="255" g="255" b="0"/>
+        </sphere>
+
+        <sphere rayon="15">
+            <pos x="-50" y="50" z="60"/>
+            <color r="255" g="255" b="0"/>
+        </sphere>
+
+        <sphere rayon="15">
+            <pos x="-50" y="50" z="-60"/>
+            <color r="255" g="255" b="0"/>
+        </sphere>
+
+        <sphere rayon="15">
+            <pos x="-50" y="-50" z="60"/>
+            <color r="255" g="255" b="0"/>
+        </sphere>
+
+        <sphere rayon="15">
+            <pos x="-50" y="-50" z="-60"/>
+            <color r="255" g="255" b="0"/>
+        </sphere>
+
+        <cylindre a="0" b="0" c="10">
+            <pos x="50" y="50" z="0"/>
+            <color r="255" g="0" b="0"/>
+        </cylindre>
+
+        <cylindre a="0" b="0" c="10">
+            <pos x="-50" y="50" z="0"/>
+            <color r="255" g="0" b="0"/>
+        </cylindre>
+
+        <cylindre a="0" b="0" c="10">
+            <pos x="50" y="-50" z="0"/>
+            <color r="255" g="0" b="0"/>
+        </cylindre>
+
+        <cylindre a="0" b="0" c="10">
+            <pos x="-50" y="-50" z="0"/>
+            <color r="255" g="0" b="0"/>
+        </cylindre>
+    </objects>
+</scene>

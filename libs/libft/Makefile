@@ -112,7 +112,7 @@ $(NAME): $(OBJDIR) $(OBJ)
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	@printf "$(YELLOW)\r[$(PROJECT)] Compiling $< to $@                                                       \r"
-	@$(CC) $(CFLAGS) -o $@ -c $<
+	@$(CC) $(CFLAGS) $(DEBUG) -o $@ -c $<
 
 $(OBJDIR):
 	@mkdir $(OBJDIR)

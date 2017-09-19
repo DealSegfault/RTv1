@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<scene>
+    <camera>
+        <pos x="0" y="0" z="-2000"/>
+        <dir x="0" y="0" z="1"/>
+    </camera>
+    <lights>
+        <light intensity="1">
+            <pos x="800" y="0" z="-400"/>
+        </light>
+        <light intensity="0.7">
+            <pos x="100" y="700" z="-400"/>
+        </light>
+    </lights>
+    <objects>
+        <sphere radius="200">
+             <pos x="750" y="400" z="300"/>
+             <color r="255" g="0" b="0"/>
+        </sphere>
+        <sphere radius="100">
+             <pos x="1000" y="400" z="100"/>
+             <color r="0" g="250" b="0"/>
+        </sphere>
+        <sphere radius="50">
+             <pos x="750" y="200" z="100"/>
+             <color r="0" g="250" b="0"/>
+        </sphere>
+    </objects>
+</scene>

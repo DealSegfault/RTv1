@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tfaure <tfaure@student.42.fr>              +#+  +:+       +#+        */
+/*   By: agfernan <agfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 12:28:36 by mhalit            #+#    #+#             */
-/*   Updated: 2017/08/24 22:58:46 by mhalit           ###   ########.fr       */
+/*   Updated: 2017/09/19 05:38:45 by agfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 # define HEIGHT 500
 # define WIDTH 500
 # define EPSILON 1e-9
-# define EXTENSION ".rt"
+# define EXTENSION ".xml"
 # define ERR -1
 # define END 0
 # define OK 1
@@ -153,15 +153,15 @@ typedef struct		s_light
 typedef struct		s_camera
 {
 	t_ray			ray;
-	t_vec3		px;
-	t_mtrx4		ctw;
-	float		fov;
-	t_vec3		transl;
-	float		rotx;
-	float		roty;
-	float		rotz;
-	float		ratio_x;
-	float		ratio_y;
+	t_vec3			px;
+	t_mtrx4			ctw;
+	float			fov;
+	t_vec3			transl;
+	float			rotx;
+	float			roty;
+	float			rotz;
+	float			ratio_x;
+	float			ratio_y;
 	float			focale;
 	float			reso;
 	float			aspect;
@@ -192,6 +192,7 @@ typedef struct	s_texture
 typedef struct		s_matiere
 {
 	t_color			diffuse;
+	float			amb;
 	float			reflex;
 	float			specular;
 	float			shininess;
@@ -336,6 +337,8 @@ void				resolution(int keycode, t_rt *e);
 void				exportimg(int keycode, t_rt *e);
 void				numeric_(int keycode, t_rt *e);
 
+//xml_Parser
+int					parse_doc(t_rt *e, char *path);
 
 //Multithreading
 
@@ -345,6 +348,7 @@ t_scene				copy_scene(t_scene scene);
 t_rt				*copy_rt(t_rt *e);
 void				*drawline(void *arg);
 t_rt            	**launch_thread(t_rt *env);
+
 //OLD
 
 

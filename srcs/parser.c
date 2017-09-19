@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhalit <mhalit@student.42.fr>              +#+  +:+       +#+        */
+/*   By: agfernan <agfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/03 00:28:28 by mhalit            #+#    #+#             */
-/*   Updated: 2017/08/20 09:06:15 by mhalit           ###   ########.fr       */
+/*   Updated: 2017/09/19 05:38:33 by agfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ static int	is_file(char *path)
 	size = ft_strlen(path) - ft_strlen(EXTENSION);
 	if (!ft_strcmp(EXTENSION, path + size))
 		if ((fd = open(path, O_RDONLY)) != -1)
-			return (fd);
+		{
+			close(fd);
+			return (1);
+		}
 	return (-1);
 }
 
@@ -89,7 +92,7 @@ int			parse_filename(t_rt *e, char *filename)
 	
 	SFILE = ft_strdup(filename);
 	if ((fd = is_file(SFILE)) > -1)
-		if ((tmp = parse_obj(e, fd)))
+		if ((tmp = parse_doc(e, SFILE)))
 		{
 			create_complex(e);
 			return (1);
@@ -123,10 +126,12 @@ int			parse_args(char **argv, int argc, t_rt *e)
 		i += 2;
 	}
 	if ((fd = is_file(SFILE)) > -1)
-		if (parse_obj(e, fd))
+	{
+		if (parse_doc(e, SFILE))
 		{
 			create_complex(e);
 			return (1);
 		}
+	}
 	return (0);
 }
