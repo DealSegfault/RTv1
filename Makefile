@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ocojeda- <ocojeda-@student.42.fr>          +#+  +:+       +#+         #
+#    By: agfernan <agfernan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/26 19:16:02 by bbeldame          #+#    #+#              #
-#    Updated: 2017/08/14 22:04:16 by rlecart          ###   ########.fr        #
+#    Updated: 2017/09/19 02:42:55 by agfernan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,10 +39,11 @@ SRC			=	color.c \
 MINILIBX	=	minilibx_macos/libmlx.a
 LIBFT		=	libft/libft.a
 LIBVEC		=	libvec/libvec.a
-LIBXML		=	-lxml2
+LIBXML_F	=	$(shell xml2-config --cflags)
+LIBXML_L	=	$(shell xml2-config --libs)
 OBJ			=	$(addprefix $(OBJDIR),$(SRC:.c=.o))
 CC			=	gcc
-CFLAGS		=	-Wall -Werror -Wextra -I includes/ -I libft/includes/ -I libvec/includes/ -I /usr/include/libxml2
+CFLAGS		=	-Wall -Werror -Wextra -I includes/ -I libft/includes/ -I libvec/includes/ $(LIBXML_F)
 OPTI		=	-O3
 DEBUG		=	-g
 MLXF		=	-framework OpenGL -framework AppKit
@@ -61,7 +62,7 @@ all: mlx lib vec $(NAME)
 $(NAME): $(MINILIBX) $(LIBFT) $(GRAPHICS) $(OBJDIR) $(OBJ)
 	@printf "\r$(GREEN)[$(PROJECT)] Obj compilation done.                                                        \n"
 	@printf "$(YELLOW)[$(PROJECT)] Compiling $(NAME)..."
-	@$(CC) $(CFLAGS) $(DEBUG) $(MLXF) -o $(NAME) $(OBJ) $(MINILIBX) $(LIBFT) $(LIBVEC) $(LIBXML)
+	@$(CC) $(CFLAGS) $(DEBUG) $(MLXF) -o $(NAME) $(OBJ) $(MINILIBX) $(LIBFT) $(LIBVEC) $(LIBXML_L)
 	@printf "\r$(GREEN)[$(PROJECT)] Compilation done.                          \n$(NO_COLOR)"
 
 $(OBJDIR)%.o: $(SRCDIR)%.c

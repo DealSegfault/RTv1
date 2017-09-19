@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copyrt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jribeiro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: agfernan <agfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/22 23:14:17 by jribeiro          #+#    #+#             */
-/*   Updated: 2017/08/27 21:09:28 by jribeiro         ###   ########.fr       */
+/*   Updated: 2017/09/19 04:44:23 by agfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_scene				copy_scene(t_scene scene)
 		copy.obj[i] = copy_objs(scene.obj[i]);
 		++i;
 	}
-	copy.last = ft_strdup(scene.last);
+	// copy.last = ft_strdup(scene.last);
 	copy.nbr_light = scene.nbr_light;
 	copy.nbr_obj = scene.nbr_obj;
 	copy.nbr_tot = scene.nbr_tot;

@@ -7,7 +7,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceRoot}/rt",
-            "args": ["-s", "scenes/testReal.xml"],
+            "args": ["-s", "scenes/easy2.xml"],
             "stopAtEntry": false,
             "cwd": "${workspaceRoot}",
             "environment": [],
