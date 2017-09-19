@@ -23,15 +23,15 @@ void    pixel_to_image(int x, int y, t_rt *e, int color)
     start_y = y;
     max_x = x + RES;
     max_y = y + RES;
-    while (x < max_x)
+    while (x <= max_x)
     {
-        while (y < max_y)
+        while (y <= max_y)
         {
             if ((x >= 0 && y >= 0 ) || (x < RES_W && y < RES_H ))
             {
-                // if (RES > 10 && (x + 1 == max_x || y + 1 == max_y))
-                //     mlx_pixel(x, y, e, 0x333333);
-                // else
+                if (RES > 10 && (x + 1 == max_x || y + 1 == max_y))
+                    mlx_pixel(x, y, e, 0x333333);
+                else
                     mlx_pixel(x, y, e, color);
             }
             y++;
@@ -39,8 +39,6 @@ void    pixel_to_image(int x, int y, t_rt *e, int color)
         y = start_y;
         x++;
     }
-    if (color)
-    {}
 }
 
 void	mlx_pixel(int x, int y, t_rt *e, int color)
@@ -74,27 +72,30 @@ void	frame(t_rt *e)
 	int			x;
 	int			y;
 
+	//matrix_init(e);
 	th_e = launch_thread(e);
 	i = 0;
 	while (i < NB_THREADS)
 	{
 		y = i;
-		while (y < HAUTEUR /RES)
+		while (y < HAUTEUR / RES)
 		{
 			x = 0;
-			while (x < LARGEUR/ RES)
+			while (x < LARGEUR / RES)
 			{
 				pixel_to_image(x, y, e,
 				ret_colors(th_e[i]->thread.colors[x + ((y / NB_THREADS) * RES_W)]));
 				++x;
+
 			}
 			y += NB_THREADS;
 		}
 		++i;
 	}
 	filters(e);
-	// free(th_e);
+	free(th_e);
 	mlx_put_image_to_window(INIT, WIN, IMG, 0, 0);
+	disp_cam(e);
 }
 
 // void	frame(t_rt *e)

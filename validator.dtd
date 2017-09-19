@@ -5,6 +5,7 @@
         y CDATA #REQUIRED
         z CDATA #REQUIRED>
 <!ELEMENT matiere EMPTY>
+<!ELEMENT fov EMPTY>
 <!ELEMENT color EMPTY>
 <!ATTLIST color
         r CDATA #REQUIRED
@@ -16,7 +17,7 @@
         x CDATA #REQUIRED
         y CDATA #REQUIRED
         z CDATA #REQUIRED>
-<!ELEMENT camera (pos, dir)>
+<!ELEMENT camera (pos, dir, fov)>
 <!--<!ATTLIST camera
         fov CDATA #REQUIRED>-->
 <!ELEMENT lights (light+)>
@@ -28,7 +29,6 @@
         a CDATA #REQUIRED
         b CDATA #REQUIRED
         c CDATA #REQUIRED
-        d CDATA #REQUIRED>
 <!ELEMENT cone (pos, (color | matiere))>
 <!ATTLIST cone
         a CDATA #REQUIRED

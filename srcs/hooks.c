@@ -11,6 +11,16 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+
+void			ambient(int keycode, t_rt *e)
+{
+	if (keycode == LSHIFT || keycode == SPACE)
+	{
+		AMBIENT_LIGHT += (keycode == LSHIFT) ? 10 : -10;
+		frame(e);
+	}
+}
+
 void			choose_filters(int keycode, t_rt *e)
 {
 	if (keycode >= 18 && keycode <= 21)
@@ -45,11 +55,11 @@ void	udlr_(int keycode, t_rt *e)
 	if (keycode == LEFT || keycode == RIGHT || keycode == UP || keycode == DOWN)
 	{
 		if (keycode <= RIGHT)
-			CPOS.x += ((keycode == LEFT) ? -60 : 60);
+			CPOS.x += ((keycode == LEFT) ? -20.5 : 20.5);
 		else
-			CPOS.y += ((keycode == UP) ? -60 : 60);
-		printf("Dir {%f %f %f}\n", CDIR.x, CDIR.y, CDIR.z);
-		printf("POS {%f %f %f}\n\n", CPOS.x, CPOS.y, CPOS.z);
+			CPOS.y += ((keycode == UP) ? -20.5 : 20.5);
+		//printf("Dir {%f %f %f}\n", CDIR.x, CDIR.y, CDIR.z);
+		//printf("POS {%f %f %f}\n\n", CPOS.x, CPOS.y, CPOS.z);
 		frame(e);
 	}
 }
@@ -59,15 +69,14 @@ void	wasd_(int keycode, t_rt *e)
 	if (keycode == KEY_W || keycode == KEY_A || keycode == KEY_S || keycode == KEY_D)
 	{
 		if (keycode == KEY_W || keycode == KEY_S)
-			CDIR.y += ((keycode == KEY_S) ? -0.03 : 0.03);
+			e->scene.cam.rotx += ((keycode == KEY_S) ? 5 : -5);
 		else
-			CDIR.x += ((keycode == KEY_D) ? -0.03 : 0.03);
-		printf("Dir {%f %f %f}\n", CDIR.x, CDIR.y, CDIR.z);
-		printf("POS {%f %f %f}\n\n", CPOS.x, CPOS.y, CPOS.z);
+			e->scene.cam.roty += ((keycode == KEY_D) ? 5 : -5);
+	//	printf("Dir {%f %f %f}\n", CDIR.x, CDIR.y, CDIR.z);
+		//printf("POS {%f %f %f}\n\n", CPOS.x, CPOS.y, CPOS.z);
 		frame(e);
 	}
 }
-
 
 void			exportimg(int keycode, t_rt *e)
 {
@@ -75,7 +84,7 @@ void			exportimg(int keycode, t_rt *e)
 	int			pos;
 
 	if (keycode == 50)
-	{	
+	{
 		if (!(export.fdp = open("first.ppm", O_WRONLY | O_CREAT, 00755)))
 			return ;
 		ft_putstr_fd("P6\n", export.fdp);
@@ -94,7 +103,7 @@ void			exportimg(int keycode, t_rt *e)
 				write(export.fdp, &DATA[pos + 1], 1);
 				write(export.fdp, &DATA[pos], 1);
 			}
-		}	
+		}
 		close(export.fdp);
 	}
 }
@@ -117,6 +126,7 @@ int				key_hook(int keycode, t_rt *e)
 	numeric_(keycode, e);
 	resolution(keycode, e);
 	exportimg(keycode, e);
+	ambient(keycode, e);
 	//Add CPOS.z + CDIR.z
 	ft_putnbr(keycode);
 	choose_filters(keycode, e);

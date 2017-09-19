@@ -1,0 +1,25 @@
+
+camera:
+  pos: 100 0 -750
+  dir: 0 0 1
+  focale: 50
+light:
+  pos: 800 0 -400
+  intensity: 1
+light:
+  pos: 100 700 -400
+  intensity: 0.7
+* BOX
+dick:
+  pos: 400 400 400
+  radius: 40
+  color: 255 255 0
+mickey:
+  pos: 400 -80 100
+  radius: 100
+  color: 0 0 255
+cylinder:
+  pos: 100 200 0
+  normal: 10 1 500
+  radius: 10
+  color: 100 100 100

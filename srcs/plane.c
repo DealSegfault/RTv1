@@ -32,7 +32,7 @@ float			intersect_plane(t_ray ray, t_obj plane)
 	t_vec3		vector_distance;
 
 	d = vec_dot3(plane.normal, ray.dir);
-	if (fabs(d) > 0.0001)
+	if (fabs(d) > EPSILON)
 	{
 		vector_distance = vec_sub3(plane.pos, ray.pos);
 		dist = vec_dot3(vector_distance, plane.normal) / d;

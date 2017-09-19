@@ -1,0 +1,31 @@
+light:
+	intensity: 200000
+	color: 255 255 255
+	pos: 5 5 5
+sphere: RED
+	color: 255 0 0
+	pos: 50 0 -100
+	radius: 25
+sphere: BLUE
+	color: 0 0 255
+	pos: 0 0 -100
+	radius: 50
+cylinder: X
+	color: 255 0 0
+	pos:  0 0 -150
+	radius: 5
+	axis 1 0 0
+cylinder Y
+	color: 0 255 0
+	pos:  0 0 -150
+	radius :5
+	axis: 0 1 0
+cylinder Z
+	color: 0 0 255
+	pos:  0 0 -150
+	radius: 5
+	axis: 0 0 1
+plane Z
+	color: 255 255 255
+	pos:  -200 -200 -200
+	axis: 0 0 1
