@@ -26,7 +26,6 @@ t_matiere	create_matiere(void)
 {
 	t_matiere	mat;
 
-	mat.amb = 0;
 	mat.reflex = 0;
 	mat.specular = 0;
 	mat.opacite = 1;
@@ -59,7 +58,6 @@ int			create_obj(int type, t_rt *e)
 	e->COBJ.t = -1;
 	e->COBJ.mat = create_matiere();
 	e->scene.nbr_obj++;
-
 	return (1);
 }
 

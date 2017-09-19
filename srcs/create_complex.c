@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_complex.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldenblyd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mhalit <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/03 18:02:49 by ldenblyd          #+#    #+#             */
-/*   Updated: 2017/09/03 18:02:52 by ldenblyd         ###   ########.fr       */
+/*   Created: 2017/09/03 19:17:01 by mhalit            #+#    #+#             */
+/*   Updated: 2017/09/03 19:17:03 by mhalit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void		create_dick(t_obj obj, t_rt *e, int i)
         SOBJ.pos = vec_new3(obj.pos.x , obj.pos.y - obj.r * 1.5 * j, obj.pos.z);
         SOBJ.r = obj.r * 1.5;
         SOBJ.color = obj.color;
-        j+= 0.10;
+        j+= 0.40;
     }
 }
 

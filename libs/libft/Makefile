@@ -85,7 +85,7 @@ SRC			=	err_found.c \
 				ft_toupper.c \
 				get_next_line.c \
 				len_of_tab.c \
-				semalloc.c 
+				semalloc.c
 OBJ			=	$(addprefix $(OBJDIR),$(SRC:.c=.o))
 CC			=	gcc
 CFLAGS		=	-Wall -Werror -Wextra -I includes/

@@ -11,6 +11,16 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+
+void			ambient(int keycode, t_rt *e)
+{
+	if (keycode == LSHIFT || keycode == SPACE)
+	{
+		AMBIENT_LIGHT += (keycode == LSHIFT) ? 10 : -10;
+		frame(e);
+	}
+}
+
 void			choose_filters(int keycode, t_rt *e)
 {
 	if (keycode >= 18 && keycode <= 21)
@@ -33,9 +43,9 @@ void	resolution(int keycode, t_rt *e)
 	{
 		RES += (keycode == PLUS) ? 2 : -2;
 		if (RES < 1)
-			RES = 2;
-		if (RES > 200)
-			RES = 200;
+			RES = 1;
+		if (RES > 20)
+			RES = 20;
 		frame(e);
 	}
 }
@@ -45,9 +55,9 @@ void	udlr_(int keycode, t_rt *e)
 	if (keycode == LEFT || keycode == RIGHT || keycode == UP || keycode == DOWN)
 	{
 		if (keycode <= RIGHT)
-			CPOS.x += ((keycode == LEFT) ? -60 : 60);
+			CPOS.x += ((keycode == LEFT) ? -60 / RES : 60 / RES);
 		else
-			CPOS.y += ((keycode == UP) ? -60 : 60);
+			CPOS.y += ((keycode == UP) ? -60 / RES : 60 / RES);
 		printf("Dir {%f %f %f}\n", CDIR.x, CDIR.y, CDIR.z);
 		printf("POS {%f %f %f}\n\n", CPOS.x, CPOS.y, CPOS.z);
 		frame(e);
@@ -68,7 +78,6 @@ void	wasd_(int keycode, t_rt *e)
 	}
 }
 
-
 void			exportimg(int keycode, t_rt *e)
 {
 	t_file 		export;
@@ -79,7 +88,7 @@ void			exportimg(int keycode, t_rt *e)
 		if (!(export.fdp = open("first.ppm", O_WRONLY | O_CREAT, 00755)))
 			return ;
 		ft_putstr_fd("P6\n", export.fdp);
-		ft_putnbr_fd(LARGEUR, export.fdp);
+		ft_putnbr_fd(LARGEUR, export.fdp); 
 		ft_putstr_fd(" ", export.fdp);
 		ft_putnbr_fd(HAUTEUR, export.fdp);
 		ft_putstr_fd("\n255\n", export.fdp);
@@ -114,7 +123,13 @@ void new_rt()
 
 	e = (t_rt *)malloc(sizeof(t_rt));
 	init_rt(e);
-	ft_gtk_start(e);
+	ft_gtk_start_launcher(e);
+}
+
+void show_settings(t_rt *e)
+{
+	mlx_destroy_window(INIT, WIN);
+	ft_gtk_start_settings(e);
 }
 
 int				key_hook(int keycode, t_rt *e)
@@ -123,13 +138,16 @@ int				key_hook(int keycode, t_rt *e)
 		exit(42);
 	if (keycode == 45)
 		new_rt();
+	if (keycode == 31)
+		show_settings(e);
 	udlr_(keycode, e);
 	wasd_(keycode, e);
 	numeric_(keycode, e);
 	resolution(keycode, e);
 	exportimg(keycode, e);
+	ambient(keycode, e);
 	//Add CPOS.z + CDIR.z
-	ft_putnbr(keycode);
+	// ft_putnbr(keycode);
 	choose_filters(keycode, e);
 	return (0);
 }

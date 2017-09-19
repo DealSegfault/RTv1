@@ -25,29 +25,34 @@ void	display_args(void)
 
 void		init_rt(t_rt *e)
 {
-	e->mlx.init = mlx_init();
-	e->file.larg = 1024;
-	e->file.haut = 768;
-	e->file.reso = 2;
+	INIT = mlx_init();
+	e->file.larg = 1000;
+	e->file.haut = 750;
+	e->file.reso = 5;
 	e->scene.nbr_obj = 0;
 	e->scene.nbr_light = 0;
 	e->scene.nbr_tot = 0;
+	e->scene.ambient = 0;
 	e->scene.obj = (t_obj *)malloc(sizeof(t_obj) * MAXOBJ);
 	e->scene.lights = (t_light *)malloc(sizeof(t_light) * MAXLIGHT);
 	e->scene.supersampling = 1;
 	e->scene.filters = 0;
+	e->started = 0;
+	ALIASING = 1;
 }
 
-void ft_start_rt(t_rt	*e)
+void ft_start_rt(t_rt *e)
 {
+	e->started = 1;
 	if (!HAUTEUR || !LARGEUR)
 		exit(0);
-	e->mlx.window = mlx_new_window(e->mlx.init, e->file.larg, e->file.haut, "RT Again");
+	WIN = mlx_new_window(INIT, LARGEUR, HAUTEUR, "RT Again");
 	IMG = mlx_new_image(INIT, LARGEUR, HAUTEUR);
 	e->mlx.data = mlx_get_data_addr(IMG, &e->mlx.bpp, &e->mlx.size_l,
 	&e->mlx.endian);
+	// printf("%d\n", e->mlx.size_l);
 	frame(e);
-	mlx_key_hook(e->mlx.window, key_hook, e);
+	mlx_key_hook(WIN, key_hook, e);
 	//mlx_mouse_hook(WIN, mouse_hook, e);
 	mlx_loop(INIT);
 }
@@ -65,6 +70,6 @@ int			main(int argc, char **argv)
 		ft_start_rt(e);
 	}
 	else
-		ft_gtk_start(e);
+		ft_gtk_start_launcher(e);
 	return (0);
 }

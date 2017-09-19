@@ -18,7 +18,7 @@ int		set_last(t_rt *e, char **params)
 		!ft_strcmp("plane:", e->scene.last) ||
 		!ft_strcmp("cone:", e->scene.last) ||
 		!ft_strcmp("mickey:", e->scene.last) ||
-		!ft_strcmp("dick:", e->scene.last) ||
+ 		!ft_strcmp("dick:", e->scene.last) ||
 		!ft_strcmp("cylinder:", e->scene.last))
 		return (set_obj(e, params));
 	if (!ft_strcmp("light:", e->scene.last))
