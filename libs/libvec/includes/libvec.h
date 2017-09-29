@@ -6,7 +6,7 @@
 /*   By: mhalit <mhalit@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/17 13:11:14 by mhalit            #+#    #+#             */
-/*   Updated: 2017/09/20 18:19:08 by mparigi          ###   ########.fr       */
+/*   Updated: 2017/09/26 23:09:38 by rlecart          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ typedef	struct	s_mtrx4
 {
 	float		mtrx[16];
 }				t_mtrx4;
+
+typedef struct	s_vec2
+{
+	float		x;
+	float		y;
+}				t_vec2;
 
 typedef struct	s_vec3
 {
@@ -56,6 +62,7 @@ t_vec3d			vec_div3d(t_vec3d u, t_vec3d v);
 t_vec3d			vec_add3d(t_vec3d u, t_vec3d v);
 t_vec3d			vec_sub3d(t_vec3d u, t_vec3d v);
 t_vec3d			vec_tsub3d(t_vec3d u, t_vec3d v);
+t_vec3			vec_tsub3(t_vec3 u, t_vec3 v);
 t_vec3d			vec_inv3d(t_vec3d u);
 t_vec3d			vec_norme3d(t_vec3d u);
 

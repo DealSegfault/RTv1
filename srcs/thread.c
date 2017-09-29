@@ -69,10 +69,10 @@ void	        *drawlinex2(void *arg)
 												raytrace(x + 1, y + 1, e));
 			if (e->scene.filters == 5)
 				e->thread.colors[i] = fl_cartoon(e->thread.colors[i]);
-			x += 2;
+			x += ALIASING;
 			++i;
 		}
-		y += 2;
+		y += ALIASING;
 	}
 	return (NULL);
 }
@@ -114,8 +114,6 @@ t_rt            **launch_thread(t_rt *e)
     if (!(th_e = (t_rt **)malloc(NB_THREADS * sizeof(t_rt *))))
         return (NULL);
 	i = 0;
-	// printf("(%d -- %d) = ", LARGEUR * ALIASING, HAUTEUR * ALIASING);
-	// printf("(%d -- %d)\n", LARGEUR * ALIASING / RES, HAUTEUR * ALIASING / RES);
 	while (i < NB_THREADS)
 	{
 		th_e[i] = copy_rt(e);
@@ -125,8 +123,6 @@ t_rt            **launch_thread(t_rt *e)
 		th_e[i]->thread.w /= RES;
 		th_e[i]->thread.y = ((th_e[i]->thread.h) / NB_THREADS) * i;
 		th_e[i]->thread.max_y = th_e[i]->thread.y + ((th_e[i]->thread.h) / NB_THREADS);
-
-		// printf("(%.1f - %.1f)\n", th_e[i]->thread.y, th_e[i]->thread.max_y);
 		if (ALIASING == 1)
 			pthread_create(&th[i], NULL, drawline, (void *)th_e[i]);
 		else if (ALIASING == 2)
@@ -139,12 +135,8 @@ t_rt            **launch_thread(t_rt *e)
 
 		++i;
 	}
-	// printf("\n");
-	i = 0;
-	while (i < NB_THREADS)
-	{
+	i = -1;
+	while (++i < NB_THREADS)
 		pthread_join(th[i], NULL);
-		++i;
-	}
     return (th_e);
 }

@@ -41,6 +41,32 @@ void			exportimg(t_rt *e)
 	ft_putendl("Image exported !");
 }
 
+// void new_rt()
+// {
+// 	t_rt	*e;
+
+// 	e = (t_rt *)malloc(sizeof(t_rt));
+// 	init_rt(e);
+// 	ft_gtk_start_launcher(e);
+// }
+
+// void show_settings(t_rt *e)
+// {
+// 	mlx_destroy_window(INIT, WIN);
+// 	ft_gtk_start_settings(e);
+// }
+
+// void	gtk_hook(int keycode, t_rt *e)
+// {
+// 	if (keycode == KEY_N || keycode == KEY_O)
+// 		key_init(e);
+// 	if (keycode == KEY_N)
+// 		new_rt();
+// 	else if (keycode == KEY_O)
+// 		show_settings(e);
+	
+// }
+
 void			onepress(int keycode, t_rt *e)
 {
 	e->scene.filters = (keycode == KEY_1) ? 0 : e->scene.filters;
@@ -50,14 +76,26 @@ void			onepress(int keycode, t_rt *e)
 	e->scene.filters = (keycode == KEY_5) ? 4 : e->scene.filters;
 	e->scene.filters = (keycode == KEY_6) ? 5 : e->scene.filters;
 	e->scene.filters = (keycode == KEY_7) ? 6 : e->scene.filters;
+	if (e->scene.selected != -1) {
+		if ((keycode == 81) || (keycode == 75))
+			e->scene.obj[e->scene.selected].r += (keycode == 81) ? 10 : -10;
+		if (e->scene.obj[e->scene.selected].r == 0 )
+			e->scene.obj[e->scene.selected].r = 5;
+	}
 	if (keycode == LSHIFT)
 		AMBIENT_LIGHT += ((int)AMBIENT_LIGHT == 1) ? -1 : 0.05;
 	RES += (keycode == PAGE_UP && RES < 200) ? 1 : 0;
 	RES -= (keycode == PAGE_DOWN && RES > 1) ? 1 : 0;
+	if (RES < 1)
+		RES = 1; 
 	if (keycode == PAGE_UP || keycode == PAGE_DOWN)
+	{
 		RES_BUFF = RES;
+		frame(e);
+	}
 	if (keycode == 50)
 		exportimg(e);
+	//gtk_hook(keycode, e);
 }
 
 void			move(t_rt *e, t_vec3 *vec, int speed)
@@ -97,6 +135,8 @@ void			move_obj(t_rt *e, int speed)
 {
 	if (e->keys.key_w || e->keys.key_s || e->keys.key_a || e->keys.key_d)
 		move(e, &e->scene.obj[e->scene.selected].pos, speed);
+	if (ISLIMIT == 1)
+		e->scene.obj[SELECTED].plimit->pos = e->scene.obj[e->scene.selected].pos;
 	e->scene.obj[e->scene.selected].pos.y +=
 		(e->keys.key_plus && !e->keys.key_minus) ? 10 : 0;
 	e->scene.obj[e->scene.selected].pos.y -=

@@ -1,0 +1,21 @@
+camera:
+    pos: 100 0 -1000
+    dir: 0 0 1
+    fov: 45
+    skybox: texs/dora.xpm
+light:
+	pos: 800 0 -400
+	intensity: 1
+light:
+	pos: 100 700 -400
+	intensity: 0.7
+* BOX
+sphere:
+    pos 0 0 0
+    radius: 50
+    reflection: 1
+    texture: texs/earth.xpm
+sphere:
+    pos: 100 0 0
+    radius: 20
+    texture: texs/moon.xpm

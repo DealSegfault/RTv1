@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_ocl.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mparigi <mparigi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agfernan <agfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/03 02:51:19 by mhalit            #+#    #+#             */
-/*   Updated: 2017/09/22 00:55:35 by mparigi          ###   ########.fr       */
+/*   Updated: 2017/09/26 16:15:35 by agfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,23 @@ t_color			c_color(float r, float g, float b)
 	return (color);
 }
 
-t_matiere	create_matiere(void)
+t_matiere		create_matiere(void)
 {
 	t_matiere	mat;
 
+	mat.diff = 0.2;
+	mat.spec = 0.10;
+	mat.reflect = 0;
+	mat.refract = 0;
 	mat.reflex = 0;
-	mat.specular = 0;
-	mat.opacite = 1;
+	mat.tex.is_init = 0;
+	mat.sin = 0;
+	mat.perlin = 0;
+	mat.checker = (t_checker){c_color(255, 255, 255), c_color(0, 0, 0), 0};
 	return (mat);
 }
 
-int			camera_create(t_rt *e)
+int				camera_create(t_rt *e)
 {
 	e->scene.cam.pos = vec_new3(0, 0, -500);
 	e->scene.cam.dir = vec_new3(0, 0, 0);
@@ -44,29 +50,29 @@ int			camera_create(t_rt *e)
 	return (CAMERA);
 }
 
-int			create_obj(int type, t_rt *e)
+int				create_obj(int type, t_rt *e)
 {
 	int		i;
 
 	i = e->scene.nbr_obj;
 	e->COBJ.is_init = 1;
 	e->COBJ.type = type;
-	e->COBJ.color = c_color(255, 255, 255);
+	e->COBJ.color = c_color(0, 0, 0);
 	e->COBJ.pos = vec_new3(0, 0, 0);
 	e->COBJ.dir = vec_new3(0, 0, 0);
-	e->COBJ.k = tan(10 * DEG2RAD / 2);;
-	e->COBJ.maxp = vec_new3(0, 0, 0);
-	e->COBJ.minp = vec_new3(0, 0, 0);
+	e->COBJ.k = tan(10 * DEG2RAD / 2);
 	e->COBJ.r = 0;
 	e->COBJ.t = -1;
 	e->COBJ.mat = create_matiere();
-	e->COBJ.normal = vec_new3(0, 0, 0);
 	e->COBJ.vector = vec_new3(0, 0, 0);
+	e->COBJ.normal = vec_new3(0, 0, 0);
+	e->COBJ.plimit_active = 0;
+	e->COBJ.plimit = NULL;
 	e->scene.nbr_obj++;
 	return (type);
 }
 
-int			create_light(t_rt *e)
+int				create_light(t_rt *e)
 {
 	int		i;
 

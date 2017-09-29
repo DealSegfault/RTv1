@@ -6,7 +6,7 @@
 /*   By: mhalit <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/10 02:42:54 by mhalit            #+#    #+#             */
-/*   Updated: 2017/08/14 22:13:37 by rlecart          ###   ########.fr       */
+/*   Updated: 2017/09/26 23:09:24 by rlecart          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,16 @@ t_vec3d		vec_new3d(double x, double y, double z)
 t_vec3d		vec_tsub3d(t_vec3d u, t_vec3d v)
 {
 	t_vec3d		pts;
+
+	pts.x = (u.y * v.z) - (v.y * u.z);
+	pts.y = (v.x * u.z) - (u.x * v.z);
+	pts.z = (u.x * v.y) - (v.x * u.y);
+	return (pts);
+}
+
+t_vec3		vec_tsub3(t_vec3 u, t_vec3 v)
+{
+	t_vec3		pts;
 
 	pts.x = (u.y * v.z) - (v.y * u.z);
 	pts.y = (v.x * u.z) - (u.x * v.z);

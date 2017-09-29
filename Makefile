@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ocojeda- <ocojeda-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/03/26 19:16:02 by bbeldame          #+#    #+#              #
-#    Updated: 2017/09/24 05:29:42 by ocojeda-         ###   ########.fr        #
+#    Created: 2017/09/23 19:29:24 by mparigi           #+#    #+#              #
+#    Updated: 2017/09/29 00:41:08 by ocojeda-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRC			=	color.c \
 				hooks2.c \
 				reflexion.c \
 				refraction.c \
+				intersect/limits.c \
 				intersect/plane.c \
 				intersect/cylinder.c \
 				intersect/sphere.c \
@@ -41,22 +42,26 @@ SRC			=	color.c \
 				intersect/intensity.c \
 				xml/xml_parser.c \
 				xml/xml_errors.c \
-				xml/xml_checks.c
+				xml/xml_checks.c \
+				checker.c \
+				uv_mapping.c \
+				perlin.c
 				# gtk/gtk_btn.c	\
 				# gtk/gtk_init.c \
-				# gtk/gtk_input.c \
+				# gtk/gtk_launcher.c \
+				# gtk/gtk_settings.c \
 				# gtk/gtk_new.c
+
 MINILIBX	=	libs/minilibx/libmlx.a
 LIBFT		=	libs/libft/libft.a
 LIBVEC		=	libs/libvec/libvec.a
 LIBXML		=	-lxml2
 OBJ			=	$(addprefix $(OBJDIR),$(SRC:.c=.o))
 CC			=	gcc
-CFLAGS		=	-Wall -Werror -Wextra -g -I includes/ -I libs/libft/includes/ -I libs/libvec/includes/ -I libs/libxml/ #-I libs/gtk+3/ `pkg-config --cflags gtk+-3.0`
-OPTI		=	-O3
+CFLAGS		=	-Wall -Werror -Wextra -I includes/ -I libs/libft/includes/ -I libs/libvec/includes/ -I libs/libxml/ -g #`pkg-config --cflags gtk+-3.0`
+OPTI		=	
 DEBUG		=	-g
-MLXF		=	-framework OpenGL -framework AppKit # `pkg-config --libs gtk+-3.0`
-
+MLXF		=	-framework OpenGL -framework AppKit -lxml2 #`pkg-config --libs gtk+-3.0`
 WHITE		=	\033[7;49;39m
 BLUE		=	\033[7;49;34m
 RED			=	\x1B[31m
@@ -76,7 +81,7 @@ $(NAME): $(MINILIBX) $(LIBFT) $(GRAPHICS) $(OBJDIR) $(OBJ)
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	@printf "$(YELLOW)\r[$(PROJECT)] Compiling $< to $@                                                          \r"
-	@$(CC) $(CFLAGS) -o $@ -c $<
+	@$(CC) $(OPTI) $(CFLAGS) -o $@ -c $<
 
 mlx:
 	@printf "$(YELLOW)[MINILIBX] Compiling obj...                                                     \r$(NO_COLOR)"

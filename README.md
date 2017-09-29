@@ -1,5 +1,7 @@
 # RT
 
+Please install gtk+3 https://forum.intra.42.fr/topics/16213/messages?page=1#61592
+
 ./rt
 
 usage: rtv1 [-s source] [-w width] [-h height]
@@ -12,9 +14,6 @@ usage: rtv1 [-s source] [-w width] [-h height]
 
 --help : Show help
 
--a : Set the antialiasing technique to the image
-
-
 
 Filters:
 
@@ -26,6 +25,16 @@ Filters:
 
 4 = Revert
 
-Export PPM:
+5 = Stereoscopie
 
-Press ~ 
+6 = Cartoon
+
+7 = Motion blur
+
+~ = Export PPM
+
+Move: 
+
+Tranlation: W, A, S, D 
+
+Direction: Up, Down, Left, Right 

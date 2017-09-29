@@ -67,5 +67,6 @@ float Get2DPerlinNoiseValue(float x, float y, float res)
     Li2 = u + Cx*(v-u);
     tmp = y - y0;
     Cy = 3 * tmp * tmp - 2 * tmp * tmp * tmp;
-    return Li1 + Cy*(Li2-Li1);
+    tmp = Li1 + Cy*(Li2-Li1);
+    return tmp;
 }

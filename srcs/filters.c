@@ -6,7 +6,7 @@
 /*   By: mhalit <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/20 10:14:25 by mhalit            #+#    #+#             */
-/*   Updated: 2017/08/20 10:21:25 by mhalit           ###   ########.fr       */
+/*   Updated: 2017/09/27 13:13:52 by mhalit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,35 +67,5 @@ void				fl_revers(t_rt *e)
 		img[i + 1] = 255 - img[i + 1];
 		img[i + 2] = 255 - img[i + 1];
 		i += 4;
-	}
-}
-
-void				fl_border_limits(t_rt *e)
-{
-	static int		weight[3][3] = { { -1,  0,  1 }, { -2,  0,  2 }, { -1,  0,  1 } };
-	int				ptr[2] = { 0, 0 };
-	float			pxval;
-	float			limits[0];
-	int				ptw[2];
-	unsigned char	*img;
-
-	img = (unsigned char *)DATA;
-	limits[0] = 9223372036854775800;
-	limits[1] = -9223372036854775800;
-	while (++ptr[1] < (HAUTEUR * 4) - 1)
-	{
-		while (++ptr[0] < (LARGEUR * 4) - 1)
-		{
-			ptw[0] = -2;
-			ptw[1] = -2;
-			pxval = 0.0;
-			while (++ptw[1] <= 1)
-			{
-				while (++ptw[0] <= 1)
-					pxval += weight[ptw[1] + 1][ptw[0] + 1] * (*(int *)(img + (ptr[1] * LARGEUR) + ptr[0] ));
-			}
-			limits[0] = FT_MIN(pxval, limits[0]);
-			limits[1] = FT_MAX(pxval, limits[1]);
-		}
 	}
 }

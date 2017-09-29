@@ -1,30 +1,36 @@
 camera:
-	pos: 0 0 -1500
+	pos: 0 100 -1500
 	fov: 50
+
 light:
 	intensity: 1
 	color: 255 255 255
-	pos: 5 5 5
+	pos: 0 100 -100
+
 sphere:
 	color: 255 0 0
 	pos: 50 0 -100
 	radius: 25
+
 sphere:
 	color: 0 0 255
 	pos: 0 0 -100
 	radius: 50
+
 cylinder:
 	color: 255 0 0
-	pos:  0 0 -150
+	pos: 0 0 -150
 	radius: 5
-	normal 1 0 0
+	normal: 1 0 0
+
 cylinder:
 	color: 0 255 0
-	pos:  0 0 -150
-	radius :5
+	pos: 0 0 -150
+	radius: 5
 	normal: 0 1 0
+
 cylinder:
 	color: 0 0 255
-	pos:  0 0 -150
+	pos: 0 0 -150
 	radius: 5
 	normal: 0 0 1

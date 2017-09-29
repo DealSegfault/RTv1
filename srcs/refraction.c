@@ -1,30 +1,11 @@
 #include "rt.h"
 
-t_color			get_refracted_color(t_rt *e, t_vec3 poi, t_color base_color, int counter)
+float		find_min_dist_for_refref(t_rt *e, int *a, t_ray ray)
 {
+	float min_dist;
+	float	dist;
+	int i;
 
-	float		min_dist;
-	float		dist;
-	int			i;
-	int         a;
-	t_ray 		ray;
-	t_color		final_color;
-	t_vec3 		point_of_impact;
-	float		taux_temp;
-
-	if(counter == 0)
-		return base_color;
-	else
-		counter--;
-	a = 0;
-    i = e->scene.id;
-	ray.pos = e->COBJ.pos;
-	ray.dir = vec_norme3(vec_scale3(vec_sub3(poi, e->scene.obj[e->scene.id].pos), -1));
-	//la ligne precedent est fausse, il faut trouver comment faire la goute deau et la boule 
-	//de noel, jai rien compris moi =)
-	//http://heigeas.free.fr/laure/ray_tracing/principes.html#reflection
-	// au cas ou qqun comprends
-	taux_temp = e->COBJ.mat.refract;
 	i = 0;
 	dist = 0;
 	min_dist = DIST_MAX;
@@ -36,22 +17,56 @@ t_color			get_refracted_color(t_rt *e, t_vec3 poi, t_color base_color, int count
 			if (dist < min_dist)
 			{
 				min_dist = dist;
-				a = i;
+				*a = i;
 			}
 		}
 		i++;
 	}
+	return min_dist;
+}
+
+t_ray			get_refracted_ray(t_rt *e, t_ray rayon, t_vec3 poi)
+{
+	t_vec3 source;
+	t_vec3 normale;
+	t_ray ray;
+
+	ray.pos = poi;
+	normale = object_norm(e->scene.obj[e->scene.id], poi);
+	source = rayon.dir;
+	ray.dir = vec_scale3(vec_mul3(source, normale), e->scene.obj[e->scene.id].mat.refract);
+	ray.dir = vec_mul3(ray.dir, normale);
+	ray.dir = vec_norme3(vec_sub3(vec_scale3(source, e->scene.obj[e->scene.id].mat.refract+1), ray.dir));
+	return (ray);
+}
+
+t_color			get_refracted_color(t_rt *e, t_vec3 poi, t_color base_color, int counter, t_ray rayon)
+{
+
+	float		min_dist;
+	int         a;
+	t_ray 		ray;
+	t_color		final_color;
+	t_vec3 		newpoi;
+	float		taux_temp;
+
+	if(counter == 0)
+		return (base_color);
+	counter--;
+	ray = get_refracted_ray(e, rayon, poi);
+	taux_temp = e->scene.obj[e->scene.id].mat.refract;
+	min_dist = find_min_dist_for_refref(e, &a, ray);
 	if(min_dist < DIST_MAX)
 	{
-		point_of_impact = vec_add3(ray.pos, vec_scale3(ray.dir, min_dist));
-		final_color = get_color(e, e->scene.obj[a], ray, point_of_impact);
+		newpoi = vec_add3(ray.pos, vec_scale3(ray.dir, min_dist));
+		final_color = get_color(e, e->scene.obj[a], newpoi);
 		base_color = ft_map_color(base_color, final_color, taux_temp);
 		e->scene.id = a;
+		if (e->scene.obj[a].mat.reflex)
+			return (get_reflected_color(e, newpoi, base_color, counter, ray));
 		if (e->scene.obj[a].mat.refract)
-			return (get_refracted_color(e, point_of_impact, base_color, counter));
-		else if (e->scene.obj[a].mat.reflex)
-			return (get_reflected_color(e, point_of_impact, base_color, counter));
-		return base_color;
+			return (get_refracted_color(e, newpoi, base_color, counter, ray));
+		return (base_color);
 	}
-	return ft_map_color(base_color, c_color(0,0,0), taux_temp);
+	return ft_map_color(base_color, skybox(e, ray), taux_temp);
 }

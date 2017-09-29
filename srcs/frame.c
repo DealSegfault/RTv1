@@ -64,6 +64,8 @@ void	filters(t_rt *e)
 		fl_black_and_white(e);
 	if (e->scene.filters == 3)
 		fl_revers(e);
+	if (e->scene.filters == 4)
+		fl_stereoscopie(e);
 	if (e->scene.filters == 6)
 		fl_motionblur(e);
 }
@@ -76,6 +78,8 @@ void	frame(t_rt *e)
 	int			x;
 	int			y;
 
+	e->frame++;
+	// printf("%d\n", e->frame);
 	matrix_init(e);
 	th_e = launch_thread(e);
 	i = 0;

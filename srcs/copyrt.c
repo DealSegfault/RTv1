@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copyrt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jribeiro <jribeiro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mparigi <mparigi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/22 23:14:17 by jribeiro          #+#    #+#             */
-/*   Updated: 2017/09/20 05:36:21 by mparigi          ###   ########.fr       */
+/*   Updated: 2017/09/27 13:13:13 by mhalit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,14 @@ t_obj				copy_objs(t_obj obj)
 	copy.t = obj.t;
 	copy.vector = obj.vector;
 	copy.mat = obj.mat;
+	copy.plimit_active = obj.plimit_active;
+	copy.plimit_valid = obj.plimit_valid;
+	copy.plimit_type = obj.plimit_type;
+	if (copy.plimit_active == 1)
+	{
+		copy.plimit = (t_obj *)malloc(sizeof(t_obj) + 1);
+		*(copy.plimit) = copy_objs(*(obj.plimit));
+	}
 	return (copy);
 }
 
@@ -48,20 +56,15 @@ t_scene				copy_scene(t_scene scene)
 	t_scene			copy;
 	int				i;
 
-	i = 0;
+	i = -1;
 	copy.lights = (t_light *)malloc(scene.nbr_light * sizeof(t_light));
-	while (i < scene.nbr_light)
-	{
+	while (++i < scene.nbr_light)
 		copy.lights[i] = copy_light(scene.lights[i]);
-		++i;
-	}
 	copy.obj = (t_obj *)malloc(scene.nbr_obj * sizeof(t_obj));
-	i = 0;
-	while (i < scene.nbr_obj)
-	{
+	i = -1;
+	while (++i < scene.nbr_obj)
 		copy.obj[i] = copy_objs(scene.obj[i]);
-		++i;
-	}
+	copy.skybox = scene.skybox;
 	copy.last = scene.last;
 	copy.nbr_light = scene.nbr_light;
 	copy.nbr_obj = scene.nbr_obj;
@@ -85,5 +88,6 @@ t_rt				*copy_rt(t_rt *e)
 	copy->file.larg = e->file.larg;
 	copy->file.haut = e->file.haut;
 	copy->file.reso = e->file.reso;
+	copy->file.aliasing = e->file.aliasing;
 	return (copy);
 }

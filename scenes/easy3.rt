@@ -34,16 +34,17 @@ sphere:
   radius: 200
   color: 255 0 0
   reflection: 1
+  refraction: 1
 sphere:
   pos: 1000 400 -3000
   radius: 100
   color: 0 250 0
-  reflection: 1
+ * reflection: 0.8
 sphere:
   pos: 750 200 -2500
   radius: 50
   color: 0 250 0
-  reflection: 1
+ * reflection: 1
 cylinder:
   pos: 100 200 -1500
   normal: 10 1 500

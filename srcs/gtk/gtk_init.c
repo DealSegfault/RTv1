@@ -12,45 +12,54 @@
 
 #include "rt.h"
 
-void ft_gtk_link_css(GtkWidget *window, gchar *css)
+void ft_init_values(t_rt *e)
 {
-  GtkCssProvider *cssProvider = gtk_css_provider_new();
-  gtk_css_provider_load_from_path(cssProvider, css, NULL);
-  gtk_style_context_add_provider(gtk_widget_get_style_context(window),
-                                 GTK_STYLE_PROVIDER(cssProvider),
-                                 GTK_STYLE_PROVIDER_PRIORITY_USER);
+   e->gtk.values.width = LARGEUR;
+   e->gtk.values.height = HAUTEUR;
+   e->gtk.values.res = RES;
+  //  printf("width      = {%d}\n", LARGEUR);
+  //  printf("height     = {%d}\n", HAUTEUR);
+  //  printf("RES        = {%d}\n", RES);
+  //  printf("anti-alias = {%d}\n", ALIASING);
+  //  printf("started    = (%d)\n", e->gtk.started);
 }
 
-void ft_gtk_add_radio_filters(t_rt *e)
+gboolean hook(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
-	if (e){}
-  //  GtkWidget *radio1, *radio2, *box;
-  //
-  //  box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
-  //  gtk_box_set_homogeneous (GTK_BOX (box), TRUE);
-  //
-  //
-  // radio1 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (radio1), "filtre 1");
-  // // radio2 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (radio1), "filtre 2");
-  //
-  // gtk_box_pack_start (GTK_BOX(box), radio1, TRUE, TRUE, 2);
-  // // gtk_box_pack_start (GTK_BOX(box), radio2, TRUE, TRUE, 2);
-  //
-  // gtk_layout_put(GTK_LAYOUT(gtk->layout), box, 100, 250);
-
+  if (widget || event || user_data){}
+  // printf("(%d)\n",event->keyval);
+  if (event->keyval == 65307)
+    exit(42);
+  return FALSE; 
 }
 
-void ft_gtk_start(t_rt *e, int argc, char **argv)
+void ft_gtk_start_settings(t_rt *e)
 {
-    gtk_init(&argc, &argv);
-
-    e->gtk.menu.window = ft_gtk_new_window(GTK_W, GTK_H, "RT");
-		e->gtk.menu.layout = gtk_layout_new(NULL, NULL);
-		gtk_container_add(GTK_CONTAINER(e->gtk.menu.window), e->gtk.menu.layout);
-
-		ft_gtk_link_css(e->gtk.menu.window, "srcs/css/style.css");
-    // ft_gtk_add_logo(&gtk);
-		ft_gtk_add_btn(e);
-    gtk_widget_show_all(e->gtk.menu.window);
+    gtk_init(NULL, NULL);
+    e->gtk.settings.window = new_window(200, 300, "Settings");
+	  e->gtk.settings.layout = gtk_layout_new(NULL, NULL);
+	  gtk_container_add(GTK_CONTAINER(e->gtk.settings.window), e->gtk.settings.layout);
+    ft_init_values(e);
+    ft_settings(e);
+    gtk_widget_show_all (e->gtk.settings.window);
+    g_signal_connect(G_OBJECT(e->gtk.settings.window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+    g_signal_connect(G_OBJECT(e->gtk.settings.window), "key_press_event", G_CALLBACK(hook), NULL);
     gtk_main();
 }
+
+void ft_gtk_start_launcher(t_rt *e)
+{
+    gtk_init(NULL, NULL);
+    if (e){}
+    e->gtk.menu.window = new_window(300, 200, "RT");
+		e->gtk.menu.layout = gtk_layout_new(NULL, NULL);
+		gtk_container_add(GTK_CONTAINER(e->gtk.menu.window), e->gtk.menu.layout);
+    ft_init_values(e);
+		ft_gtk_launcher(e);
+    gtk_widget_show_all(e->gtk.menu.window);
+    g_signal_connect(G_OBJECT(e->gtk.menu.window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+    g_signal_connect(G_OBJECT(e->gtk.menu.window), "key_press_event", G_CALLBACK(hook), NULL);
+    gtk_main();
+}
+
+
