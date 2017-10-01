@@ -20,16 +20,15 @@ t_vec3	cone_norm(t_obj cone, t_vec3 poi)
 	float		dot;
 
 	tmp = vec_sub3(poi, cone.pos);
-
-	if (cone.mat.sin == 1)
-	{
-		tmp.x = sin(tmp.x);
-		tmp.y = sin(tmp.y);
-		tmp.z = sin(tmp.z);
-	}
 	dot = vec_dot3(tmp, cone.vector);
 	project = vec_scale3(cone.vector, dot);
 	normal = vec_sub3(tmp, project);
+	if (cone.mat.sin == 1)
+	{
+		normal.x = normal.x;
+		normal.y = sin(normal.y) * 20;
+		normal.z = normal.z;
+	}
 	return (vec_norme3(normal));
 }
 
@@ -48,11 +47,11 @@ float	intersect_cone(t_ray ray, t_obj cone)
 	op.a = vec_dot3(ray.dir, ray.dir) - (1 + p(cone.k)) * p(dotdv);
 	op.b = 2 * (vec_dot3(ray.dir, x) - (1 + p(cone.k)) * dotdv * dotxv);
 	op.c = vec_dot3(x, x) - (1 + p(cone.k)) * p(dotxv);
-	op.eq = get_res_of_quadratic2(&op, "lowdist");
+	op.eq = get_res_of_quadratic2(&op);
 	cone_lowdist = op.eq;
 	if (op.eq == op.t0)
 		cone_highdist = op.t1;
 	else
 		cone_highdist = op.t0;
-	return (limit_dist(&cone, ray, cone_lowdist, cone_highdist));
+	return (limit_dist(cone, ray, cone_lowdist, cone_highdist));
 }

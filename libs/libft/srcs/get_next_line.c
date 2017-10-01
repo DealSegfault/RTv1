@@ -11,98 +11,67 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mhalit <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/01/25 17:18:09 by mhalit            #+#    #+#             */
+/*   Updated: 2017/01/26 22:01:38 by mhalit           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int		cs(const char *str)
+#include "libft.h"
+
+static int			checkn(char **reste, char **line, char *buf)
 {
-	int i;
+	char			*tmp;
+	char			*fr;
 
-	i = 0;
-	while (str[i])
+	if (buf)
 	{
-		if (str[i] == '\n' || !str[i])
-			return (i);
-		i++;
+		tmp = *reste;
+		*reste = ft_strjoin(*reste, buf);
+		free(tmp);
 	}
-	return (-1);
-}
-
-char	*dumpstr(char *str)
-{
-	char *new;
-
-	new = (char *)malloc(sizeof(char) * (ft_strlen(str) - cs(str)));
-	if (!new)
-		return (0);
-	new = ft_strncpy(new, str + cs(str) + 1, ft_strlen(str) - cs(str));
-	ft_bzero(str, ft_strlen(str));
-	free(str);
-	str = NULL;
-	return (new);
-}
-
-int		fullfillline(char ****line, char **newline)
-{
-	if (!(***line = (char *)malloc(sizeof(char) * (ft_strlen(*newline) + 1))))
-		return (0);
-	ft_strcpy(***line, *newline);
-	free(*newline);
-	return (1);
-}
-
-int		processline(int ret, char **str, char ***line)
-{
-	char *newline;
-
-	if (!ret && cs(*str) == -1)
+	if ((tmp = ft_strchr(*reste, '\n')))
 	{
-		if (!ft_strlen(*str))
-			return (0);
-		if (!(newline = (char *)malloc(sizeof(char) * ft_strlen(*str) + 1)))
-			return (-1);
-		ft_strcpy(newline, *str);
-		free(*str);
-		*str = ft_strdup(*str + ft_strlen(*str));
-		if (!fullfillline(&line, &newline))
-			return (-1);
+		*tmp = '\0';
+		*line = ft_strdup(*reste);
+		fr = *reste;
+		*reste = ft_strdup(tmp + 1);
+		free(fr);
+		return (1);
 	}
-	else
-	{
-		if (!(newline = (char *)malloc(sizeof(char) * cs(*str) + 1)))
-			return (-1);
-		ft_strncpy(newline, *str, cs(*str) + 1);
-		newline[cs(*str)] = '\0';
-		*str = dumpstr(*str);
-		if (!fullfillline(&line, &newline))
-			return (-1);
-	}
-	return (1);
+	return (0);
 }
 
-int		get_next_line(const int fd, char **line)
+int					get_next_line(int fd, char **line)
 {
-	char			buffer[BUFF_SIZE + 1];
-	int				ret;
-	static char		*str[NBMAXFD];
-	char			*swap;
+	char			buf[BUFF_SIZE + 1];
+	static	char	*reste = NULL;
+	int				i;
 
-	ret = 1;
-	if (!line || fd > NBMAXFD || fd < 0 || BUFF_SIZE < 1)
+	if (!reste)
+		reste = ft_strnew(BUFF_SIZE);
+	if (checkn(&reste, line, NULL))
+		return (1);
+	while ((i = read(fd, buf, BUFF_SIZE)) > 0)
+	{
+		buf[i] = '\0';
+		if (checkn(&reste, line, buf))
+			return (1);
+	}
+	if (i == -1)
 		return (-1);
-	if (!str[fd])
+	if (reste && ft_strcmp(reste, "") != 0)
 	{
-		if (!(str[fd] = (char *)malloc(sizeof(char) * BUFF_SIZE)))
-			return (-1);
-		ft_bzero(str[fd], BUFF_SIZE);
+		*line = ft_strdup(reste);
+		free(reste);
+		reste = NULL;
+		return (1);
 	}
-	while (cs(str[fd]) == -1 && ret)
-	{
-		if ((ret = read(fd, buffer, BUFF_SIZE)) == -1)
-			return (-1);
-		buffer[ret] = '\0';
-		swap = ft_strdup(str[fd]);
-		ft_strdel(&str[fd]);
-		str[fd] = ft_strjoin(swap, buffer);
-		ft_strdel(&swap);
-	}
-	return (processline(ret, &str[fd], &line));
+	return (0);
 }

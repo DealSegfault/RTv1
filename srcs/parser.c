@@ -61,6 +61,8 @@ static int	is_file(char *path)
 	int		fd;
 	int		size;
 
+	if (!path)
+		return (-1);
 	size = ft_strlen(path) - ft_strlen(EXTENSION);
 	if (!ft_strcmp(EXTENSION, path + size))
 		if ((fd = open(path, O_RDONLY)) != -1)
@@ -125,7 +127,7 @@ int			parse_args(char **argv, int argc, t_rt *e)
 	if ((fd = is_file(SFILE)) > -1)
 		if (parse_obj(e, fd))
 		{
-			// create_complex(e);
+			create_complex(e);
 			return (1);
 		}
 	return (0);

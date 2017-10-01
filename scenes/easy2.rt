@@ -13,7 +13,8 @@ sphere:
   pos: 750 400 300
   radius: 200
   color: 255 0 0
-  refraction: 0.1
+  texture: texs/earth.xpm
+  zoomtex: 2
 sphere:
   pos: 1000 400 100
   radius: 100

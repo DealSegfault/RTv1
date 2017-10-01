@@ -1,21 +1,34 @@
 camera:
-    pos: 100 0 -1000
+    pos: 100 0 -500
     dir: 0 0 1
     fov: 45
-    skybox: texs/dora.xpm
+    skybox: texs/bel.xpm
 light:
 	pos: 800 0 -400
 	intensity: 1
 light:
 	pos: 100 700 -400
-	intensity: 0.7
+	intensity: 0.7 
+
 * BOX
 sphere:
-    pos 0 0 0
+    pos -100 0 0
     radius: 50
-    reflection: 1
-    texture: texs/earth.xpm
-sphere:
+    reflection: 0.9
+    texture: texs/medium_mparigi.xpm
+    perlin: 1
     pos: 100 0 0
     radius: 20
     texture: texs/moon.xpm
+    perlin: 1
+    reflexion: 1
+sphere: 
+  pos: 100 300 0
+  radius: 50
+  color: 255 0 0
+  reflection: 1  
+sphere: 
+  pos: 400 0 0
+  radius: 50
+  color: 255 0 0
+ 

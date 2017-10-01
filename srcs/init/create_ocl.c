@@ -26,8 +26,8 @@ t_matiere		create_matiere(void)
 {
 	t_matiere	mat;
 
-	mat.diff = 0.2;
-	mat.spec = 0.10;
+	mat.diff = 0.4;
+	mat.spec = 0.6;
 	mat.reflect = 0;
 	mat.refract = 0;
 	mat.reflex = 0;
@@ -67,7 +67,11 @@ int				create_obj(int type, t_rt *e)
 	e->COBJ.vector = vec_new3(0, 0, 0);
 	e->COBJ.normal = vec_new3(0, 0, 0);
 	e->COBJ.plimit_active = 0;
-	e->COBJ.plimit = NULL;
+	e->COBJ.id = e->scene.nbr_obj;
+	e->COBJ.plimit_valid = 0;
+	e->COBJ.nbr_limit = 0;
+	e->COBJ.plimit = (t_obj *)malloc(sizeof(t_obj) * MAXLIM + 1);
+	ft_bzero((void *)e->COBJ.plimit, 1);
 	e->scene.nbr_obj++;
 	return (type);
 }

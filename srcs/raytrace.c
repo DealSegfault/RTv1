@@ -57,43 +57,56 @@ float			get_min_dist(t_rt *e, t_ray ray)
 static t_color	get_pxl_color(t_rt *e, t_ray ray)
 {
 	float		min_dist;
-	t_vec3		point_of_impact;
-	t_color		color;
-	int a = 0;
-
-	color = (t_color){0, 0, 0, 0};
+	t_reflect	ref;
+	t_color		temp_color;
+	
+	ref.tmp_id = 0;
+	ref.color = (t_color){0, 0, 0, 0};
 	e->scene.id = -1;
 	if ((min_dist = get_min_dist(e, ray)) == -1)
 		return (skybox(e, ray));
-	a = e->scene.id;
-	point_of_impact = vec_add3(ray.pos, vec_scale3(ray.dir, min_dist));
-	if (e->scene.id != -1)
+	ref.tmp_id = e->scene.id;
+	ref.poi = vec_add3(ray.pos, vec_scale3(ray.dir, min_dist));
+	ref.counter = NR_ITER;
+	ref.ray = c_ray(ray.pos, ray.dir);
+	ref.total_distance = 0;
+	ref.min_dist = 0;
+		if (e->scene.id != -1)
 	{
 		if (e->scene.obj[e->scene.id].mat.reflex)
 		{
-			color = get_color(e, e->scene.obj[e->scene.id], point_of_impact);
-			e->scene.id = a;
-			color = ft_map_color(color,get_reflected_color(e, point_of_impact, color, NR_ITER, ray),e->scene.obj[a].mat.reflex);
-			e->scene.id = a;
+			ref.color = get_color(e, e->scene.obj[e->scene.id], ref.poi);
+			e->scene.id = ref.tmp_id;
+			ref.color = ft_map_color(ref.color, 
+			get_reflected_color(e, ref.poi, ref.color, ref),
+			e->scene.obj[ref.tmp_id].mat.reflex);
+			e->scene.id = ref.tmp_id;
 			if (e->scene.obj[e->scene.id].mat.refract)
-				return ft_map_color(color,
-				get_refracted_color(e, point_of_impact, 
-				get_color(e, e->scene.obj[e->scene.id], point_of_impact), NR_ITER, ray), 0.2);
+			{
+				ref.counter = NR_ITER;
+				ref.ray = c_ray(ray.pos, ray.dir);
+				ref.total_distance = 0;
+				ref.poi = vec_add3(ray.pos, vec_scale3(ray.dir, min_dist));
+				ref.color = get_color(e, e->scene.obj[e->scene.id], ref.poi);
+				e->scene.id = ref.tmp_id;
+				temp_color = copy_color(ref.color);
+				return ft_map_color(temp_color,
+				get_refracted_color(e, ref.poi, ref.color, ref), 1-e->scene.obj[e->scene.id].mat.refract);
+			}
 		}
 		else if (e->scene.obj[e->scene.id].mat.refract)
 			{
-				color = get_color(e, e->scene.obj[e->scene.id], point_of_impact);
-				e->scene.id = a;
-				
-				color = get_refracted_color(e, point_of_impact, 
-			color, NR_ITER, ray);
+				ref.color = get_color(e, e->scene.obj[e->scene.id], ref.poi);
+				e->scene.id = ref.tmp_id;
+				ref.color = get_refracted_color(e, ref.poi, ref.color, ref);
 			}
+		else if (e->scene.obj[e->scene.id].mat.checker.l > 0)
+			ref.color = get_checker_col(e->scene.obj[e->scene.id].mat.checker, ref.poi);
 		else
-			color = get_color(e, e->scene.obj[e->scene.id], point_of_impact);
+			ref.color = get_color(e, e->scene.obj[e->scene.id], ref.poi);
 	}
-	return (color);
+	return (ref.color);
 }
-
 
 t_color				raytrace(int x, int y, t_rt *e)
 {

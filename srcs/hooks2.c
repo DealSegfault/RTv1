@@ -41,31 +41,31 @@ void			exportimg(t_rt *e)
 	ft_putendl("Image exported !");
 }
 
-// void new_rt()
-// {
-// 	t_rt	*e;
+void new_rt()
+{
+	t_rt	*e;
 
-// 	e = (t_rt *)malloc(sizeof(t_rt));
-// 	init_rt(e);
-// 	ft_gtk_start_launcher(e);
-// }
+	e = (t_rt *)malloc(sizeof(t_rt));
+	init_rt(e);
+	ft_gtk_start_launcher(e);
+}
 
-// void show_settings(t_rt *e)
-// {
-// 	mlx_destroy_window(INIT, WIN);
-// 	ft_gtk_start_settings(e);
-// }
+void show_settings(t_rt *e)
+{
+	mlx_destroy_window(INIT, WIN);
+	ft_gtk_start_settings(e);
+}
 
-// void	gtk_hook(int keycode, t_rt *e)
-// {
-// 	if (keycode == KEY_N || keycode == KEY_O)
-// 		key_init(e);
-// 	if (keycode == KEY_N)
-// 		new_rt();
-// 	else if (keycode == KEY_O)
-// 		show_settings(e);
+void	gtk_hook(int keycode, t_rt *e)
+{
+	if (keycode == KEY_N || keycode == KEY_O)
+		key_init(e);
+	if (keycode == KEY_N)
+		new_rt();
+	else if (keycode == KEY_O)
+		show_settings(e);
 	
-// }
+}
 
 void			onepress(int keycode, t_rt *e)
 {
@@ -95,7 +95,7 @@ void			onepress(int keycode, t_rt *e)
 	}
 	if (keycode == 50)
 		exportimg(e);
-	//gtk_hook(keycode, e);
+	gtk_hook(keycode, e);
 }
 
 void			move(t_rt *e, t_vec3 *vec, int speed)
@@ -110,6 +110,7 @@ void			move(t_rt *e, t_vec3 *vec, int speed)
 		vec->x += (e->keys.key_w) ? dir.dir.x * speed : dir.dir.x * -speed;
 		vec->y += (e->keys.key_w) ? dir.dir.y * speed : dir.dir.y * -speed;
 		vec->z += (e->keys.key_w) ? dir.dir.z * speed : dir.dir.z * -speed;
+
 	}
 	if ((e->keys.key_a && !e->keys.key_d) || (e->keys.key_d && !e->keys.key_a))
 	{
@@ -133,12 +134,22 @@ void			move_cam(t_rt *e, int speed)
 
 void			move_obj(t_rt *e, int speed)
 {
-	if (e->keys.key_w || e->keys.key_s || e->keys.key_a || e->keys.key_d)
-		move(e, &e->scene.obj[e->scene.selected].pos, speed);
-	if (ISLIMIT == 1)
-		e->scene.obj[SELECTED].plimit->pos = e->scene.obj[e->scene.selected].pos;
-	e->scene.obj[e->scene.selected].pos.y +=
-		(e->keys.key_plus && !e->keys.key_minus) ? 10 : 0;
-	e->scene.obj[e->scene.selected].pos.y -=
-		(e->keys.key_minus && !e->keys.key_plus) ? 10 : 0;
+	int i;
+
+	i = 0;
+	if (e->keys.key_w || e->keys.key_s || e->keys.key_a || e->keys.key_d || e->keys.key_minus || e->keys.key_plus)
+	{
+		while (i < e->scene.nbr_obj)
+		{
+			if (e->scene.obj[i].id == e->scene.obj[e->scene.selected].id)
+			{
+				move(e, &e->scene.obj[i].pos, speed);
+				if (ISLIMIT == 1)
+					e->scene.obj[i].plimit->pos = e->scene.obj[e->scene.selected].pos;
+				e->scene.obj[i].pos.y += (e->keys.key_plus && !e->keys.key_minus) ? 10 : 0;
+				e->scene.obj[i].pos.y -= (e->keys.key_minus && !e->keys.key_plus) ? 10 : 0;
+			}
+			i++;
+		}
+	}
 }

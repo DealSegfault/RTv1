@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocojeda- <ocojeda-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mparigi <mparigi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/03 00:09:53 by mhalit            #+#    #+#             */
-/*   Updated: 2017/09/29 08:32:05 by ocojeda-         ###   ########.fr       */
+/*   Updated: 2017/09/25 21:45:07 by mparigi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,27 @@ void			init_rt(t_rt *e)
 	HAUTEUR = 768;
 	RES = calcul_res(e, 500000);
 	RES_BUFF = RES;
-	ALIASING = 2;
+	ALIASING = 1;
 	e->scene.nbr_obj = 0;
+	e->scene.nbr_complex = 0;
 	e->scene.nbr_light = 0;
 	e->scene.nbr_tot = 0;
 	e->scene.ambient = 0.2;
 	e->scene.skybox.is_init = 0;
 	e->scene.obj = (t_obj *)malloc(sizeof(t_obj) * MAXOBJ);
 	e->scene.lights = (t_light *)malloc(sizeof(t_light) * MAXLIGHT);
-	e->scene.supersampling = 0;
+	e->scene.supersampling = 1;
 	e->scene.filters = 0;
 	e->scene.selected = -1;
-	// e->gtk.started = 0;
+	SFILE = NULL;
+	e->gtk.started = 0;
 	e->frame = 0;
 	key_init(e);
 }
 
 void			ft_start_rt(t_rt *e)
 {
-	// e->gtk.started = 1;	
+	e->gtk.started = 1;	
 	if (!HAUTEUR || !LARGEUR)
 		exit(0);
 	WIN = mlx_new_window(INIT, LARGEUR, HAUTEUR, "RT");
@@ -95,8 +97,8 @@ int				main(int argc, char **argv)
 	}
 	else
 	{
-		display_args();
-		// ft_gtk_start_launcher(e);
+		//display_args();
+		ft_gtk_start_launcher(e);
 	}
 	return (0);
 }

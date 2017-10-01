@@ -2,6 +2,7 @@ camera:
 	pos: 0 150 -2550
 	dir: 0 0 0
 	fov: 35
+
 light:
 	pos: 230 50 -200
 
@@ -13,18 +14,33 @@ plane:
 	pos: 0 -20 0
 	normal: 0 1 0
 	color: 200 200 200
+*Wall
+plane:
+	pos: 0 0 100
+	normal: 0 0 1
+	color: 100 100 255
+cylinder:
+	pos: 0 150 0
+	vector: 1 1 0
+	radius: 30
+	color: 255 0 255
+cone:
+	pos: 75 75 0
+	vector: 1 -1 0
+	angle: 30
+	color: 255 255 0
 sphere:
-  pos: 0 150 -1200
+  pos: 150 350 -1200
   radius: 200
   color: 255 0 0
-	refraction: 1
+  refraction: 1
 sphere:
-  pos: 550 150 -1200
+  pos: 150 150 -600
   radius: 300
   color: 0 250 0
-	refraction: 1
+  reflection: 1
 sphere:
-  pos: 750 150 -1200
+  pos: -500 100 -200
   radius: 200
   color: 255 0 0
-	refraction: 1
+  refraction: 1

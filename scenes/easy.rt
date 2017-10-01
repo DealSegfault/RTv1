@@ -5,47 +5,37 @@ camera:
 light:
   pos: 800 0 -400
   intensity: 0.005
-light:
-  pos: 100 700 -400
-  intensity: 0.007
-* BOX
 plane:
   pos: -1 800 0
   normal: 0 0.999 0.001
   color: 0 255 0
-  reflection: 1
+ * negatif: 1 0 0 1
 plane:
   pos: 1500 0 0
   normal: 0.99 0 0.01
   color: 0 255 0
-  reflection: 1
 plane:
   pos: -1 -1 0
   normal: 1.001 0 -0.001
  color: 0 255 0
- reflection: 1
 plane:
   pos: 0 -1 0
   normal: 0 1.001 -0.001
   color: 0 255 0
-  reflection: 1
 plane:
   pos: 0 0 2000
   normal: 0 0 1
   color: 0 255 0
-  reflection: 1
 sphere: 
   pos: 750 400 300
   radius: 200
   color: 255 0 0
-  refraction: 0.1
-* Usage [obj type 2 = plan] normale(x, y, z) // Only plane limit now.
-  negatif: 2 0 0 1
+  refraction: 0
+  reflection: 1
 sphere:
   pos: 1000 400 100
   radius: 100
   color: 0 250 0
-  checker: 1;
 sphere:
   pos: 750 200 100
   radius: 50

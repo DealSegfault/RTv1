@@ -1,0 +1,19 @@
+camera:
+  pos: 750 300 -1080
+  dir: 0 0 0
+  fov: 45
+light:
+  pos: 800 0 -400
+  intensity: 0.005
+light:
+  pos: 100 700 -400
+  intensity: 0.007
+* BOX
+sphere: 
+  pos: 750 400 300
+  radius: 200
+  color: 255 0 0
+  refraction: 0.1
+* Usage [obj type 2 = plan] normale(x, y, z) // Only plane limit now.
+  negatif: 2 1 0 0 750 320 290
+*  negatif: 2 1 0 0.5 750 300 290

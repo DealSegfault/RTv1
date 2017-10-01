@@ -2,32 +2,26 @@ camera:
 	pos: 0 150 -550
 	dir: 0 0 0
 	fov: 45
-
 light:
 	pos: 230 50 -200
-
 light:
 	pos: -300 100 -200
-
 *Ground
 plane:
 	pos: 0 -20 0
 	normal: 0 1 0
 	color: 200 200 200
-	sin: 1
 *Wall
 plane:
 	pos: 0 0 100
 	normal: 0 0 1
 	color: 100 100 255
 	negatif: 2 1 0 1
-	sin: 1
 *Sphere Green
 sphere:
 	pos: 220 20 -40
 	radius: 40
-	color: 0 255 0
-	reflection: 0.8
+	color: 0 255 255
 	sin: 1
 *Sphere Red
 sphere:
@@ -35,19 +29,18 @@ sphere:
 	radius: 40
 	color: 255 0 0
 	negatif: 2 1 0 1
-	sin: 1
 cylinder:
 	pos: 0 150 0
 	vector: 1 1 0
 	radius: 30
 	color: 255 0 255
-	negatif: 2 1 0 1
+	*negatif: 2 1 0 1
+	*negatif: 2 0 0 1 150 150 -150
 	sin: 1
 cone:
 	pos: 75 75 0
 	vector: 1 -1 0
 	angle: 30
 	color: 255 255 0
-	negatif: 2 1 0 1
-*	negatif: 2 0 1 0 
+	negatif: 2 1 0 1 
 	sin: 1

@@ -5,7 +5,7 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mparigi <mparigi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/08/22 23:14:17 by jribeiro          #+#    #+#             */
+/*   Created: 2017/08/22 23:14:17 by mparigi           #+#    #+#             */
 /*   Updated: 2017/09/27 13:13:13 by mhalit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -23,6 +23,19 @@ t_light				copy_light(t_light light)
 	return (copy);
 }
 
+t_obj				*copy_limit(t_obj lim)
+{
+	int i;
+	t_obj	*copy;
+
+	i = -1;
+	if (!(copy = malloc(sizeof(t_obj) * MAXLIM + 1)))
+		return (NULL);
+	while (++i < lim.nbr_limit)
+		copy[i] = lim.plimit[i];
+	return (copy);
+}			
+	
 t_obj				copy_objs(t_obj obj)
 {
 	t_obj			copy;
@@ -43,11 +56,9 @@ t_obj				copy_objs(t_obj obj)
 	copy.plimit_active = obj.plimit_active;
 	copy.plimit_valid = obj.plimit_valid;
 	copy.plimit_type = obj.plimit_type;
+	copy.nbr_limit = obj.nbr_limit;
 	if (copy.plimit_active == 1)
-	{
-		copy.plimit = (t_obj *)malloc(sizeof(t_obj) + 1);
-		*(copy.plimit) = copy_objs(*(obj.plimit));
-	}
+		copy.plimit = copy_limit(obj);
 	return (copy);
 }
 

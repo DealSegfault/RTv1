@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ocojeda- <ocojeda-@student.42.fr>          +#+  +:+       +#+         #
+#    By: agfernan <agfernan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/23 19:29:24 by mparigi           #+#    #+#              #
-#    Updated: 2017/09/29 00:41:08 by ocojeda-         ###   ########.fr        #
+#    Updated: 2017/09/27 03:19:39 by mhalit           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,17 +40,18 @@ SRC			=	color.c \
 				intersect/cone.c \
 				intersect/intersect.c \
 				intersect/intensity.c \
-				xml/xml_parser.c \
-				xml/xml_errors.c \
-				xml/xml_checks.c \
-				checker.c \
 				uv_mapping.c \
+				gtk/gtk_add.c \
+				gtk/gtk_add2.c \
+				gtk/gtk_init.c \
+				gtk/gtk_launcher.c \
+				gtk/gtk_settings.c \
+				gtk/gtk_new.c \
+				checker.c \
 				perlin.c
-				# gtk/gtk_btn.c	\
-				# gtk/gtk_init.c \
-				# gtk/gtk_launcher.c \
-				# gtk/gtk_settings.c \
-				# gtk/gtk_new.c
+				# xml/xml_parser.c \
+				# xml/xml_errors.c \
+				# xml/xml_checks.c \
 
 MINILIBX	=	libs/minilibx/libmlx.a
 LIBFT		=	libs/libft/libft.a
@@ -58,10 +59,10 @@ LIBVEC		=	libs/libvec/libvec.a
 LIBXML		=	-lxml2
 OBJ			=	$(addprefix $(OBJDIR),$(SRC:.c=.o))
 CC			=	gcc
-CFLAGS		=	-Wall -Werror -Wextra -I includes/ -I libs/libft/includes/ -I libs/libvec/includes/ -I libs/libxml/ -g #`pkg-config --cflags gtk+-3.0`
+CFLAGS		=	-Wall -Werror -Wextra -I includes/ -I libs/libft/includes/ -I libs/libvec/includes/ -I libs/libxml/ -g `pkg-config --cflags gtk+-3.0`
 OPTI		=	
 DEBUG		=	-g
-MLXF		=	-framework OpenGL -framework AppKit -lxml2 #`pkg-config --libs gtk+-3.0`
+MLXF		=	-framework OpenGL -framework AppKit -lxml2 `pkg-config --libs gtk+-3.0`
 WHITE		=	\033[7;49;39m
 BLUE		=	\033[7;49;34m
 RED			=	\x1B[31m
