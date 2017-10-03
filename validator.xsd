@@ -4,109 +4,291 @@
 <!---->
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-    <xsd:attribute name="color" type="xsd:unsignedInt"/>
 
-    <xsd:element name="pos">
-        <xsd:complexType>
-            <xsd:simpleContent>
-                <xsd:extension base="xsd:string">
-                    <xsd:attribute type="xsd:float" name="x"  use="required"/>
-                    <xsd:attribute type="xsd:float" name="y"  use="required"/>
-                    <xsd:attribute type="xsd:float" name="z"  use="required"/>
-                </xsd:extension>
-            </xsd:simpleContent>
-        </xsd:complexType>
-    </xsd:element>
+ <!--TYPES-->
+<xsd:simpleType name="int255">
+	<xsd:restriction base="xsd:int">
+		<xsd:minInclusive value="0" />
+		<xsd:maxInclusive value="255" />
+	</xsd:restriction>
+</xsd:simpleType>
 
-    <xsd:element name="camera">
-        <xsd:complexType>
-            <xsd:sequence>
-                <xsd:element ref="pos"/>
-            </xsd:sequence>
-        </xsd:complexType>
-    </xsd:element>
+	<xsd:simpleType name="unitVec">
+		<xsd:restriction base="xsd:float">
+			<xsd:minInclusive value="-1" />
+			<xsd:maxInclusive value="1" />
+		</xsd:restriction>
+	</xsd:simpleType>
 
-    <xsd:element name="spot">
-        <xsd:complexType>
-            <xsd:sequence>
-                <xsd:element ref="pos"/>
-            </xsd:sequence>
-            <xsd:attribute type="xsd:float" name="power" use="required"/>
-        </xsd:complexType>
-    </xsd:element>
+<!--SKYBOX-->
+<xsd:element name="skybox">
+	<xsd:complexType>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute type="xsd:anyURI" name="src" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+</xsd:element>
 
-    <xsd:element name="spots">
-        <xsd:complexType>
-            <xsd:sequence>
-                <xsd:element ref="spot" minOccurs="1" maxOccurs="unbounded"/>
-            </xsd:sequence>
-        </xsd:complexType>
-    </xsd:element>
+<!--COLOR/TEXTURES-->
+	<xsd:element name="texture">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="xsd:string">
+					<xsd:attribute type="xsd:anyURI" name="src" use="required"/>
+					<xsd:attribute type="xsd:unsignedInt" name="zoom"/>
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
+	</xsd:element>
 
-    <xsd:element name="cone">
-        <xsd:complexType>
-            <xsd:sequence>
-                <xsd:element ref="pos"/>
-            </xsd:sequence>
-            <xsd:attribute type="xsd:float" name="a"  use="required"/>
-            <xsd:attribute type="xsd:float" name="b"  use="required"/>
-            <xsd:attribute type="xsd:float" name="c"  use="required"/>
-            <xsd:attribute type="xsd:unsignedInt" name="color"/>
-        </xsd:complexType>
-    </xsd:element>
+	<xsd:element name="color">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="xsd:string">
+					<xsd:attribute type="int255" name="r" use="required"/>
+					<xsd:attribute type="int255" name="g" use="required"/>
+					<xsd:attribute type="int255" name="b" use="required"/>
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
+	</xsd:element>
 
-    <xsd:element name="plan">
-        <xsd:complexType>
-            <xsd:attribute type="xsd:float" name="a" use="required"/>
-            <xsd:attribute type="xsd:float" name="b" use="required"/>
-            <xsd:attribute type="xsd:float" name="c" use="required"/>
-            <xsd:attribute type="xsd:float" name="d" use="required"/>
-            <xsd:attribute ref="color"/>
-        </xsd:complexType>
-    </xsd:element>
+	<xsd:element name="checker">
+		<xsd:complexType>
+				<xsd:sequence>
+					<xsd:element ref="color" minOccurs="1" maxOccurs="1"/>
+					<xsd:element ref="color" minOccurs="1" maxOccurs="1"/>
+				</xsd:sequence>
+				<xsd:attribute type="xsd:float" name="length" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
 
-    <xsd:element name="sphere">
-        <xsd:complexType>
-            <xsd:sequence>
-                <xsd:element ref="pos"/>
-            </xsd:sequence>
-            <xsd:attribute type="xsd:float" name="rayon" use="required"/>
-            <xsd:attribute ref="color"/>
+<!--VECTORS-->
 
-        </xsd:complexType>
-    </xsd:element>
+	<xsd:element name="pos">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="xsd:string">
+					<xsd:attribute type="xsd:float" name="x"  use="required"/>
+					<xsd:attribute type="xsd:float" name="y"  use="required"/>
+					<xsd:attribute type="xsd:float" name="z"  use="required"/>
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
+	</xsd:element>
 
-    <xsd:element name="cylindre">
-        <xsd:complexType>
-            <xsd:sequence>
-                <xsd:element ref="pos"/>
-            </xsd:sequence>
-            <xsd:attribute type="xsd:float" name="a"  use="required"/>
-            <xsd:attribute type="xsd:float" name="b"  use="required"/>
-            <xsd:attribute type="xsd:float" name="c"  use="required"/>
-            <xsd:attribute type="xsd:unsignedInt" name="color"/>
-        </xsd:complexType>
-    </xsd:element>
+	<xsd:element name="normal">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="xsd:string">
+					<xsd:attribute name="x" type="unitVec" use="required"/>
+					<xsd:attribute name="y" type="unitVec" use="required"/>
+					<xsd:attribute name="z" type="unitVec" use="required"/>
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
+	</xsd:element>
 
-    <xsd:element name="objects">
-        <xsd:complexType>
-            <xsd:choice maxOccurs="unbounded" minOccurs="0">
-                <xsd:element ref="cone" minOccurs="0"/>
-                <xsd:element ref="sphere" minOccurs="0"/>
-                <xsd:element ref="cylindre" minOccurs="0"/>
-                <xsd:element ref="plan" minOccurs="0"/>
-            </xsd:choice>
-        </xsd:complexType>
-    </xsd:element>
+	<xsd:element name="vector">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="xsd:string">
+					<xsd:attribute name="x" type="unitVec" use="required"/>
+					<xsd:attribute name="y" type="unitVec" use="required"/>
+					<xsd:attribute name="z" type="unitVec" use="required"/>
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
+	</xsd:element>
 
-    <xsd:element name="scene">
-        <xsd:complexType>
-            <xsd:sequence>
-                <xsd:element ref="camera"/>
-                <xsd:element ref="spots"/>
-                <xsd:element ref="objects"/>
-            </xsd:sequence>
-        </xsd:complexType>
-    </xsd:element>
+	<xsd:element name="dir">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="xsd:string">
+					<xsd:attribute type="xsd:float" name="x"  use="required"/>
+					<xsd:attribute type="xsd:float" name="y"  use="required"/>
+					<xsd:attribute type="xsd:float" name="z"  use="required"/>
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
+	</xsd:element>
+
+<!--CAMERA-->
+
+	<xsd:element name="camera">
+		<xsd:complexType>
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element ref="pos" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="dir" minOccurs="0" maxOccurs="1"/>
+			</xsd:choice>
+			<xsd:attribute type="xsd:float" name="fov" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+
+
+<!--NEGATIVES-->
+	<xsd:element name="negatif">
+		<xsd:complexType>
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element ref="dir"/>
+				<xsd:element ref="pos"/>
+			</xsd:choice>
+			<xsd:attribute type="xsd:int" name="type" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+
+<!--LIGHTS-->
+	<xsd:element name="light">
+		<xsd:complexType>
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element ref="pos" maxOccurs="1"/>
+				<xsd:element ref="color" maxOccurs="1"/>
+			</xsd:choice>
+			<xsd:attribute type="xsd:float" name="intensity"/>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="lights">
+		<xsd:complexType>
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element ref="light" minOccurs="1" maxOccurs="unbounded"/>
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
+
+<!--OBJECTS-->
+	<xsd:element name="cone">
+		<xsd:complexType>
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element ref="pos" minOccurs="1" maxOccurs="1"/>
+				<xsd:element ref="color" maxOccurs="1"/>
+				<xsd:element ref="vector" maxOccurs="1"/>
+				<xsd:element ref="negatif" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="texture" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="checker" minOccurs="0" maxOccurs="1"/>
+			</xsd:choice>
+			<xsd:attribute type="xsd:float" name="angle" use="required"/>
+			<xsd:attribute type="xsd:float" name="reflection"/>
+			<xsd:attribute type="xsd:float" name="refraction"/>
+			<xsd:attribute type="xsd:float" name="specular"/>
+			<xsd:attribute type="xsd:float" name="diffuse"/>
+			<xsd:attribute type="xsd:int" name="sin"/>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="plane">
+		<xsd:complexType>
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element ref="pos" minOccurs="1" maxOccurs="1"/>
+				<xsd:element ref="normal" minOccurs="1" maxOccurs="1"/>
+				<xsd:element ref="color" maxOccurs="1"/>
+				<xsd:element ref="vector" maxOccurs="1"/>
+				<xsd:element ref="negatif" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="texture" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="checker" minOccurs="0" maxOccurs="1"/>
+			</xsd:choice>
+			<xsd:attribute type="xsd:float" name="sin"/>
+			<xsd:attribute type="xsd:float" name="specular"/>
+			<xsd:attribute type="xsd:float" name="diffuse"/>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="sphere">
+		<xsd:complexType>
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element ref="pos" minOccurs="1" maxOccurs="1"/>
+				<xsd:element ref="color" maxOccurs="1"/>
+				<xsd:element ref="negatif" maxOccurs="unbounded"/>
+				<xsd:element ref="texture" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="checker" minOccurs="0" maxOccurs="1"/>
+			</xsd:choice>
+			<xsd:attribute type="xsd:float" name="radius" use="required"/>
+			<xsd:attribute type="xsd:float" name="reflection"/>
+			<xsd:attribute type="xsd:float" name="refraction"/>
+			<xsd:attribute type="xsd:float" name="specular"/>
+			<xsd:attribute type="xsd:float" name="diffuse"/>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="cylindre">
+		<xsd:complexType>
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element ref="pos" minOccurs="1" maxOccurs="1"/>
+				<xsd:element ref="color" maxOccurs="1"/>
+				<xsd:element ref="vector" minOccurs="1" maxOccurs="1"/>
+				<xsd:element ref="negatif" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="texture" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="checker" minOccurs="0" maxOccurs="1"/>
+			</xsd:choice>
+			<xsd:attribute type="xsd:float" name="radius" use="required"/>
+			<xsd:attribute type="xsd:float" name="reflection"/>
+			<xsd:attribute type="xsd:float" name="refraction"/>
+			<xsd:attribute type="xsd:float" name="specular"/>
+			<xsd:attribute type="xsd:float" name="diffuse"/>
+			<xsd:attribute type="xsd:int" name="sin"/>
+		</xsd:complexType>
+	</xsd:element>
+
+<!--COMPOSED OBJECTS-->
+
+	<xsd:element name="mickey">
+		<xsd:complexType>
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element ref="pos" minOccurs="1" maxOccurs="1"/>
+				<xsd:element ref="color" maxOccurs="1"/>
+				<xsd:element ref="negatif" maxOccurs="unbounded"/>
+				<xsd:element ref="texture" minOccurs="0" maxOccurs="1"/>
+			</xsd:choice>
+			<xsd:attribute type="xsd:float" name="radius" use="required"/>
+			<xsd:attribute type="xsd:float" name="reflection"/>
+			<xsd:attribute type="xsd:float" name="refraction"/>
+			<xsd:attribute type="xsd:float" name="specular"/>
+			<xsd:attribute type="xsd:float" name="diffuse"/>
+			<xsd:attribute type="xsd:int" name="sin"/>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="dick">
+		<xsd:complexType>
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element ref="pos" minOccurs="1" maxOccurs="1"/>
+				<xsd:element ref="color" maxOccurs="1"/>
+				<xsd:element ref="negatif" maxOccurs="unbounded"/>
+				<xsd:element ref="texture" minOccurs="0" maxOccurs="1"/>
+			</xsd:choice>
+			<xsd:attribute type="xsd:float" name="radius" use="required"/>
+			<xsd:attribute type="xsd:float" name="reflection"/>
+			<xsd:attribute type="xsd:float" name="refraction"/>
+			<xsd:attribute type="xsd:float" name="specular"/>
+			<xsd:attribute type="xsd:float" name="diffuse"/>
+			<xsd:attribute type="xsd:int" name="sin"/>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="objects">
+		<xsd:complexType>
+			<xsd:choice maxOccurs="unbounded" minOccurs="1">
+				<xsd:element ref="cone" minOccurs="0"/>
+				<xsd:element ref="sphere" minOccurs="0"/>
+				<xsd:element ref="cylindre" minOccurs="0"/>
+				<xsd:element ref="plane" minOccurs="0"/>
+				<xsd:element ref="mickey" minOccurs="0"/>
+				<xsd:element ref="dick" minOccurs="0"/>
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
+
+<!--SCENE-->
+	<xsd:element name="scene">
+		<xsd:complexType>
+			<xsd:choice maxOccurs="unbounded" minOccurs="1">
+				<xsd:element ref="camera" minOccurs="1" maxOccurs="1"/>
+				<xsd:element ref="skybox" maxOccurs="1"/>
+				<xsd:element ref="lights" minOccurs="1" maxOccurs="1"/>
+				<xsd:element ref="objects" minOccurs="1" maxOccurs="1"/>
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
 </xsd:schema>
-<!--TODO: A terminer, lien OC : https://openclassrooms.com/courses/structurez-vos-donnees-avec-xml/schema-xml-les-types-complexes-->

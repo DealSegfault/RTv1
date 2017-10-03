@@ -12,7 +12,7 @@
 
 #include "rt.h"
 
-t_vec3	cone_norm(t_obj cone, t_vec3 poi)
+t_vec3			cone_norm(t_obj cone, t_vec3 poi)
 {
 	t_vec3		normal;
 	t_vec3		tmp;
@@ -32,14 +32,12 @@ t_vec3	cone_norm(t_obj cone, t_vec3 poi)
 	return (vec_norme3(normal));
 }
 
-float	intersect_cone(t_ray ray, t_obj cone)
+float			intersect_cone(t_ray ray, t_obj cone)
 {
-	float		cone_lowdist;
-	float		cone_highdist;
 	t_calc		op;
-	t_vec3	x;
-	float	dotdv;
-	float	dotxv;
+	t_vec3		x;
+	float		dotdv;
+	float		dotxv;
 
 	x = vec_sub3(ray.pos, cone.pos);
 	dotdv = vec_dot3(ray.dir, cone.vector);
@@ -48,10 +46,8 @@ float	intersect_cone(t_ray ray, t_obj cone)
 	op.b = 2 * (vec_dot3(ray.dir, x) - (1 + p(cone.k)) * dotdv * dotxv);
 	op.c = vec_dot3(x, x) - (1 + p(cone.k)) * p(dotxv);
 	op.eq = get_res_of_quadratic2(&op);
-	cone_lowdist = op.eq;
 	if (op.eq == op.t0)
-		cone_highdist = op.t1;
+		return (limit_dist(cone, ray, op.eq, op.t1));
 	else
-		cone_highdist = op.t0;
-	return (limit_dist(cone, ray, cone_lowdist, cone_highdist));
+		return (limit_dist(cone, ray, op.eq, op.t0));
 }

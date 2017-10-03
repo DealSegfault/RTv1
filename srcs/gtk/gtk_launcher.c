@@ -41,7 +41,6 @@ void		open_scene_clicked(GtkWidget *btn, t_rt *e)
 	GtkWidget	*dialog;
 	GtkWidget	*win;
 	gint		res;
-	char		*filename;
 
 	(void)btn;
 	win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -52,14 +51,14 @@ void		open_scene_clicked(GtkWidget *btn, t_rt *e)
 	res = gtk_dialog_run(GTK_DIALOG(dialog));
 	if (res == GTK_RESPONSE_ACCEPT)
 	{
-		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+		SFILE = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
 		gtk_widget_destroy(dialog);
-		if (parse_filename(e, filename))
+		if (parse_doc(e))
 		{
 			gtk_widget_destroy(e->gtk.menu.window);
 			ft_start_rt(e);
 		}
-		g_free(filename);
+		g_free(SFILE);
 	}
 	else
 		gtk_widget_destroy(dialog);

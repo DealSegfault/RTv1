@@ -6,7 +6,7 @@
 /*   By: ocojeda- <ocojeda-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 12:28:36 by mhalit            #+#    #+#             */
-/*   Updated: 2017/10/01 19:17:43 by ocojeda-         ###   ########.fr       */
+/*   Updated: 2017/10/03 13:30:25 by ocojeda-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@
 # include <fcntl.h>
 # include <unistd.h>
 
-# include "parser.h"
-# include "tree.h"
-# include "xmlIO.h"
-# include "xinclude.h"
-# include "valid.h"
-# include "xmlschemas.h"
-# include "xmlstring.h"
-# include "xmlreader.h"
+# include <libxml/parser.h>
+# include <libxml/tree.h>
+# include <libxml/xmlIO.h>
+# include <libxml/xinclude.h>
+# include <libxml/valid.h>
+# include <libxml/xmlschemas.h>
+# include <libxml/xmlstring.h>
+# include <libxml/xmlreader.h>
 
 # include <gtk/gtk.h>
 
@@ -43,7 +43,8 @@
 # define HEIGHT 500
 # define WIDTH 500
 # define EPSILON 1e-7
-# define EXTENSION ".rt"
+# define EXTENSION ".xml"
+// # define EXTENSION ".rt"
 # define ERR -1
 # define END 0
 # define OK 1
@@ -56,7 +57,6 @@
 
 # define LIGHT 21
 # define CAMERA 22
-
 
 # define KEY_A 0
 # define KEY_S 1
@@ -151,11 +151,12 @@
 # define HAUTEUR e->file.haut
 # define LARGEUR e->file.larg
 # define SFILE e->file.path
-# define CAMRAY e->cam.ray
 # define COLOR scene.obj[i].color
 # define COBJ scene.obj[i]
+# define CMAT e->scene.obj[e->scene.id].mat
 # define CLIGHT scene.lights[i]
-// # define CLIM e->scene.obj[e->scene.nbr_obj - 1].nbr_lim
+# define THREAD th_e[i]->thread
+# define CTHREAD th_e[i]->thread.colors[++i2]
 # define SOBJ e->scene.obj[e->scene.nbr_obj - 1]
 # define SLIGHT e->scene.lights[e->scene.nbr_light - 1]
 # define SELECTED e->scene.selected
@@ -163,10 +164,12 @@
 # define AMBIENT_LIGHT e->scene.ambient
 # define DIFF_LIGHT e->scene.ambient
 # define SPEC_LIGHT e->scene.ambient
+# define CCAM e->scene.cam
 # define MAXOBJ 50
 # define MAXLIGHT 21
 # define MAXLIM 10
-# define NR_ITER 3
+# define NR_ITER 6
+
 # define WSS (LARGEUR * SS)
 # define HSS (HAUTEUR * SS)
 # define RES_H (HAUTEUR / RES)
@@ -178,6 +181,7 @@
 # define KEY_ESC 53
 # define DIST_MAX 20000
 # define DIST_MIN -80000
+# define SIZE_LP 100 //The greater the value, the smaller the light point will be
 # define FT_MIN(x, y) ((x < y) ? x : y)
 # define FT_MAX(x, y) ((x > y) ? x : y)
 # define ISTRUE(x) (x > 0 ? 1 : 0)
@@ -227,12 +231,15 @@ typedef struct		s_camera
 {
 	int				fov;
 	t_vec3			pos;
-	t_vec3			dir;
-	float			ratio_x;
-	float			ratio_y;
+	t_vec3			rot;
 	t_mtrx4			ctw;
 	float			reso;
 	float			aspect;
+	float			ratio_x;
+	float			ratio_y;
+	char			is_circular;
+	t_vec3			tmp_pos;
+	t_vec3			tmp_rot;
 }					t_camera;
 
 typedef struct		s_mlx
@@ -295,6 +302,8 @@ typedef struct	s_keys
 	char			key_a;
 	char			key_s;
 	char			key_d;
+	char			key_q;
+	char			key_e;
 	char			key_n;
 	char			key_o;
 	char			key_plus;
@@ -312,17 +321,35 @@ typedef struct		s_file
 	int				aliasing;
 }					t_file;
 
+typedef struct		s_norme
+{
+	int 			x;
+	int 			y;
+	int				a;
+	float			min_dist;
+	t_ray			ray;
+	float			taux_temp;
+	t_color			temp_color1;
+	float			distance_rate;
+	int				counter;
+	t_color			base_color;
+	t_color			final_color;
+	t_vec3			newpoi;
+	t_vec3			point_of_impact;
+	t_color			color;
+}					t_norme;
+
 typedef struct		s_obj
 {
 	char			is_init;
+	char			is_disp;
 	int				type;
 	t_color			color;
 	t_vec3			pos;
+	t_vec2			last_pos;
 	t_vec3			dir;
 	float			k;
-	t_vec3			vector; //For Plane, Cylinder, Cone and Sphere
-	t_vec3			maxp; //For Cylinder and Cone
-	t_vec3			minp; //For Cone
+	t_vec3			vector;
 	int				r;
 	float			t;
 	t_vec3			normal;
@@ -365,6 +392,7 @@ typedef struct		s_scene
 	int				supersampling;
 	int				filters;
 	int				selected;
+	int				max_iter;
 }					t_scene;
 
 typedef struct		s_mthread
@@ -425,17 +453,12 @@ void 				create_complex(t_rt *e);
 void				create_limits(t_rt *e, char **args, int tot);
 float    		    limit_dist(t_obj obj, t_ray ray, float bdist, float maxdist);
 int					set_skybox(t_rt *e, char *path);
-int					set_obj(t_rt *e, char **a);
-int					set_light(t_rt *e, char **a);
-int					set_camera(t_rt *e, char **a);
-int					set_mat(t_rt *e, char **a);
-int					set_last(t_rt *e, char **params);
 
 t_color				c_color(float r, float g, float b);
 int					parse_args(char **argv, int argc, t_rt *e);
-int					parse_obj(t_rt *e, int fd);
-void				store_type_or_data(char *line, t_rt *e);
+int					parse_doc(t_rt *e);
 void				frame(t_rt *e);
+void				dname(t_rt *e, t_rt	**th_e, int i);
 void				mlx_pixel(int x, int y, t_rt *e, int color);
 void				fl_sepia_apply(t_rt *e);
 void				fl_black_and_white(t_rt *e);
@@ -448,8 +471,7 @@ void				fl_motionblur(t_rt *e);
 
 //Debug
 void				disp_cam(t_rt *e, int color);
-void				disp_mtrx4(t_mtrx4 matrix, char *name);
-void				disp_vec(t_vec3 vec, char *name);
+void				disp_name(t_rt *e, int color);
 void				display_args(void);
 
 //Matrix
@@ -465,6 +487,12 @@ int					keypress(int keycode, void *param);
 int					keyrelease(int keycode, void *param);
 int					select_obj(int button, int x, int y, void *param);
 void				onepress(int keycode, t_rt *e);
+void				auto_res(int keycode, t_rt *e);
+void				filters_press(int keycode , t_rt *e);
+void				key(t_rt *e);
+void				exportimg(t_rt *e);
+int					nbrs_keys(t_rt *e);
+void				cam_mode(t_rt *e);
 
 //Move
 void				move_cam(t_rt *e, int speed);
@@ -484,7 +512,8 @@ t_scene				copy_scene(t_scene scene);
 t_rt				*copy_rt(t_rt *e);
 void				*drawline(void *arg);
 t_rt				**launch_thread(t_rt *env);
-//OLD
+t_color				fl_cartoon(t_color color);
+float				cartoon_color(float color);
 
 
 //Beta option
@@ -513,6 +542,7 @@ float				intersect_cone(t_ray ray, t_obj cone);
 float				intensity_obj(t_rt *e, t_vec3 poi, t_obj obj, t_light light);
 float				diff_intensity(t_obj obj, t_ray light, t_vec3 norm);
 float				spec_intensity(t_obj obj, t_ray light, t_vec3 norm);
+float				dazzling_light(t_rt *e, t_light light, t_vec3 cam_dir);
 
 t_color				amb_color(t_scene *scene, t_obj obj);
 t_color				diff_color(t_scene *scene, t_obj obj, t_ray ray, t_vec3 norm);
@@ -523,24 +553,42 @@ int					obj_in_shadow(t_rt *e, t_vec3 poi, t_light *light);
 float				find_min_dist_for_refref(t_rt *e, int *a, t_ray ray);
 t_color				recursive_refref(t_rt *e, t_color base_color, t_reflect ref);
 float				get_res_of_quadratic2(t_calc *op);
+
 t_color				get_refracted_color(t_rt *e, t_vec3 poi, t_color base_color, t_reflect ref);
 t_color				get_reflected_color(t_rt *e, t_vec3 poi, t_color base_color, t_reflect ref);
 // XML
+xmlNodePtr			has_child(xmlNodePtr a_node, char *attr);
 int					xsd_read_error();
-int					doChecks(xmlDocPtr doc);
-void				xml_read_error();
+int					do_checks(xmlDocPtr doc);
+void				xml_read_error(void);
+int					dtd_read_error(xmlDtdPtr dtd);
 xmlDocPtr			getdoc(char *docname);
-
+void				xml_alloc_error(void);
+void				xml_read_error(void);
+int					parse_args(char **argv, int argc, t_rt *e);
+void				get_nodes_by_name(xmlNodePtr cur, char *node_name, t_list **lst);
+t_list				*get_object_nodes(xmlDocPtr doc);
+xmlNodePtr			get_lights(xmlDocPtr doc);
+t_vec3				get_vec_from_node(xmlNodePtr node);
+int					create_objs(t_rt *e, t_list *lst);
+int					set_camera_xml(t_rt *e, xmlNodePtr cam_node);
+int					set_lights(t_list *lst, t_rt *e);
+t_color				parse_color(xmlNodePtr node);
+t_checker			parse_checker(xmlNodePtr node);
+int					parse_texture(t_obj *obj, xmlNodePtr node, t_rt *e);
+int					parse_negatives(t_obj *obj, xmlNodePtr node);
+void				parse_skybox(t_rt*e, xmlNodePtr node);
 //Matrix
 void				matrix_init(t_rt *e);
 
 //GTK
 int					parse_filename(t_rt *e, char *filename);
+int         		parse_norme(int *fd, t_rt *e);
 void 				ft_start_rt(t_rt *e);
 void				init_rt(t_rt *e);
 
-void		ft_init_values(t_rt *e);
-gboolean	hook(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
+void				ft_init_values(t_rt *e);
+gboolean			hook(GtkWidget *widget, GdkEventKey *event, gpointer user_data);
 
 void 				ft_gtk_start_launcher(t_rt *e);
 void 				ft_gtk_start_settings(t_rt *e);
@@ -564,6 +612,7 @@ GtkWidget			*new_input(t_gtk_input *data);
 GtkWidget			*new_txt(gchar *str);
 GtkWidget			*new_btn(int x, int y, char *name);
 void 				ft_gtk_link_css(GtkWidget *window, gchar *css);
+void				gtk_hook(int keycode, t_rt *e);
 
 //Perturbation (checker, tole etc..)
 t_color				get_checker_col(t_checker check, t_vec3 pt);
@@ -573,6 +622,7 @@ t_vec2				get_uv_obj(t_obj obj, t_vec3 poi, t_vec3 norm);
 int					calcul_res(t_rt *e, int limit);
 int					key_hook(int keycode, t_rt *e);
 void				key_init(t_rt *e);
-float       Get2DPerlinNoiseValue(float x, float y, float res);
 t_color				get_text_color(int x, int y, t_texture tex);
+
+void    disp_last_pos(t_rt *e);
 #endif

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<scene>
+
+	<camera fov="45">
+		<pos x="100" y="0" z="-1000"/>
+		<dir x="0" y="0" z="1"/>
+	</camera>
+
+	<lights>
+		<light intensity="1">
+			<pos x="800" y="0" z="-400"/>
+		</light>
+		<light intensity="0.7">
+			<pos x="100" y="700" z="-400"/>
+		</light>
+	</lights>
+
+	<!--<skyboxsrc="texs/4kstars.xpm"/>-->
+
+	<objects>
+
+        <sphere radius="50">
+            <pos x="0" y="0" z="0"/>
+            <texture src="texs/earth.xpm"/>
+        </sphere>
+
+		<sphere radius="20">
+            <pos x="100" y="0" z="0"/>
+            <texture src="texs/moon.xpm"/>
+        </sphere>
+
+		<plane>
+			<pos x="0" y="0" z="0"/>
+			<normal x="1" y="0" z="0"/>
+			<!--<texture src="texs/plane.xpm"/>-->
+			<!--<texture src="texs/dora.xpm"/>-->
+			<!--<texture src="texs/moon.xpm"/>-->
+			<texture src="texs/4kstars.xpm"/>
+		</plane>
+
+		<cylindre radius="10">
+			<pos x="0" y="0" z="0"/>
+			<normal x="1" y="0" z="0"/>
+			<texture src="texs/earth.xpm"/>
+		</cylindre>
+
+		<cone angle="10">
+			<pos x="0" y="0" z="10"/>
+			<vector x="1" y="0" z="0"/>
+			<texture src="texs/moon.xpm"/>
+		</cone>
+	</objects>
+</scene>

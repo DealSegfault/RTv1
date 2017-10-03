@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<scene>
+
+	<camera fov="45">
+		<pos x="0" y="0" z="-1500"/>
+		<dir x="0" y="0" z="0"/>
+	</camera>
+	
+	<lights>
+		<light intensity="100000">
+			<pos x="-500" y="-500" z="-500"/>
+		</light>
+	</lights>
+	<objects>
+		<mickey radius="200">
+			<pos x="0" y="0" z="0"/>
+			<color r="255" g="0" b="0"/>
+		</mickey>
+
+		<dick radius="50">
+			<pos x="500" y="0" z="0"/>
+			<color r="255" g="0" b="0"/>
+		</dick>
+	</objects>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+</scene>

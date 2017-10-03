@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<scene>
+
+	<camera fov="45">
+		<pos x="100" y="0" z="-550"/>
+		<dir x="0" y="0" z="1"/>
+	</camera>
+
+	<skybox src="texs/4kstars.xpm"/>
+
+	<lights>
+		<light intensity="1">
+			<pos x="800" y="0" z="-400"/>
+		</light>
+		<light intensity="0.7">
+			<pos x="100" y="700" z="-400"/>
+		</light>
+	</lights>
+
+	<objects>
+
+		<sphere radius="50" reflection="0.9">
+			<texture src="texs/earth.xpm"/>
+			<pos x="0" y="0" z="0"/>
+		</sphere>
+
+		<sphere radius="20">
+			<texture src="texs/moon.xpm"/>
+			<pos x="100" y="0" z="0"/>
+		</sphere>
+
+		<sphere radius="50" refraction="1">
+			<pos x="100" y="0" z="0"/>
+			<color r="255" g="0" b="0"/>
+		</sphere>
+
+		<sphere radius="50" refraction="1">
+			<pos x="200" y="0" z="0"/>
+			<color r="255" g="0" b="0"/>
+		</sphere>
+	</objects>
+</scene>

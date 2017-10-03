@@ -1,34 +1,99 @@
-<!ELEMENT scene (camera, spots, objects)>
+<!--SCENE DESCRIPTION-->
+
+<!ELEMENT scene (camera | lights | objects | skybox)+>
+<!ELEMENT skybox EMPTY>
+<!ATTLIST skybox
+        src CDATA #REQUIRED>
+
+<!--VECTORS-->
+
+<!ELEMENT dir EMPTY>
+<!ATTLIST dir
+        x CDATA #REQUIRED
+        y CDATA #REQUIRED
+        z CDATA #REQUIRED>
+<!ELEMENT vector EMPTY>
+<!ATTLIST vector
+        x CDATA #REQUIRED
+        y CDATA #REQUIRED
+        z CDATA #REQUIRED>
+<!ELEMENT normal EMPTY>
+<!ATTLIST normal
+        x CDATA #REQUIRED
+        y CDATA #REQUIRED
+        z CDATA #REQUIRED>
+<!ATTLIST normale
+        x CDATA #REQUIRED
+        y CDATA #REQUIRED
+        z CDATA #REQUIRED>
 <!ELEMENT pos EMPTY>
 <!ATTLIST pos
         x CDATA #REQUIRED
         y CDATA #REQUIRED
         z CDATA #REQUIRED>
-<!ELEMENT camera (pos)>
-<!ELEMENT spots (spot+)>
-<!ELEMENT spot (pos)>
-<!ATTLIST spot power CDATA #REQUIRED>
-<!ELEMENT objects ((plan*, cone* ,cylindre* ,sphere*)+)>
-<!ELEMENT plan EMPTY>
-<!ATTLIST plan
-        a CDATA #REQUIRED
-        b CDATA #REQUIRED
-        c CDATA #REQUIRED
-        d CDATA #REQUIRED
-        color CDATA #IMPLIED>
-<!ELEMENT cone (pos)>
+
+<!--CAMERA-->
+
+<!ELEMENT camera (pos?, dir?)>
+<!ATTLIST camera fov CDATA #IMPLIED>
+
+<!--LIGHTS-->
+
+<!ELEMENT lights (light+)>
+<!ELEMENT light (color | pos)+>
+<!ATTLIST light intensity CDATA #IMPLIED>
+
+<!--OBJECTS-->
+
+<!--NEGATIF-->
+<!ELEMENT negatif (dir, pos?)>
+<!ATTLIST negatif type CDATA #IMPLIED>
+
+<!--COLOR/TEXTURES-->
+<!ELEMENT color EMPTY>
+<!ATTLIST color
+        r CDATA #REQUIRED
+        g CDATA #REQUIRED
+        b CDATA #REQUIRED>
+
+<!ELEMENT checker (color, color)>
+<!ATTLIST checker
+        length CDATA #REQUIRED>
+<!ELEMENT texture EMPTY>
+<!ATTLIST texture
+        src CDATA #REQUIRED
+        zoom CDATA #IMPLIED>
+<!ELEMENT objects (plane | cone | cylindre | sphere | mickey | dick)+>
+<!ELEMENT plane ((pos|vector|normal|(color | texture)+| negatif*)+)>
+<!ATTLIST plane
+        reflection CDATA #IMPLIED
+        refraction CDATA #IMPLIED
+        sin CDATA #IMPLIED
+        texture CDATA #IMPLIED>
+<!ELEMENT cone ((pos | vector | (color | texture))+, negatif*)>
 <!ATTLIST cone
-        a CDATA #REQUIRED
-        b CDATA #REQUIRED
-        c CDATA #REQUIRED
-        color CDATA #IMPLIED>
-<!ELEMENT cylindre (pos)>
+        angle CDATA #REQUIRED
+        reflection CDATA #IMPLIED
+        refraction CDATA #IMPLIED
+        texture CDATA #IMPLIED
+        sin CDATA #IMPLIED>
+<!ELEMENT cylindre ((pos | vector | (color | texture))+, negatif*)>
 <!ATTLIST cylindre
-        a CDATA #REQUIRED
-        b CDATA #REQUIRED
-        c CDATA #REQUIRED
-        color CDATA #IMPLIED>
-<!ELEMENT sphere (pos)>
+        radius CDATA #REQUIRED
+        reflection CDATA #IMPLIED
+        refraction CDATA #IMPLIED
+        texture CDATA #IMPLIED
+        sin CDATA #IMPLIED>
+<!ELEMENT sphere ((pos | (color | texture)+)+, negatif*)>
 <!ATTLIST sphere
-        rayon CDATA #REQUIRED
-        color CDATA #IMPLIED>
+        radius CDATA #REQUIRED
+        reflection CDATA #IMPLIED
+        refraction CDATA #IMPLIED
+        texture CDATA #IMPLIED>
+
+<!ELEMENT dick (pos | color )+>
+<!ATTLIST dick
+        radius CDATA #REQUIRED>
+<!ELEMENT mickey (pos | color )+>
+<!ATTLIST mickey
+        radius CDATA #REQUIRED>

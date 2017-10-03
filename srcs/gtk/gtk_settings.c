@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   gtk_settings.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldenblyd <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mparigi <mparigi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/28 22:49:45 by ldenblyd          #+#    #+#             */
-/*   Updated: 2017/08/29 05:05:52 by ldenblyd         ###   ########.fr       */
+/*   Updated: 2017/10/01 19:45:45 by mparigi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ void		ft_update(GtkButton *btn, t_rt *e)
 		RES_BUFF = RES;
 	}
 	else
-		RES = calcul_res(e, 500000);
-	e->scene.cam.ratio_x = (LARGEUR > HAUTEUR) ?
+		RES = calcul_res(e, 400000);
+	CCAM.ratio_x = (LARGEUR > HAUTEUR) ?
 		(float)LARGEUR / (float)HAUTEUR : 1;
-	e->scene.cam.ratio_y = (HAUTEUR > LARGEUR) ?
+	CCAM.ratio_y = (HAUTEUR > LARGEUR) ?
 		(float)HAUTEUR / (float)LARGEUR : 1;
 	if (e->gtk.started == 1)
 		ft_start_rt(e);

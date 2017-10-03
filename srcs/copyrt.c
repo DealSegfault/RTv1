@@ -25,8 +25,8 @@ t_light				copy_light(t_light light)
 
 t_obj				*copy_limit(t_obj lim)
 {
-	int i;
-	t_obj	*copy;
+	int				i;
+	t_obj			*copy;
 
 	i = -1;
 	if (!(copy = malloc(sizeof(t_obj) * MAXLIM + 1)))
@@ -34,8 +34,8 @@ t_obj				*copy_limit(t_obj lim)
 	while (++i < lim.nbr_limit)
 		copy[i] = lim.plimit[i];
 	return (copy);
-}			
-	
+}
+
 t_obj				copy_objs(t_obj obj)
 {
 	t_obj			copy;
@@ -47,8 +47,6 @@ t_obj				copy_objs(t_obj obj)
 	copy.dir = obj.dir;
 	copy.k = obj.k;
 	copy.vector = obj.vector;
-	copy.maxp = obj.maxp;
-	copy.minp = obj.minp;
 	copy.r = obj.r;
 	copy.t = obj.t;
 	copy.vector = obj.vector;

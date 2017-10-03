@@ -12,7 +12,7 @@
 
 #include "rt.h"
 
-t_vec3	sphere_norm(t_obj obj, t_vec3 poi)
+t_vec3			sphere_norm(t_obj obj, t_vec3 poi)
 {
 	t_vec3	norme;
 
@@ -20,7 +20,7 @@ t_vec3	sphere_norm(t_obj obj, t_vec3 poi)
 	return (norme);
 }
 
-float	get_res_of_quadratic2(t_calc *op)
+float			get_res_of_quadratic2(t_calc *op)
 {
 	op->disc = op->b * op->b - 4 * op->a * op->c;
 	if (op->disc < 0)
@@ -37,10 +37,8 @@ float	get_res_of_quadratic2(t_calc *op)
 	return (DIST_MAX);
 }
 
-float	intersect_sphere(t_ray ray, t_obj sphere)
+float			intersect_sphere(t_ray ray, t_obj sphere)
 {
-	float		sphere_lowdist;
-	float		sphere_highdist;
 	t_vec3		x;
 	t_calc		op;
 
@@ -50,28 +48,8 @@ float	intersect_sphere(t_ray ray, t_obj sphere)
 	op.b = 2 * vec_dot3(ray.dir, x);
 	op.c = vec_dot3(x, x) - (sphere.r * sphere.r);
 	op.eq = get_res_of_quadratic2(&op);
-	sphere_lowdist = op.eq;
 	if (op.eq == op.t0)
-		sphere_highdist = op.t1;
+		return (limit_dist(sphere, ray, op.eq, op.t1));
 	else
-		sphere_highdist = op.t0;
-	return (limit_dist(sphere, ray, sphere_lowdist, sphere_highdist));
+		return (limit_dist(sphere, ray, op.eq, op.t0));
 }
-
-
-
-
-// float	intersect_sphere(t_ray ray, t_obj sphere)
-// {
-// 	float		a;
-// 	float		b;
-// 	float		c;
-// 	t_vec3		x;
-
-// 	ray.dir = vec_norme3(ray.dir);
-// 	x = vec_sub3(ray.pos, sphere.pos);
-// 	a = vec_dot3(ray.dir, ray.dir);
-// 	b = 2 * vec_dot3(ray.dir, x);
-// 	c = vec_dot3(x, x) - (sphere.r * sphere.r);
-// 	return (get_res_of_quadratic(a, b, c));
-// }

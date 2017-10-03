@@ -6,7 +6,7 @@
 /*   By: mparigi <mparigi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/03 20:43:08 by mparigi           #+#    #+#             */
-/*   Updated: 2017/09/10 23:18:49 by mparigi          ###   ########.fr       */
+/*   Updated: 2017/09/30 10:49:35 by mhalit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ t_mtrx4		rotx_matrx4(float theta)
 	t_mtrx4		matrix;
 
 	matrix = new_matrx4();
-//	printf("\n\n%f, %f, %f, %f\n", cos(theta * DEG2RAD), sin(theta * DEG2RAD), -sin(theta * DEG2RAD), cos(theta * DEG2RAD));
 	matrix.mtrx[0] = 1;
 	matrix.mtrx[5] = cos(theta * DEG2RAD);
 	matrix.mtrx[6] = -sin(theta * DEG2RAD);

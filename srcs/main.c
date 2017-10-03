@@ -6,7 +6,7 @@
 /*   By: mparigi <mparigi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/03 00:09:53 by mhalit            #+#    #+#             */
-/*   Updated: 2017/09/25 21:45:07 by mparigi          ###   ########.fr       */
+/*   Updated: 2017/10/01 21:53:35 by mparigi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void			display_args(void)
 	exit(42);
 }
 
-void		key_init(t_rt *e)
+void			key_init(t_rt *e)
 {
 	e->keys.key_up = 0;
 	e->keys.key_down = 0;
@@ -35,6 +35,8 @@ void		key_init(t_rt *e)
 	e->keys.key_a = 0;
 	e->keys.key_s = 0;
 	e->keys.key_d = 0;
+	e->keys.key_q = 0;
+	e->keys.key_e = 0;
 	e->keys.key_n = 0;
 	e->keys.key_o = 0;
 	e->keys.key_plus = 0;
@@ -46,7 +48,7 @@ void			init_rt(t_rt *e)
 	e->mlx.init = mlx_init();
 	LARGEUR = 1024;
 	HAUTEUR = 768;
-	RES = calcul_res(e, 500000);
+	RES = calcul_res(e, 400000);
 	RES_BUFF = RES;
 	ALIASING = 1;
 	e->scene.nbr_obj = 0;
@@ -63,12 +65,13 @@ void			init_rt(t_rt *e)
 	SFILE = NULL;
 	e->gtk.started = 0;
 	e->frame = 0;
+	e->scene.max_iter = 3;
 	key_init(e);
 }
 
 void			ft_start_rt(t_rt *e)
 {
-	e->gtk.started = 1;	
+	e->gtk.started = 1;
 	if (!HAUTEUR || !LARGEUR)
 		exit(0);
 	WIN = mlx_new_window(INIT, LARGEUR, HAUTEUR, "RT");
@@ -96,9 +99,6 @@ int				main(int argc, char **argv)
 		ft_start_rt(e);
 	}
 	else
-	{
-		//display_args();
 		ft_gtk_start_launcher(e);
-	}
 	return (0);
 }

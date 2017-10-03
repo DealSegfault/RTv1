@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<scene>
+
+    <camera fov="45">
+        <pos x="750" y="300" z="-1080"/>
+        <dir x="0" y="0" z="0"/>
+    </camera>
+
+    <lights>
+        <light intensity="0.020">
+            <pos x="800" y="0" z="-400"/>
+        </light>
+    </lights>
+
+    <objects>
+        <plane>
+            <pos x="-1" y="800" z="0"/>
+            <normal x="0" y="1" z="0"/>
+            <color r="0" g="255" b="0"/>
+        </plane>
+
+        <plane>
+            <pos x="1500" y="0" z="0"/>
+            <normal x="1" y="0" z="0"/>
+            <color r="0" g="255" b="0"/>
+        </plane>
+
+        <plane>
+            <pos x="-1" y="-1" z="0"/>
+            <normal x="1" y="0" z="0"/>
+            <color r="0" g="255" b="0"/>
+        </plane>
+
+        <plane>
+            <pos x="0" y="-1" z="0"/>
+            <normal x="0" y="1" z="0"/>
+            <color r="0" g="255" b="0"/>
+        </plane>
+
+        <plane>
+            <pos x="0" y="0" z="2000"/>
+            <normal x="0" y="0" z="1"/>
+            <color r="0" g="255" b="0"/>
+        </plane>
+
+        <sphere reflection="1" radius="200" refraction="0">
+            <pos x="750" y="400" z="300"/>
+            <color r="255" g="0" b="0"/>
+        </sphere>
+
+        <sphere radius="100">
+            <pos x="1000" y="100" z="100"/>
+            <color r="0" g="250" b="0"/>
+        </sphere>
+
+        <sphere radius="50">
+            <pos x="750" y="200" z="100"/>
+            <color r="0" g="250" b="0"/>
+        </sphere>
+    </objects>
+</scene>

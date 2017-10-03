@@ -1,23 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   xml_checks.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agfernan <agfernan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/30 22:42:22 by agfernan          #+#    #+#             */
+/*   Updated: 2017/09/30 23:24:23 by agfernan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rt.h"
 
-static int DTDValidate(xmlDocPtr doc, char *dtd_file_name, int print_errors)
+static int			dtd_validate(xmlDocPtr doc, char *file, int print_e)
 {
-	int ret;
-	xmlDtdPtr dtd;
-	xmlValidCtxtPtr vctxt;
+	int				ret;
+	xmlDtdPtr		dtd;
+	xmlValidCtxtPtr	vctxt;
 
-	if ((dtd = xmlParseDTD(NULL, BAD_CAST dtd_file_name)) == NULL)
-		return (-1);
+	if ((dtd = xmlParseDTD(NULL, (xmlChar*)file)) == NULL)
+		dtd_read_error(dtd);
 	if ((vctxt = xmlNewValidCtxt()) == NULL)
+		xml_alloc_error();
+	if (print_e)
 	{
-		xmlFreeDtd(dtd);
-		return (-1);
-	}
-	if (print_errors)
-	{
-		vctxt->userData = (void *) stderr;
-		vctxt->error = (xmlValidityErrorFunc) fprintf;
-		vctxt->warning = (xmlValidityWarningFunc) fprintf;
+		vctxt->userData = (void *)stderr;
+		vctxt->error = (xmlValidityErrorFunc)NULL;
+		vctxt->warning = (xmlValidityWarningFunc)NULL;
 	}
 	ret = xmlValidateDtd(vctxt, doc, dtd);
 	xmlFreeValidCtxt(vctxt);
@@ -25,37 +34,35 @@ static int DTDValidate(xmlDocPtr doc, char *dtd_file_name, int print_errors)
 	return (ret);
 }
 
-static	xmlSchemaPtr getXSDSchema(char *XMLSchemaFile_pathname)
+static xmlSchemaPtr	get_xsd(char *xsd_path)
 {
-	xmlSchemaPtr ptr_schema;
-	xmlSchemaParserCtxtPtr ptr_ctxt;
+	xmlSchemaPtr			ptr_schema;
+	xmlSchemaParserCtxtPtr	ptr_ctxt;
 
 	ptr_schema = NULL;
-	ptr_ctxt = xmlSchemaNewParserCtxt(XMLSchemaFile_pathname);
-	xmlSchemaSetParserErrors(ptr_ctxt, (xmlSchemaValidityErrorFunc) fprintf,
-							 (xmlSchemaValidityWarningFunc) fprintf,
-							 stderr);
-
+	ptr_ctxt = xmlSchemaNewParserCtxt(xsd_path);
+	xmlSchemaSetParserErrors(ptr_ctxt, (xmlSchemaValidityErrorFunc)NULL,
+		(xmlSchemaValidityWarningFunc)NULL, stderr);
 	ptr_schema = xmlSchemaParse(ptr_ctxt);
 	xmlSchemaFreeParserCtxt(ptr_ctxt);
 	return (ptr_schema);
 }
 
-static int XSDValidate(char *XMLSchemaFile_pathname, xmlDocPtr doc)
+static int			xsd_validate(char *xsd_path, xmlDocPtr doc)
 {
-	xmlSchemaPtr ptr_schema;
-	xmlSchemaValidCtxtPtr ptr_validctxt;
-	int vl_return;
+	xmlSchemaPtr			ptr_schema;
+	xmlSchemaValidCtxtPtr	ptr_validctxt;
+	int						vl_return;
 
-	ptr_schema = getXSDSchema(XMLSchemaFile_pathname);
+	ptr_schema = get_xsd(xsd_path);
 	if (!ptr_schema)
 		return (xsd_read_error());
 	if (doc)
 	{
 		ptr_validctxt = xmlSchemaNewValidCtxt(ptr_schema);
 		xmlSchemaSetValidErrors(ptr_validctxt,
-								(xmlSchemaValidityErrorFunc) fprintf,
-								(xmlSchemaValidityWarningFunc) fprintf, stderr);
+								(xmlSchemaValidityErrorFunc)NULL,
+								(xmlSchemaValidityWarningFunc)NULL, stderr);
 		vl_return = xmlSchemaValidateDoc(ptr_validctxt, doc);
 		if (vl_return == 0)
 			xmlSchemaFreeValidCtxt(ptr_validctxt);
@@ -69,12 +76,15 @@ static int XSDValidate(char *XMLSchemaFile_pathname, xmlDocPtr doc)
 	return (-1);
 }
 
-int doChecks(xmlDocPtr doc)
+int					do_checks(xmlDocPtr doc)
 {
-	xmlValidCtxtPtr validCtxtPtr;
+	xmlValidCtxtPtr	vctxt;
+	int				dtd;
+	int				xsd;
 
-	validCtxtPtr = xmlNewValidCtxt();
-	if (xmlStrcmp(doc->children->name, BAD_CAST ROOT_NAME))
-		xml_read_error();
-	return (DTDValidate(doc, RT_DTD, 1) && XSDValidate(RT_XSD, doc)) ? 1 : 0;
+	if (!(vctxt = xmlNewValidCtxt()))
+		return (0);
+	dtd = dtd_validate(doc, RT_DTD, 1);
+	xsd = xsd_validate(RT_XSD, doc);
+	return (dtd && xsd) ? 1 : 0;
 }

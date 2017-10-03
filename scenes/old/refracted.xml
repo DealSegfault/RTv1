@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<scene>
+
+	<camera fov="35">
+		<pos x="0" y="150" z="-2550"/>
+		<dir x="0" y="0" z="0"/>
+	</camera>
+
+	<lights>
+		<light>
+			<pos x="230" y="50" z="-200"/>
+		</light>
+		<light>
+			<pos x="-300" y="100" z="-200"/>
+		</light>
+	</lights>
+
+	<objects>
+		<plane>
+			<pos x="0" y="-20" z="0"/>
+			<normal x="0" y="1" z="0"/>
+			<color r="200" g="200" b="200"/>
+		</plane>
+
+		<plane>
+			<pos x="0" y="0" z="100"/>
+			<normal x="0" y="0" z="1"/>
+			<color r="100" g="100" b="255"/>
+		</plane>
+
+		<cylindre radius="30">
+			<pos x="0" y="150" z="0"/>
+			<vector x="1" y="1" z="0"/>
+			<color r="255" g="0" b="255"/>
+		</cylindre>
+
+		<cone angle="30">
+			<pos x="75" y="75" z="0"/>
+			<vector x="1" y="-1" z="0"/>
+			<color r="255" g="255" b="0"/>
+		</cone>
+
+		<sphere radius="200" refraction="0.5">
+			<pos x="150" y="350" z="-1200"/>
+			<color r="255" g="0" b="0"/>
+		</sphere>
+
+		<sphere radius="300" refraction="0.5">
+			<pos x="150" y="150" z="-600"/>
+			<color r="0" g="250" b="0"/>
+		</sphere>
+
+		<sphere radius="200" reflection="1">
+			<pos x="-500" y="100" z="-200"/>
+			<color r="255" g="0" b="0"/>
+		</sphere>
+
+	</objects>
+</scene>

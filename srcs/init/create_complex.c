@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_complex.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mparigi <mparigi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agfernan <agfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/03 19:17:01 by mhalit            #+#    #+#             */
-/*   Updated: 2017/09/23 18:26:07 by mparigi          ###   ########.fr       */
+/*   Updated: 2017/10/01 17:36:06 by agfernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,48 +14,44 @@
 
 static void		create_dick(t_obj obj, t_rt *e, int i)
 {
-	e->scene.nbr_complex++;		
+	float j;
+
+	j = 1;
+	e->scene.nbr_complex++;
 	i += create_obj(SPHERE, e);
 	SOBJ.pos = vec_new3(obj.pos.x - (obj.r * 1.5), obj.pos.y, obj.pos.z);
 	SOBJ.r = obj.r * 1.5;
 	SOBJ.color = obj.color;
 	SOBJ.id = e->scene.nbr_complex;
-	
 	i += create_obj(SPHERE, e);
 	SOBJ.pos = vec_new3(obj.pos.x + (obj.r * 1.5), obj.pos.y, obj.pos.z);
 	SOBJ.r = obj.r * 1.5;
 	SOBJ.color = obj.color;
 	SOBJ.id = e->scene.nbr_complex;
-
-	float j = 1;
 	while (j < 4)
 	{
 		i += create_obj(SPHERE, e);
-		SOBJ.pos = vec_new3(obj.pos.x , obj.pos.y - obj.r * 1.5 * j, obj.pos.z);
+		SOBJ.pos = vec_new3(obj.pos.x, obj.pos.y - obj.r * 1.5 * j, obj.pos.z);
 		SOBJ.r = obj.r * 1.5;
 		SOBJ.color = obj.color;
 		SOBJ.id = e->scene.nbr_complex;
-		j+= 0.50;
+		j += 0.50;
 	}
 }
 
 static void		create_mickey(t_obj obj, t_rt *e, int i)
 {
-	printf("(%d)\n", e->scene.nbr_complex);
 	e->scene.nbr_complex++;
-
 	i += create_obj(SPHERE, e);
 	SOBJ.pos = obj.pos;
 	SOBJ.r = obj.r;
 	SOBJ.color = obj.color;
 	SOBJ.id = e->scene.nbr_complex;
-
 	i += create_obj(SPHERE, e);
 	SOBJ.pos = vec_new3(obj.pos.x + obj.r, obj.pos.y + obj.r, obj.pos.z);
 	SOBJ.r = obj.r / 2;
 	SOBJ.color = obj.color;
 	SOBJ.id = e->scene.nbr_complex;
-	
 	i += create_obj(SPHERE, e);
 	SOBJ.pos = vec_new3(obj.pos.x - obj.r, obj.pos.y + obj.r, obj.pos.z);
 	SOBJ.r = obj.r / 2;
@@ -63,18 +59,41 @@ static void		create_mickey(t_obj obj, t_rt *e, int i)
 	SOBJ.id = e->scene.nbr_complex;
 }
 
+void			get_new_obj_list(t_rt *e)
+{
+	int			i;
+	int			len;
+	t_obj		*new_list;
+
+	i = 0;
+	len = 0;
+	while (i < e->scene.nbr_obj)
+	{
+		if (e->COBJ.type == MICKEY)
+			len += 3;
+		if (e->COBJ.type == DICK)
+			len += 8;
+		else
+			len += 1;
+		i++;
+	}
+	if (!(new_list = (t_obj *)malloc(sizeof(t_obj) * len)))
+		exit(-42);
+	i = -1;
+	while (++i < e->scene.nbr_obj)
+		new_list[i] = e->scene.obj[i];
+	free(e->scene.obj);
+	e->scene.obj = new_list;
+}
+
 void			create_complex(t_rt *e)
 {
 	int i;
 
 	i = 0;
-	printf("MICKEY      = (%d)\n", MICKEY);
-	printf("DICK        = (%d)\n\n", DICK);
+	get_new_obj_list(e);
 	while (i < e->scene.nbr_obj)
 	{
-		printf("i       = (%d)\n", i);
-		printf("nbr_obj = (%d)\n", e->scene.nbr_obj);
-		printf("type    = (%d)\n\n",  e->COBJ.type);
 		if (e->COBJ.type == MICKEY)
 			create_mickey(e->COBJ, e, i);
 		if (e->COBJ.type == DICK)

@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mparigi <mparigi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mhalit <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/24 14:55:55 by tfaure            #+#    #+#             */
-/*   Updated: 2017/08/18 00:53:04 by rlecart          ###   ########.fr       */
+/*   Created: 2017/09/30 18:56:25 by mhalit            #+#    #+#             */
+/*   Updated: 2017/09/30 18:56:27 by mhalit           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-float	get_length(t_vec3 v)
+float			get_length(t_vec3 v)
 {
 	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
 }
 
-t_ray		c_ray(t_vec3 i, t_vec3 j)
+t_ray			c_ray(t_vec3 i, t_vec3 j)
 {
-	t_ray	ray;
+	t_ray		ray;
 
 	ray.pos = vec_new3(i.x, i.y, i.z);
 	ray.dir = vec_norme3(vec_new3(j.x, j.y, j.z));
@@ -28,10 +28,10 @@ t_ray		c_ray(t_vec3 i, t_vec3 j)
 
 t_color			skybox(t_rt *e, t_ray ray)
 {
-	t_color	color_sky;
-	float	u;
-	float	v;
-	t_vec3	norm;
+	t_color		color_sky;
+	float		u;
+	float		v;
+	t_vec3		norm;
 
 	if (!(e->scene.skybox.is_init))
 		return ((t_color){0, 0, 0, 0});

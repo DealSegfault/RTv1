@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<scene>
+    <camera fov="45">
+        <pos x="750" y="300" z="-1080"/>
+        <dir x="0" y="0" z="0"/>
+    </camera>
+
+    <lights>
+        <light intensity="0.005">
+            <pos x="800" y="0" z="-400"/>
+        </light>
+        <light intensity="0.007">
+            <pos x="100" y="700" z="-400"/>
+        </light>
+    </lights>
+
+    <objects>
+        <sphere radius="200" refraction="0.5">
+            <color r="255" g="0" b="0"/>
+            <pos x="750" y="400" z="300"/>
+            <negatif type="2">
+                <dir x="1" y="0" z="0"/>
+                <pos x="750" y="300" z="290"/>
+            </negatif>
+        </sphere>
+    </objects>
+</scene>

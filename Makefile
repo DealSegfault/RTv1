@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: agfernan <agfernan@student.42.fr>          +#+  +:+       +#+         #
+#    By: mparigi <mparigi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/23 19:29:24 by mparigi           #+#    #+#              #
-#    Updated: 2017/09/27 03:19:39 by mhalit           ###   ########.fr        #
+#    Updated: 2017/10/02 00:13:22 by mparigi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,18 +19,19 @@ SRC			=	color.c \
 				init/create_complex.c \
 				frame.c \
 				main.c \
-				parser.c \
 				ray.c \
 				raytrace.c \
-				set_ocl.c \
 				filters.c \
 				filters2.c \
 				copyrt.c \
 				thread.c \
+				thread2.c \
 				matrix.c \
 				debug.c \
 				hooks.c \
 				hooks2.c \
+				hooks3.c \
+				hooks4.c \
 				reflexion.c \
 				refraction.c \
 				intersect/limits.c \
@@ -48,21 +49,29 @@ SRC			=	color.c \
 				gtk/gtk_settings.c \
 				gtk/gtk_new.c \
 				checker.c \
-				perlin.c
-				# xml/xml_parser.c \
-				# xml/xml_errors.c \
-				# xml/xml_checks.c \
+				xml/xml_get_nodes.c \
+				xml/xml_parser.c \
+				xml/xml_errors.c \
+				xml/xml_checks.c \
+				xml/xml_skibox.c \
+				xml/xml_parse_nodes.c \
+				xml/xml_parse_light.c \
+				xml/xml_parse_obj.c \
+				xml/xml_parse_negs.c
 
 MINILIBX	=	libs/minilibx/libmlx.a
 LIBFT		=	libs/libft/libft.a
 LIBVEC		=	libs/libvec/libvec.a
-LIBXML		=	-lxml2
+LIBXML		=	`xml2-config --libs`
+LIBXML_H	=	`xml2-config --cflags`
+LIB_GTK		=	`pkg-config --libs gtk+-3.0`
+LIB_GTK_H	=	`pkg-config --cflags gtk+-3.0`
+DEBUG		=	-g -fsanitize=address
 OBJ			=	$(addprefix $(OBJDIR),$(SRC:.c=.o))
 CC			=	gcc
-CFLAGS		=	-Wall -Werror -Wextra -I includes/ -I libs/libft/includes/ -I libs/libvec/includes/ -I libs/libxml/ -g `pkg-config --cflags gtk+-3.0`
+CFLAGS		=	-Wall -Werror -Wextra $(DEBUG) -I includes/ -I libs/libft/includes/ -I libs/libvec/includes/ $(LIBXML_H) $(LIB_GTK_H)
 OPTI		=	
-DEBUG		=	-g
-MLXF		=	-framework OpenGL -framework AppKit -lxml2 `pkg-config --libs gtk+-3.0`
+MLXF		=	-framework OpenGL -framework AppKit -lxml2
 WHITE		=	\033[7;49;39m
 BLUE		=	\033[7;49;34m
 RED			=	\x1B[31m
@@ -77,7 +86,7 @@ all: mlx lib vec $(NAME)
 $(NAME): $(MINILIBX) $(LIBFT) $(GRAPHICS) $(OBJDIR) $(OBJ)
 	@printf "\r$(GREEN)[$(PROJECT)] Obj compilation done.                                                        \n"
 	@printf "$(YELLOW)[$(PROJECT)] Compiling $(NAME)..."
-	@$(CC) $(CFLAGS) $(DEBUG) $(MLXF) -o $(NAME) $(OBJ) $(MINILIBX) $(LIBFT) $(LIBVEC) $(LIBXML)
+	@$(CC) $(CFLAGS) $(DEBUG) $(MLXF) -o $(NAME) $(OBJ) $(MINILIBX) $(LIBFT) $(LIBVEC) $(LIBXML) $(LIB_GTK)
 	@printf "\r$(GREEN)[$(PROJECT)] Compilation done.                          \n$(NO_COLOR)"
 
 $(OBJDIR)%.o: $(SRCDIR)%.c

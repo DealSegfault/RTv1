@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<scene>
+	<camera fov="45">
+		<pos x="0" y="100" z="-1000"/>
+		<dir x="0" y="0" z="0"/>
+	</camera>
+
+	<skybox src="texs/skybox.xpm"/>
+
+	<lights>
+		<light>
+		    <pos x="500" y="500" z="0"/>
+		</light>
+		<light>
+		    <pos x="-500" y="1000" z="0"/>
+		</light>
+	</lights>
+
+	<objects>
+		<plane>
+			<pos x="0" y="0" z="0"/>
+			<normal x="0" y="1" z="0"/>
+			<color r="200" g="200" b="200"/>
+		</plane>
+
+		<sphere radius="100">
+			<pos x="300" y="200" z="0"/>
+			<color r="0" g="255" b="255"/>
+		</sphere>
+
+		<cylindre radius="30">
+			<pos x="-300" y="0" z="0"/>
+			<vector x="0" y="1" z="0"/>
+			<color r="255" g="0" b="255"/>
+		</cylindre>
+
+		<cone angle="30">
+			<pos x="0" y="0" z="0"/>
+			<vector x="0" y="1" z="0"/>
+			<color r="255" g="255" b="0"/>
+		</cone>
+	</objects>
+</scene>

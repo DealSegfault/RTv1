@@ -7,7 +7,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceRoot}/rt",
-            "args": ["-s", "scenes/easy.rt"],
+            "args": ["-s", "scenes/milo.xml"],
             "stopAtEntry": true,
             "cwd": "${workspaceRoot}",
             "environment": [],

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pbernier <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: agfernan <agfernan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/21 03:19:16 by pbernier          #+#    #+#              #
-#    Updated: 2017/08/14 22:04:26 by rlecart          ###   ########.fr        #
+#    Updated: 2017/10/01 16:17:34 by agfernan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,9 @@ SRC			=	err_found.c \
 				ft_lstiter.c \
 				ft_lstmap.c \
 				ft_lstnew.c \
+				ft_lstpush.c \
+				ft_lstlen.c \
+				ft_lstfree.c \
 				ft_map.c \
 				ft_max.c \
 				ft_memalloc.c \

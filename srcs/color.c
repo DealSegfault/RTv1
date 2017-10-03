@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhalit <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mparigi <mparigi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 13:09:33 by mhalit            #+#    #+#             */
-/*   Updated: 2017/09/27 13:09:35 by mhalit           ###   ########.fr       */
+/*   Updated: 2017/09/29 11:49:33 by mparigi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ t_color			color_mult(t_color color, float taux)
 	t_color		new_color;
 
 	new_color = copy_color(color);
-	new_color.r = (color.r == 0 && taux > 1.1) ? 128 * taux : color.r * taux;
-	new_color.g = (color.g == 0 && taux > 1.1) ? 128 * taux : color.g * taux;
-	new_color.b = (color.b == 0 && taux > 1.1) ? 128 * taux : color.b * taux;
+	new_color.r = (color.r == 0 && taux > 1) ? 128 * taux : color.r * taux;
+	new_color.g = (color.g == 0 && taux > 1) ? 128 * taux : color.g * taux;
+	new_color.b = (color.b == 0 && taux > 1) ? 128 * taux : color.b * taux;
 	new_color.r = (new_color.r > 255) ? 255 : new_color.r;
 	new_color.g = (new_color.g > 255) ? 255 : new_color.g;
 	new_color.b = (new_color.b > 255) ? 255 : new_color.b;

@@ -1,0 +1,12 @@
+bug:
+- lumiere dans sphere
+- pas de lumiere ambiante
+- skybox ne fonctionne pas ?
+- eteincelle de lumiere se s'affiche pas dans le vide
+- bug objet limite sans couleur quand face coupée devant la lumiere
+- gtk ne quite pas quand on appuie sur la croix
+
+segfault:
+- no cam in parser
+- no object in parser
+- 2x element negatif

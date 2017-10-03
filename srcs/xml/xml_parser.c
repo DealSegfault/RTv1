@@ -1,73 +1,106 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   xml_parser.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agfernan <agfernan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/13 11:35:38 by agfernan          #+#    #+#             */
+/*   Updated: 2017/10/01 17:56:49 by agfernan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rt.h"
 
-void ft_lstpush(t_list **alst, t_list *new)
+xmlNodePtr		has_child(xmlNodePtr a_node, char *attr)
 {
-    t_list *temp;
+	xmlChar		*cast;
+	xmlNodePtr	cur;
 
-	new->next = NULL;
-	if (!*alst)
-	{
-		*alst = new;
-		return;
-	}
-	temp = *alst;
-	while (temp->next)
-		temp = temp->next;
-	temp->next = new;
-}
-
-void    getNodesByName(xmlNodePtr cur, char *node_name, t_list **lst)
-{
-	t_list *new;
+	cur = a_node->children;
+	cast = (xmlChar *)attr;
 	while (cur)
 	{
-		if ((!xmlStrcmp(cur->name, (const xmlChar *)node_name)))
-		{
-			printf("added node : %s\n",cur->name);
-			new = ft_lstnew((void *)cur, sizeof(*cur));
-			ft_lstpush(lst, new);
-		}
-		getNodesByName(cur->children, node_name, lst);
+		if (!xmlStrcmp(cur->name, cast))
+			return (cur);
 		cur = cur->next;
 	}
+	return (NULL);
 }
 
-xmlDocPtr getdoc(char *docname)
+static int		is_file(char *path)
 {
-    xmlDocPtr doc;
+	int		fd;
+	int		size;
 
-    doc = xmlReadFile(docname, NULL, XML_DOC_DTDVALID);
-    if (doc == NULL ) {
-        ft_putendl_fd("Wrong xml file\n", STD_ERR);
-		return (NULL);
-    }
-    return (doc);
+	if (!path)
+		return (-1);
+	size = ft_strlen(path) - ft_strlen(EXTENSION);
+	if (!ft_strcmp(EXTENSION, path + size))
+		if ((fd = open(path, O_RDONLY)) != -1)
+			return (fd);
+	return (-1);
 }
 
-t_list *getObjectNodes(xmlDocPtr doc)
+int				parse_doc2(t_rt *e, char *path)
 {
-	t_list *lst;
+	xmlDocPtr	doc;
+	t_list		*lst;
+	xmlNodePtr	skybox;
 
-	if (!doc)
-		return (NULL);
-	getNodesByName(xmlDocGetRootElement(doc), "sphere", &lst);
-	getNodesByName(xmlDocGetRootElement(doc), "plan", &lst);
-	getNodesByName(xmlDocGetRootElement(doc), "cylindre", &lst);
-	getNodesByName(xmlDocGetRootElement(doc), "cone", &lst);
-	return (lst);
+	xmlKeepBlanksDefault(0);
+	if (!(doc = getdoc(path)))
+		return (0);
+	if (!do_checks(doc))
+		return (0);
+	if ((skybox = has_child(xmlDocGetRootElement(doc), "skybox")))
+		parse_skybox(e, skybox);
+	lst = get_object_nodes(doc);
+	create_objs(e, lst);
+	ft_lstfree(&lst);
+	get_nodes_by_name(xmlDocGetRootElement(doc), "camera", &lst);
+	set_camera_xml(e, (xmlNodePtr)(lst->content));
+	ft_lstfree(&lst);
+	get_nodes_by_name(xmlDocGetRootElement(doc), "light", &lst);
+	set_lights(lst, e);
+	return (1);
 }
 
-int count_nodes(xmlNodePtr first_node)
-{
-	int i;
 
-	i = 0;
-	if (!first_node)
-		return (i);
-	while (first_node)
+int				parse_doc(t_rt *e)
+{
+	int fd;
+
+	if ((fd = is_file(SFILE)) > -1)
+		if (parse_doc2(e, SFILE) > 0)
+		{
+			create_complex(e);
+			return (1);
+		}
+	return (0);
+}
+
+int				parse_args(char **argv, int argc, t_rt *e)
+{
+	int		i;
+
+	i = 1;
+	while (i < argc)
 	{
-		first_node = first_node->next;
-		i++;
+		if (!ft_strcmp("--help", argv[i]))
+		{
+			display_args();
+			return (0);
+		}
+		else if (!ft_strcmp("-w", argv[i]))
+			i + 1 < argc ? e->file.larg = ft_atoi(argv[i + 1]) : 0;
+		else if (!ft_strcmp("-h", argv[i]))
+			i + 1 < argc ? e->file.haut = ft_atoi(argv[i + 1]) : 0;
+		else if (!ft_strcmp("-s", argv[i]))
+			i + 1 < argc ? SFILE = ft_strdup(argv[i + 1]) : 0;
+		else
+			return (0);
+		i += 2;
 	}
-	return (i);
+	return (parse_doc(e));
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pbernier <pbernier@student.42.fr>          +#+  +:+       +#+         #
+#    By: agfernan <agfernan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/21 03:19:16 by pbernier          #+#    #+#              #
-#    Updated: 2017/09/20 18:17:16 by mparigi          ###   ########.fr        #
+#    Updated: 2017/09/28 15:05:19 by agfernan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,14 +18,14 @@ SRC			=	ft_double.c \
 				ft_double_ssp.c \
 				ft_vec3.c \
 				ft_vec_ssp.c \
+				mtrx4_prod.c \
 				mtrx4_move.c \
-				mtrx4_tools.c \
 				mtrx4_tools.c \
 				mtrx4_move.c
 OBJ			=	$(addprefix $(OBJDIR),$(SRC:.c=.o))
 CC			=	gcc
 CFLAGS		=	-Wall -Werror -Wextra -I includes/
-OPTI		=	-O3
+OPTI		=	
 DEBUG		=	-g
 
 WHITE		=	\033[7;49;39m
