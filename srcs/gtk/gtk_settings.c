@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gtk_settings.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mparigi <mparigi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldenblyd <ldenblyd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/28 22:49:45 by ldenblyd          #+#    #+#             */
-/*   Updated: 2017/10/01 19:45:45 by mparigi          ###   ########.fr       */
+/*   Updated: 2017/10/04 20:00:32 by ldenblyd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ void		ft_update(GtkButton *btn, t_rt *e)
 {
 	(void)btn;
 	gtk_widget_destroy(e->gtk.settings.window);
-	LARGEUR = e->gtk.values.width;
-	HAUTEUR = e->gtk.values.height;
+	if (e->gtk.values.width > 1440)
+	LARGEUR = e->gtk.values.width > 2560 ? 2560 : e->gtk.values.width;
+	HAUTEUR = e->gtk.values.height> 1440 ? 1440 : e->gtk.values.height;
 	if (e->gtk.values.res != RES)
 	{
 		RES = e->gtk.values.res > 200 ? 199 : e->gtk.values.res;
