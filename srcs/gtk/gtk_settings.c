@@ -27,9 +27,8 @@ void		ft_update(GtkButton *btn, t_rt *e)
 {
 	(void)btn;
 	gtk_widget_destroy(e->gtk.settings.window);
-	if (e->gtk.values.width > 1440)
 	LARGEUR = e->gtk.values.width > 2560 ? 2560 : e->gtk.values.width;
-	HAUTEUR = e->gtk.values.height> 1440 ? 1440 : e->gtk.values.height;
+	HAUTEUR = e->gtk.values.height > 1440 ? 1440 : e->gtk.values.height;
 	if (e->gtk.values.res != RES)
 	{
 		RES = e->gtk.values.res > 200 ? 199 : e->gtk.values.res;
