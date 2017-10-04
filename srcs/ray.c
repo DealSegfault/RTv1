@@ -6,7 +6,7 @@
 /*   By: mparigi <mparigi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 18:56:25 by mhalit            #+#    #+#             */
-/*   Updated: 2017/10/03 18:47:07 by mparigi          ###   ########.fr       */
+/*   Updated: 2017/10/04 18:21:46 by mparigi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,16 @@ t_ray			c_ray(t_vec3 i, t_vec3 j)
 	return (ray);
 }
 
+char			color_is_black(t_color *color)
+{
+	int		nbr;
+
+	nbr = color->r + color->b + color->g;
+	if (!nbr)
+		*color = (t_color){1, 1, 1, 0};
+	return ((!nbr) ? 1 : 0);
+}
+
 t_color			skybox(t_rt *e, t_ray ray)
 {
 	t_color		color_sky;
@@ -34,24 +44,21 @@ t_color			skybox(t_rt *e, t_ray ray)
 	int			i;
 	float		intensity;
 
-	i = 0;
+	i = -1;
 	intensity = 0;
+	color_sky = (t_color){0, 0, 0, 0};
+	while (++i < e->scene.nbr_light)
+		intensity += dazzling_light(e, e->CLIGHT, vec_norme3(ray.dir));
 	if (!(e->scene.skybox.is_init))
-	{
-		while (i < e->scene.nbr_light)
-		{
-			intensity += dazzling_light(e, e->CLIGHT, vec_norme3(ray.dir));
-			i++;
-		}
 		return (color_mult((t_color){0, 0, 0, 0}, intensity, 0));
-	}
 	norm = vec_norme3(ray.dir);
 	uv.x = atan2(norm.x, norm.z) / (2 * M_PI) + 0.5;
 	uv.y = norm.y * 0.5 + 0.5;
 	uv.x = e->scene.skybox.width * (1 - uv.x);
 	uv.y = e->scene.skybox.height * (1 - uv.y);
 	color_sky = get_text_color((int)uv.x, (int)uv.y, e->scene.skybox);
-	return (color_sky);
+	intensity *= (color_is_black(&color_sky)) ? 100 : 5;
+	return (color_mult(color_sky, 1 + intensity, 0));
 }
 
 t_color			get_text_color(int x, int y, t_texture tex)

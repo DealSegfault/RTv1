@@ -6,7 +6,7 @@
 /*   By: mparigi <mparigi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/27 13:09:33 by mhalit            #+#    #+#             */
-/*   Updated: 2017/10/03 18:24:54 by mparigi          ###   ########.fr       */
+/*   Updated: 2017/10/04 18:33:28 by mparigi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ t_color			color_text(t_rt *e, t_obj obj, t_vec3 poi, float taux)
 	uv.x = (uv.x > obj.mat.tex.width) ? (int)uv.x % obj.mat.tex.width : uv.x;
 	uv.y = (uv.y > obj.mat.tex.width) ? (int)uv.y % obj.mat.tex.width : uv.y;
 	color_text = get_text_color((int)uv.x, (int)uv.y, obj.mat.tex);
+	if (color_is_black(&color_text))
+		taux *= 20;
 	return (color_mult(color_text, taux, 1));
 }
 

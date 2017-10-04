@@ -6,7 +6,7 @@
 /*   By: mparigi <mparigi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 11:58:42 by mhalit            #+#    #+#             */
-/*   Updated: 2017/10/02 00:22:29 by mparigi          ###   ########.fr       */
+/*   Updated: 2017/10/04 18:35:11 by mparigi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void			exportimg(t_rt *e)
 	int			pos;
 
 	ft_putendl("Exporting image ...");
-	if (!(export.fdp = open("first.ppm", O_WRONLY | O_CREAT, 00755)))
+	if (!(export.fdp = open("screenshot.ppm", O_WRONLY | O_CREAT, 00755)))
 		return ;
 	ft_putstr_fd("P6 ", export.fdp);
 	ft_putnbr_fd(LARGEUR, export.fdp);

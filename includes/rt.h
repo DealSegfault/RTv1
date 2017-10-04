@@ -6,7 +6,7 @@
 /*   By: agfernan <agfernan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 12:28:36 by mhalit            #+#    #+#             */
-/*   Updated: 2017/10/04 18:40:30 by agfernan         ###   ########.fr       */
+/*   Updated: 2017/10/04 18:20:29 by mparigi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -517,6 +517,7 @@ t_color				copy_color(t_color color);
 t_color				color_mult(t_color color, float taux, float limit);
 float				get_length(t_vec3 v);
 unsigned int		ret_colors(t_color color);
+char				color_is_black(t_color *color);
 t_color				color_text(t_rt *e, t_obj obj, t_vec3 poi, float taux);
 t_color				skybox(t_rt *e, t_ray ray);
 

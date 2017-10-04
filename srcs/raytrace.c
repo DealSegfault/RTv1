@@ -6,7 +6,7 @@
 /*   By: mparigi <mparigi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/03 15:17:47 by mhalit            #+#    #+#             */
-/*   Updated: 2017/10/03 18:57:02 by mparigi          ###   ########.fr       */
+/*   Updated: 2017/10/04 18:25:53 by mparigi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,20 @@
 t_color			get_color(t_rt *e, t_obj obj, t_vec3 poi)
 {
 	float		intensity;
+	float		dazzle;
 	int			i;
 
-	i = 0;
+	i = -1;
 	intensity = (!e->scene.nbr_light) ? AMBIENT_LIGHT : 0;
-	while (i < e->scene.nbr_light)
+	dazzle = 0;
+	while (++i < e->scene.nbr_light)
 	{
-		intensity += dazzling_light(e, e->CLIGHT,
+		dazzle += dazzling_light(e, e->CLIGHT,
 		vec_norme3(vec_sub3(poi, CCAM.pos)));
-		intensity += intensity_obj(e, poi, obj, e->CLIGHT);
-		i++;
+		intensity += intensity_obj(e, poi, obj, e->CLIGHT) + dazzle;
 	}
+	if (dazzle > 0.05)
+		intensity *= (color_is_black(&obj.color)) ? 20 : 1;
 	if (intensity != 0 && obj.mat.tex.is_init == 1)
 		return (color_text(e, obj, poi, intensity));
 	else if (intensity != 0)
