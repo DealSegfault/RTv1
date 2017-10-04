@@ -31,7 +31,7 @@ void		ft_update(GtkButton *btn, t_rt *e)
 	HAUTEUR = e->gtk.values.height;
 	if (e->gtk.values.res != RES)
 	{
-		RES = e->gtk.values.res;
+		RES = e->gtk.values.res > 200 ? 199 : e->gtk.values.res;
 		RES_BUFF = RES;
 	}
 	else
